@@ -10,6 +10,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.ApiContext;
 import serejka.telegram.bot.botAPI.Bot;
+import serejka.telegram.bot.botAPI.Facade;
 
 @Getter
 @Setter
@@ -21,10 +22,9 @@ public class BotConfig {
     private String botToken;
 
     @Bean
-    public Bot SuperBot() {
+    public Bot SuperBot(Facade facade) {
         DefaultBotOptions options = ApiContext.getInstance(DefaultBotOptions.class);
-
-        Bot superBot = new Bot(options);
+        Bot superBot = new Bot(options, facade);
         superBot.setBotUsername(botUsername);
         superBot.setBotToken(botToken);
         superBot.setWebHookPath(webHookPath);

@@ -20,6 +20,8 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	runtimeOnly 'com.h2database:h2'
 	// https://mvnrepository.com/artifact/org.telegram/telegrambots-spring-boot-starter
 	compile group: 'org.telegram', name: 'telegrambots-spring-boot-starter', version: '4.9'
 	// https://mvnrepository.com/artifact/org.postgresql/postgresql
@@ -27,6 +29,7 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
 
 
 }
