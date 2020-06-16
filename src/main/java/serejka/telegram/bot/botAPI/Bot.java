@@ -13,6 +13,7 @@ public class Bot extends TelegramWebhookBot {
     private String botUsername;
     private String botToken;
 
+
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
         if (update.getMessage() != null && update.getMessage().hasText()) {
