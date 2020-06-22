@@ -1,0 +1,73 @@
+{
+  "adult": false,
+  "backdrop_path": "/3CIae0GrhKTIzNS3FYYvT8P9D3w.jpg",
+  "belongs_to_collection": null,
+  "budget": 125000000,
+  "genres": [
+    {
+      "id": 12,
+      "name": "приключения"
+    },
+    {
+      "id": 14,
+      "name": "фэнтези"
+    },
+    {
+      "id": 878,
+      "name": "фантастика"
+    },
+    {
+      "id": 10751,
+      "name": "семейный"
+    }
+  ],
+  "homepage": "https://movies.disney.com/artemis-fowl",
+  "id": 475430,
+  "imdb_id": "tt3089630",
+  "original_language": "en",
+  "original_title": "Artemis Fowl",
+  "overview": "Укрытый от посторонних глаз, глубоко под поверхностью земной коры таится целый мир, населенный гномами, эльфами, пикси, лепреконами, брауни и другими волшебными существами. Они спрятались от людей и создали свою собственную весьма развитую цивилизацию. Их тайна так и оставалась бы нераскрытой, если бы не юный Артемис Фаул, прирождённый мошенник и единственный наследник древнего рода криминальных гениев. Он сумел не только найти доказательства существования подземного мира, но и придумал дерзкий план — ограбить его обитателей.",
+  "popularity": 228.544,
+  "poster_path": "/mhDdx7o7hhrxrikq8aqPLLnS9w8.jpg",
+  "production_companies": [
+    {
+      "id": 11391,
+      "logo_path": null,
+      "name": "Tribeca Productions",
+      "origin_country": "US"
+    },
+    {
+      "id": 2,
+      "logo_path": "/wdrCwmRnLFJhEoH8GSfymY85KHT.png",
+      "name": "Walt Disney Pictures",
+      "origin_country": "US"
+    },
+    {
+      "id": 38227,
+      "logo_path": null,
+      "name": "TKBC",
+      "origin_country": "GB"
+    }
+  ],
+  "production_countries": [
+    {
+      "iso_3166_1": "US",
+      "name": "United States of America"
+    }
+  ],
+  "release_date": "2020-06-12",
+  "revenue": 0,
+  "runtime": 95,
+  "spoken_languages": [
+    {
+      "iso_639_1": "en",
+      "name": "English"
+    }
+  ],
+  "status": "Released",
+  "tagline": "Время верить",
+  "title": "Артемис Фаул",
+  "video": false,
+  "vote_average": 5.9,
+  "vote_count": 286
+}

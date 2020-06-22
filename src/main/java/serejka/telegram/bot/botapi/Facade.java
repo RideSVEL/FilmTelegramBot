@@ -1,11 +1,12 @@
-package serejka.telegram.bot.botAPI;
+package serejka.telegram.bot.botapi;
 
 import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import serejka.telegram.bot.models.User;
+import serejka.telegram.bot.models.Movie;
+import serejka.telegram.bot.service.ParseMovieService;
 import serejka.telegram.bot.service.UserService;
 
 
@@ -13,29 +14,18 @@ import serejka.telegram.bot.service.UserService;
 public class Facade {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(Facade.class);
 
-//
-//    @Autowired
-//    private UserRepository userRepository;
-
     private final UserService userService;
+    private final ParseMovieService parseMovieService;
 
-    public Facade(UserService userService) {
+    public Facade(UserService userService, ParseMovieService parseMovieService) {
         this.userService = userService;
+        this.parseMovieService = parseMovieService;
     }
 
     public SendMessage handle(Update update) {
         SendMessage reply = null;
         Message message = update.getMessage();
         if (message != null && message.hasText()) {
-            if (userService.exists(message.getFrom().getId())) {
-                log.info(" <||> User already exists!");
-            } else {
-                User user = new User(message.getChatId(),
-                        message.getFrom().getId(), message.getFrom().getUserName(),
-                        message.getFrom().getFirstName(), message.getFrom().getLastName());
-                log.info(" <||> Save to DB User: {} ", user.toString());
-                userService.save(user);
-            }
             log.info(" <||> New message from User: {}, chatId: {}, with text {}:",
                     message.getFrom().getUserName(), message.getChatId(), message.getText());
             reply = handleInputMessage(message);
@@ -44,18 +34,25 @@ public class Facade {
     }
 
     private SendMessage handleInputMessage(Message message) {
-
         String reply;
         switch (message.getText()) {
             case "/start" -> {
                 reply = "Привет, " + message.getFrom().getFirstName() + "!\n Давай пообщаемся! Как у тебя дела?";
-
-
-
+                userService.checkAndSave(message);
             }
             case "/help" -> reply = "Я тебе всегда помогу!";
             case "Привет" -> reply = "И снова мы здороваемся!";
-            default -> reply = "Trunk Trunk Trunk";
+            default -> {
+                try {
+                    Movie movie = parseMovieService.parseMovie(Integer.parseInt(message.getText()));
+                    reply = "Trunk Trunk Trunk";
+                    if (movie != null) {
+                        reply = movie.toString();
+                    }
+                } catch (NumberFormatException e) {
+                    reply = "Trunk Trunk Trunk";
+                }
+            }
         }
         return new SendMessage(message.getChatId(), reply);
     }

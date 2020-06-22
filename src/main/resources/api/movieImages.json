@@ -1,0 +1,368 @@
+//https://api.themoviedb.org/3/movie/475430?api_key=948e6670159df009cc3be4b3cbab0697&language=ru-RU&append_to_response=images&include_image_language=en,null,ru,fr
+{
+  "adult": false,
+  "backdrop_path": "/3CIae0GrhKTIzNS3FYYvT8P9D3w.jpg",
+  "belongs_to_collection": null,
+  "budget": 125000000,
+  "genres": [
+    {
+      "id": 12,
+      "name": "приключения"
+    },
+    {
+      "id": 14,
+      "name": "фэнтези"
+    },
+    {
+      "id": 878,
+      "name": "фантастика"
+    },
+    {
+      "id": 10751,
+      "name": "семейный"
+    }
+  ],
+  "homepage": "https://movies.disney.com/artemis-fowl",
+  "id": 475430,
+  "imdb_id": "tt3089630",
+  "original_language": "en",
+  "original_title": "Artemis Fowl",
+  "overview": "Укрытый от посторонних глаз, глубоко под поверхностью земной коры таится целый мир, населенный гномами, эльфами, пикси, лепреконами, брауни и другими волшебными существами. Они спрятались от людей и создали свою собственную весьма развитую цивилизацию. Их тайна так и оставалась бы нераскрытой, если бы не юный Артемис Фаул, прирождённый мошенник и единственный наследник древнего рода криминальных гениев. Он сумел не только найти доказательства существования подземного мира, но и придумал дерзкий план — ограбить его обитателей.",
+  "popularity": 228.544,
+  "poster_path": "/mhDdx7o7hhrxrikq8aqPLLnS9w8.jpg",
+  "production_companies": [
+    {
+      "id": 11391,
+      "logo_path": null,
+      "name": "Tribeca Productions",
+      "origin_country": "US"
+    },
+    {
+      "id": 2,
+      "logo_path": "/wdrCwmRnLFJhEoH8GSfymY85KHT.png",
+      "name": "Walt Disney Pictures",
+      "origin_country": "US"
+    },
+    {
+      "id": 38227,
+      "logo_path": null,
+      "name": "TKBC",
+      "origin_country": "GB"
+    }
+  ],
+  "production_countries": [
+    {
+      "iso_3166_1": "US",
+      "name": "United States of America"
+    }
+  ],
+  "release_date": "2020-06-12",
+  "revenue": 0,
+  "runtime": 95,
+  "spoken_languages": [
+    {
+      "iso_639_1": "en",
+      "name": "English"
+    }
+  ],
+  "status": "Released",
+  "tagline": "Время верить",
+  "title": "Артемис Фаул",
+  "video": false,
+  "vote_average": 6.0,
+  "vote_count": 291,
+  "images": {
+    "backdrops": [
+      {
+        "aspect_ratio": 1.777777777777778,
+        "file_path": "/3CIae0GrhKTIzNS3FYYvT8P9D3w.jpg",
+        "height": 2160,
+        "iso_639_1": null,
+        "vote_average": 5.318,
+        "vote_count": 3,
+        "width": 3840
+      },
+      {
+        "aspect_ratio": 1.777408637873754,
+        "file_path": "/rPercPyvBWAgTrjIfNyZKohKun.jpg",
+        "height": 1204,
+        "iso_639_1": null,
+        "vote_average": 5.312,
+        "vote_count": 1,
+        "width": 2140
+      },
+      {
+        "aspect_ratio": 1.777777777777778,
+        "file_path": "/xDGrShvXYoBLIGWtrtkicj9OyoF.jpg",
+        "height": 720,
+        "iso_639_1": null,
+        "vote_average": 5.312,
+        "vote_count": 1,
+        "width": 1280
+      },
+      {
+        "aspect_ratio": 1.777777777777778,
+        "file_path": "/o0F8xAt8YuEm5mEZviX5pEFC12y.jpg",
+        "height": 2160,
+        "iso_639_1": null,
+        "vote_average": 5.252,
+        "vote_count": 4,
+        "width": 3840
+      },
+      {
+        "aspect_ratio": 1.777777777777778,
+        "file_path": "/uJIqghDGWQ0KlvSVRaWniFFJOOW.jpg",
+        "height": 2160,
+        "iso_639_1": null,
+        "vote_average": 5.246,
+        "vote_count": 2,
+        "width": 3840
+      },
+      {
+        "aspect_ratio": 1.777777777777778,
+        "file_path": "/uL2s9Snfjb9AvImGGQLDnMpfzge.jpg",
+        "height": 2160,
+        "iso_639_1": null,
+        "vote_average": 5.246,
+        "vote_count": 2,
+        "width": 3840
+      },
+      {
+        "aspect_ratio": 1.777777777777778,
+        "file_path": "/tyxr1wLw1BzUGzXGUfatCb060Mp.jpg",
+        "height": 1080,
+        "iso_639_1": null,
+        "vote_average": 5.246,
+        "vote_count": 2,
+        "width": 1920
+      },
+      {
+        "aspect_ratio": 1.777777777777778,
+        "file_path": "/hQP7lvlVwgxTMIuRpH29Is4ZR0j.jpg",
+        "height": 1899,
+        "iso_639_1": null,
+        "vote_average": 5.18,
+        "vote_count": 3,
+        "width": 3376
+      },
+      {
+        "aspect_ratio": 1.777777777777778,
+        "file_path": "/coMRaQQYCs1Zpn6vk0Gxtk4OM4T.jpg",
+        "height": 2160,
+        "iso_639_1": "xx",
+        "vote_average": 5.128,
+        "vote_count": 6,
+        "width": 3840
+      },
+      {
+        "aspect_ratio": 1.777777777777778,
+        "file_path": "/gLAc9i3WWyZaXll4utk9L5fdnVQ.jpg",
+        "height": 2160,
+        "iso_639_1": "en",
+        "vote_average": 0.0,
+        "vote_count": 0,
+        "width": 3840
+      },
+      {
+        "aspect_ratio": 1.777777777777778,
+        "file_path": "/iA7u1G5VdcFaoslACBNVmumIXeE.jpg",
+        "height": 2160,
+        "iso_639_1": null,
+        "vote_average": 0.0,
+        "vote_count": 0,
+        "width": 3840
+      },
+      {
+        "aspect_ratio": 1.777777777777778,
+        "file_path": "/o6aF62ffDDKHRrKVEsqcyGp992V.jpg",
+        "height": 1080,
+        "iso_639_1": "xx",
+        "vote_average": 0.0,
+        "vote_count": 0,
+        "width": 1920
+      },
+      {
+        "aspect_ratio": 1.777777777777778,
+        "file_path": "/eKfcxCAhZJ0Vk8jryzy9YRmomy7.jpg",
+        "height": 2160,
+        "iso_639_1": "en",
+        "vote_average": 0.0,
+        "vote_count": 0,
+        "width": 3840
+      },
+      {
+        "aspect_ratio": 1.777777777777778,
+        "file_path": "/aXm3lw2n6uWiROM8dOTfpgettVr.jpg",
+        "height": 2160,
+        "iso_639_1": null,
+        "vote_average": 0.0,
+        "vote_count": 0,
+        "width": 3840
+      },
+      {
+        "aspect_ratio": 1.777777777777778,
+        "file_path": "/fEjpSnGURaRZuGkmGmtL7IMRHNa.jpg",
+        "height": 2160,
+        "iso_639_1": null,
+        "vote_average": 0.0,
+        "vote_count": 0,
+        "width": 3840
+      },
+      {
+        "aspect_ratio": 1.777777777777778,
+        "file_path": "/zBEwsdtY50UzKjxrmX4ZwlijXqn.jpg",
+        "height": 2160,
+        "iso_639_1": null,
+        "vote_average": 0.0,
+        "vote_count": 0,
+        "width": 3840
+      },
+      {
+        "aspect_ratio": 1.777777777777778,
+        "file_path": "/awO1HSLbbnOY3hea4eVCC39u6C1.jpg",
+        "height": 2160,
+        "iso_639_1": null,
+        "vote_average": 0.0,
+        "vote_count": 0,
+        "width": 3840
+      }
+    ],
+    "posters": [
+      {
+        "aspect_ratio": 0.6666666666666666,
+        "file_path": "/r8BkWrxgMDVaVsXCqYDxe1pRIVd.jpg",
+        "height": 3000,
+        "iso_639_1": "fr",
+        "vote_average": 5.522,
+        "vote_count": 4,
+        "width": 2000
+      },
+      {
+        "aspect_ratio": 0.6666666666666666,
+        "file_path": "/juE7o699roXnxCi8shR10Cf2dCH.jpg",
+        "height": 3000,
+        "iso_639_1": "fr",
+        "vote_average": 5.384,
+        "vote_count": 2,
+        "width": 2000
+      },
+      {
+        "aspect_ratio": 0.6666666666666666,
+        "file_path": "/npj8BkboMkTkq6sez4hObTnJrXN.jpg",
+        "height": 3000,
+        "iso_639_1": "fr",
+        "vote_average": 5.312,
+        "vote_count": 1,
+        "width": 2000
+      },
+      {
+        "aspect_ratio": 0.6666666666666666,
+        "file_path": "/mhDdx7o7hhrxrikq8aqPLLnS9w8.jpg",
+        "height": 3000,
+        "iso_639_1": "en",
+        "vote_average": 5.198,
+        "vote_count": 7,
+        "width": 2000
+      },
+      {
+        "aspect_ratio": 0.7,
+        "file_path": "/sZdsQgy2lmfqvN5nHj8w9b6MSGN.jpg",
+        "height": 1100,
+        "iso_639_1": "fr",
+        "vote_average": 5.172,
+        "vote_count": 1,
+        "width": 770
+      },
+      {
+        "aspect_ratio": 0.6754545454545454,
+        "file_path": "/pPKeQHjRtUqrbM0airNqlBcRpEe.jpg",
+        "height": 1100,
+        "iso_639_1": "fr",
+        "vote_average": 5.172,
+        "vote_count": 1,
+        "width": 743
+      },
+      {
+        "aspect_ratio": 0.6666666666666666,
+        "file_path": "/4cd08Le3PjCEd9EAOV71hR6r20R.jpg",
+        "height": 3000,
+        "iso_639_1": "en",
+        "vote_average": 5.138,
+        "vote_count": 8,
+        "width": 2000
+      },
+      {
+        "aspect_ratio": 0.6666666666666666,
+        "file_path": "/ij1ZfANM3EJm6HHS0ZXycX5f74i.jpg",
+        "height": 3000,
+        "iso_639_1": "en",
+        "vote_average": 5.128,
+        "vote_count": 6,
+        "width": 2000
+      },
+      {
+        "aspect_ratio": 0.6666666666666666,
+        "file_path": "/tI8ocADh22GtQFV28vGHaBZVb0U.jpg",
+        "height": 3000,
+        "iso_639_1": "en",
+        "vote_average": 5.118,
+        "vote_count": 4,
+        "width": 2000
+      },
+      {
+        "aspect_ratio": 0.66640625,
+        "file_path": "/4XbRtL1Fb0DtqBe4Ex4rPz5ymWU.jpg",
+        "height": 1280,
+        "iso_639_1": "en",
+        "vote_average": 5.068,
+        "vote_count": 7,
+        "width": 853
+      },
+      {
+        "aspect_ratio": 0.6666666666666666,
+        "file_path": "/20BHeQZ36XgG8eUuP1h8dGIZMze.jpg",
+        "height": 2520,
+        "iso_639_1": "en",
+        "vote_average": 5.044,
+        "vote_count": 3,
+        "width": 1680
+      },
+      {
+        "aspect_ratio": 0.6748046875,
+        "file_path": "/BVEBwzp6dh4jWkitsC4fOtffz3.jpg",
+        "height": 1024,
+        "iso_639_1": "en",
+        "vote_average": 5.044,
+        "vote_count": 3,
+        "width": 691
+      },
+      {
+        "aspect_ratio": 0.6666666666666666,
+        "file_path": "/4Yw6GXGEkLNff1pY7RLDj3KRfnV.jpg",
+        "height": 1500,
+        "iso_639_1": "en",
+        "vote_average": 5.034,
+        "vote_count": 12,
+        "width": 1000
+      },
+      {
+        "aspect_ratio": 0.66640625,
+        "file_path": "/7xTifI4iTkm9DVWiEiUzc5Lk02F.jpg",
+        "height": 1280,
+        "iso_639_1": "en",
+        "vote_average": 4.996,
+        "vote_count": 6,
+        "width": 853
+      },
+      {
+        "aspect_ratio": 0.6666666666666666,
+        "file_path": "/jMnMnDYNmdoRPk1yParcTTdTBIx.jpg",
+        "height": 1500,
+        "iso_639_1": "en",
+        "vote_average": 4.968,
+        "vote_count": 11,
+        "width": 1000
+      }
+    ]
+  }
+}

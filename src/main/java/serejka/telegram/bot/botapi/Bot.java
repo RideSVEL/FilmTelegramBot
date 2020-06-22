@@ -1,13 +1,9 @@
-package serejka.telegram.bot.botAPI;
+package serejka.telegram.bot.botapi;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
-
-import serejka.telegram.bot.models.User;
-import serejka.telegram.bot.repository.UserRepository;
 
 public class Bot extends TelegramWebhookBot {
 
@@ -15,21 +11,10 @@ public class Bot extends TelegramWebhookBot {
     private String botUsername;
     private String botToken;
 
-    private Facade facade;
+    private final Facade facade;
 
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
-//        if (update.getMessage() != null && update.getMessage().hasText()) {
-//            long chatId = update.getMessage().getChatId();
-//            System.out.println(chatId);
-//            try {
-//                execute(new SendMessage(chatId, "Hi " + update.getMessage().getText()));
-//            } catch (TelegramApiException e) {
-//                e.printStackTrace();
-//            }
-//        }
-
-
         return facade.handle(update);
     }
 

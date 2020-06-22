@@ -1,16 +1,17 @@
 package serejka.telegram.bot.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
 
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import serejka.telegram.bot.models.User;
 import serejka.telegram.bot.repository.UserRepository;
 
 @Service
 public class UserService {
 
-    //@Autowired
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(UserService.class);
+
     private final UserRepository userRepository;
 
     public UserService(UserRepository userRepository) {
@@ -23,5 +24,17 @@ public class UserService {
 
     public boolean exists(Integer id) {
         return userRepository.existsUserByUserId(id);
+    }
+
+    public void checkAndSave(Message message) {
+        if (exists(message.getFrom().getId())) {
+            log.info(" <||> User already exists!");
+        } else {
+            User user = new User(message.getChatId(),
+                    message.getFrom().getId(), message.getFrom().getUserName(),
+                    message.getFrom().getFirstName(), message.getFrom().getLastName());
+            log.info(" <||> Save to DB User: {} ", user.toString());
+            save(user);
+        }
     }
 }

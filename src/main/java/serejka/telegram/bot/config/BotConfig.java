@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.ApiContext;
-import serejka.telegram.bot.botAPI.Bot;
-import serejka.telegram.bot.botAPI.Facade;
+import serejka.telegram.bot.botapi.Bot;
+import serejka.telegram.bot.botapi.Facade;
 
 @Getter
 @Setter
