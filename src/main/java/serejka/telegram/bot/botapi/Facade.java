@@ -1,12 +1,14 @@
 package serejka.telegram.bot.botapi;
 
 import org.slf4j.Logger;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.ActionType;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import serejka.telegram.bot.models.Movie;
-import serejka.telegram.bot.service.ParseMovieService;
+import serejka.telegram.bot.service.ReplyToUserService;
 import serejka.telegram.bot.service.UserService;
 
 
@@ -15,14 +17,14 @@ public class Facade {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(Facade.class);
 
     private final UserService userService;
-    private final ParseMovieService parseMovieService;
+    private final ReplyToUserService replyToUserService;
 
-    public Facade(UserService userService, ParseMovieService parseMovieService) {
+    public Facade(UserService userService, ReplyToUserService replyToUserService) {
         this.userService = userService;
-        this.parseMovieService = parseMovieService;
+        this.replyToUserService = replyToUserService;
     }
 
-    public SendMessage handle(Update update) {
+    public BotApiMethod<?> handle(Update update) {
         SendMessage reply = null;
         Message message = update.getMessage();
         if (message != null && message.hasText()) {
@@ -42,19 +44,17 @@ public class Facade {
             }
             case "/help" -> reply = "Я тебе всегда помогу!";
             case "Привет" -> reply = "И снова мы здороваемся!";
-            default -> {
-                try {
-                    Movie movie = parseMovieService.parseMovie(Integer.parseInt(message.getText()));
-                    reply = "Trunk Trunk Trunk";
-                    if (movie != null) {
-                        reply = movie.toString();
-                    }
-                } catch (NumberFormatException e) {
-                    reply = "Trunk Trunk Trunk";
-                }
-            }
+            default -> reply = replyToUserService.replyMovie(message);
         }
-        return new SendMessage(message.getChatId(), reply);
+        return sendMsg(message, reply);
+    }
+
+    private SendMessage sendMsg(Message message, String text) {
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.enableMarkdown(true);
+        sendMessage.setChatId(message.getChatId());
+        sendMessage.setText(text).setParseMode("html");
+        return sendMessage;
     }
 
 }

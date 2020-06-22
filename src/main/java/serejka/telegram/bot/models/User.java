@@ -11,8 +11,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private Long chatId;
-
     private Integer userId;
 
     private String userName;
@@ -24,8 +22,7 @@ public class User {
     public User() {
     }
 
-    public User(Long chatId, Integer userId, String userName, String firstName, String lastName) {
-        this.chatId = chatId;
+    public User( Integer userId, String userName, String firstName, String lastName) {
         this.userId = userId;
         this.userName = userName;
         this.firstName = firstName;
@@ -38,14 +35,6 @@ public class User {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public long getChatId() {
-        return chatId;
-    }
-
-    public void setChatId(long chatId) {
-        this.chatId = chatId;
     }
 
     public Integer getUserId() {
@@ -84,7 +73,6 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", chatId=" + chatId +
                 ", userId=" + userId +
                 ", userName='" + userName + '\'' +
                 ", firstName='" + firstName + '\'' +

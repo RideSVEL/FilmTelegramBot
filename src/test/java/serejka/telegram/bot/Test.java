@@ -1,13 +1,13 @@
 package serejka.telegram.bot;
 
 import org.springframework.boot.test.context.TestComponent;
-import serejka.telegram.bot.service.ParseMovieService;
+import serejka.telegram.bot.service.ParserService;
 
 @TestComponent
 public class Test {
 
     public static void main(String[] args) {
 
-        System.out.println(new ParseMovieService().parseMovie(15472));
+        System.out.println(new ParserService().parseMovie(15472));
     }
 }

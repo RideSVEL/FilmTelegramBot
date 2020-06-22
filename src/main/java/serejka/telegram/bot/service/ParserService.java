@@ -6,6 +6,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 import serejka.telegram.bot.config.APIConfig;
 import serejka.telegram.bot.models.Movie;
@@ -14,13 +15,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ParseMovieService {
+public class ParserService {
+
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(ParserService.class);
 
     private static String getResponse(String request) {
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = null;
         try {
             response = Unirest.get(request).asString();
+            log.info("Get response from API with code {}", response.getStatus());
         } catch (UnirestException e) {
             e.printStackTrace();
         }
@@ -55,7 +59,7 @@ public class ParseMovieService {
                 JSONArray countriesJSON = jsonObject.getJSONArray("production_countries");
                 List<String> countries = new ArrayList<>();
                 for (int i = 0; i < countriesJSON.length(); i++) {
-                    countries.add(countriesJSON.getJSONObject(i).getString("iso_3166_1"));
+                    countries.add(countriesJSON.getJSONObject(i).getString("name"));
                 }
                 movie.setCountry(countries);
                 movie.setRuntime(jsonObject.getInt("runtime"));

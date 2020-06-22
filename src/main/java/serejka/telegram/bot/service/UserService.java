@@ -30,8 +30,7 @@ public class UserService {
         if (exists(message.getFrom().getId())) {
             log.info(" <||> User already exists!");
         } else {
-            User user = new User(message.getChatId(),
-                    message.getFrom().getId(), message.getFrom().getUserName(),
+            User user = new User(message.getFrom().getId(), message.getFrom().getUserName(),
                     message.getFrom().getFirstName(), message.getFrom().getLastName());
             log.info(" <||> Save to DB User: {} ", user.toString());
             save(user);
