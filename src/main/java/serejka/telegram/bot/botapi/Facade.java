@@ -1,31 +1,46 @@
 package serejka.telegram.bot.botapi;
 
 import org.slf4j.Logger;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.ActionType;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import serejka.telegram.bot.models.Movie;
+import serejka.telegram.bot.service.ParserService;
 import serejka.telegram.bot.service.ReplyToUserService;
-import serejka.telegram.bot.service.UserService;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 
 @Component
 public class Facade {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(Facade.class);
 
-    private final UserService userService;
     private final ReplyToUserService replyToUserService;
+    private final ParserService parserService;
 
-    public Facade(UserService userService, ReplyToUserService replyToUserService) {
-        this.userService = userService;
+    public Facade(ReplyToUserService replyToUserService, ParserService parserService) {
         this.replyToUserService = replyToUserService;
+        this.parserService = parserService;
     }
 
-    public BotApiMethod<?> handle(Update update) {
+    public BotApiMethod<?> handle(Update update) throws IOException {
         SendMessage reply = null;
+
+        if (update.hasCallbackQuery()) {
+            CallbackQuery callbackQuery = update.getCallbackQuery();
+            log.info(" <||> New callback from User: {}, with data: {}",
+                    callbackQuery.getFrom().getUserName(), callbackQuery.getData());
+        }
+
         Message message = update.getMessage();
         if (message != null && message.hasText()) {
             log.info(" <||> New message from User: {}, chatId: {}, with text {}:",
@@ -35,15 +50,17 @@ public class Facade {
         return reply;
     }
 
-    private SendMessage handleInputMessage(Message message) {
+    private SendMessage handleInputMessage(Message message) throws IOException {
         String reply;
         switch (message.getText()) {
-            case "/start" -> {
-                reply = "Привет, " + message.getFrom().getFirstName() + "!\n Давай пообщаемся! Как у тебя дела?";
-                userService.checkAndSave(message);
-            }
+            case "/start" -> reply = replyToUserService.replyStart(message);
             case "/help" -> reply = "Я тебе всегда помогу!";
             case "Привет" -> reply = "И снова мы здороваемся!";
+            case "/top" -> {
+                List<Movie> movies = parserService.getListMovies();
+                reply = replyToUserService.replyListMovies(message, movies);
+                return sendMsg(message, reply, getInlineMessageButtons(movies));
+            }
             default -> reply = replyToUserService.replyMovie(message);
         }
         return sendMsg(message, reply);
@@ -55,6 +72,31 @@ public class Facade {
         sendMessage.setChatId(message.getChatId());
         sendMessage.setText(text).setParseMode("html");
         return sendMessage;
+    }
+
+    private SendMessage sendMsg(Message message, String text, InlineKeyboardMarkup inlineKeyboardMarkup) {
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.enableMarkdown(true);
+        sendMessage.setReplyMarkup(inlineKeyboardMarkup);
+        sendMessage.setChatId(message.getChatId());
+        sendMessage.setText(text).setParseMode("html");
+        return sendMessage;
+    }
+
+    private InlineKeyboardMarkup getInlineMessageButtons(List<Movie> list) {
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        InlineKeyboardButton button;
+        List<InlineKeyboardButton> keyboardButtons = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            button = new InlineKeyboardButton();
+            button.setText((i + 1) + ".");
+            button.setCallbackData(String.valueOf(list.get(i).getId()));
+            keyboardButtons.add(button);
+        }
+        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
+        rowList.add(keyboardButtons);
+        inlineKeyboardMarkup.setKeyboard(rowList);
+        return inlineKeyboardMarkup;
     }
 
 }

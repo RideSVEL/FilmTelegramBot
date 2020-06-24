@@ -6,10 +6,13 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.ActionType;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaPhoto;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import serejka.telegram.bot.botapi.Bot;
 import serejka.telegram.bot.config.APIConfig;
 import serejka.telegram.bot.models.Movie;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,19 +21,54 @@ public class ReplyToUserService {
 
     private final ParserService parserService;
     private final Bot superBot;
+    private final UserService userService;
 
-    public ReplyToUserService(ParserService parserService, @Lazy Bot superBot) {
+    public ReplyToUserService(ParserService parserService, @Lazy Bot superBot, UserService userService) {
         this.parserService = parserService;
         this.superBot = superBot;
+        this.userService = userService;
     }
 
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(ReplyToUserService.class);
+
+    public String replyStart(Message message) {
+        userService.checkAndSave(message);
+        return "Привет, " + message.getFrom().getFirstName() + "!\n Давай пообщаемся! Как у тебя дела?";
+    }
+
+    public String replyListMovies(Message message, List<Movie> movies) {
+        String reply;
+        superBot.sendChatActionUpdate(message, ActionType.TYPING);
+        reply = "Блин братан, шось не то, звыняй";
+        if (movies != null) {
+            log.info("Get movie: {}", movies.toString());
+            StringBuilder sb = new StringBuilder();
+            sb.append("<em>Популярные фильмы на сегодня:</em>");
+            for (int i = 0; i < movies.size(); i++) {
+                Movie movie = movies.get(i);
+                sb.append("\n\n<b>").append(i + 1).append(". <em>").append(movie.getTitle()).append(" (")
+                        .append(movie.getYear()).append(")</em></b>").append("\nЖанр: ");
+                for (String genre : movie.getGenres()) {
+                    sb.append(genre).append(", ");
+                }
+                sb.delete(sb.length() - 2, sb.length() - 1);
+            }
+            sb.append("\n\nДля получения подробностей фильма воспользуйся одной из кнопок ниже:");
+            return sb.toString();
+        }
+        return reply;
+    }
+
+
+
+
 
     public String replyMovie(Message message) {
         String reply;
         try {
             Movie movie = parserService.parseMovie(Integer.parseInt(message.getText()));
-            reply = "Trunk Trunk Trunk";
+            reply = "Братан, я пока не умею отвечать на такие сообщения\n" +
+                    "Надо чуточку потерпеть..";
             if (movie != null) {
                 superBot.sendChatActionUpdate(message, ActionType.UPLOADPHOTO);
                 log.info("Get movie: {}", movie.toString());
@@ -43,7 +81,8 @@ public class ReplyToUserService {
                 reply = showMovie(movie);
             }
         } catch (NumberFormatException e) {
-            reply = "Trunk Trunk Trunk";
+            reply = "Братан, я пока не умею отвечать на такие сообщения\n" +
+                    "Надо чуточку потерпеть..";
         }
         return reply;
     }

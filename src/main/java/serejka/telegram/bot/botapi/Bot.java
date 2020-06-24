@@ -11,6 +11,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaPhoto;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,7 +25,12 @@ public class Bot extends TelegramWebhookBot {
 
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
-        return facade.handle(update);
+        try {
+            return facade.handle(update);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public Bot(DefaultBotOptions options, Facade facade) {

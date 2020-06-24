@@ -8,11 +8,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import serejka.telegram.bot.config.APIConfig;
 import serejka.telegram.bot.models.Movie;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 @Service
 public class ParserService {
@@ -33,6 +40,41 @@ public class ParserService {
         } else {
             return null;
         }
+    }
+
+    private static String getGenreById(Integer key) throws IOException {
+        Properties properties = new Properties();
+        FileInputStream in = new FileInputStream("src/main/resources/genres.properties");
+        BufferedReader inBuf = new BufferedReader(new InputStreamReader(in, "Cp1251"));
+        properties.load(inBuf);
+        inBuf.close();
+        return properties.getProperty("genre." + key, null);
+    }
+
+    public List<Movie> getListMovies() throws IOException {
+        String response = getResponse(APIConfig.getDayMovie());
+        if (response != null) {
+            List<Movie> movies = new ArrayList<>();
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray results = jsonObject.getJSONArray("results");
+            for (int i = 0; i < 5; i++) {
+                JSONObject temp = results.getJSONObject(i);
+                Movie movie = new Movie();
+                movie.setId(temp.getInt("id"));
+                movie.setTitle(temp.getString("title"));
+                movie.setYear(temp.getString("release_date").split("-")[0]);
+                movie.setVoteAverage(temp.getFloat("vote_average"));
+                JSONArray jsonArray = temp.getJSONArray("genre_ids");
+                List<String> genres = new ArrayList<>();
+                for (int j = 0; j < jsonArray.length(); j++) {
+                    genres.add(getGenreById((Integer) jsonArray.get(j)));
+                }
+                movie.setGenres(genres);
+                movies.add(movie);
+            }
+            return movies;
+        }
+        return null;
     }
 
     public Movie parseMovie(Integer id) {

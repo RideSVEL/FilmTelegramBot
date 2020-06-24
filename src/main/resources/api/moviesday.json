@@ -1,0 +1,427 @@
+{
+  "page": 1,
+  "results": [
+    {
+      "id": 706503,
+      "video": false,
+      "vote_count": 103,
+      "vote_average": 6.8,
+      "title": "Потерянная пуля",
+      "release_date": "2020-06-19",
+      "original_language": "fr",
+      "original_title": "Balle perdue",
+      "genre_ids": [
+        28,
+        80,
+        53
+      ],
+      "backdrop_path": "/ynMYRX3G4JJ2dioLudZNc7oFKd.jpg",
+      "adult": false,
+      "overview": "Одаренного механика обвиняют в убийстве, которого он не совершал. Единственным доказательством его невиновности является пуля с места преступления, застрявшая в пропавшей машине.",
+      "poster_path": "/yJ1mWzlTPXteNulPZeFZLKNqyas.jpg",
+      "popularity": 90.031,
+      "media_type": "movie"
+    },
+    {
+      "id": 619592,
+      "video": false,
+      "vote_count": 0,
+      "vote_average": 0.0,
+      "title": "Сила природы",
+      "release_date": "2020-07-02",
+      "original_language": "en",
+      "original_title": "Force of Nature",
+      "genre_ids": [
+        28,
+        18
+      ],
+      "backdrop_path": "/jAtO4ci8Tr5jDmg33XF3OZ8VPah.jpg",
+      "adult": false,
+      "overview": "Детектив полиции в отставке во время урагана вместе с остальными жильцами оказывается в ловушке в многоэтажном здании. Там же группа опасных преступников планирует провернуть ограбление.",
+      "poster_path": "/ucktgbaMSaETUDLUBp1ubGD6aNj.jpg",
+      "popularity": 56.013,
+      "media_type": "movie"
+    },
+    {
+      "id": 707886,
+      "video": false,
+      "vote_count": 147,
+      "vote_average": 8.2,
+      "title": "Почувствуй ритм",
+      "release_date": "2020-06-19",
+      "original_language": "en",
+      "original_title": "Feel the Beat",
+      "genre_ids": [
+        35,
+        18,
+        10402
+      ],
+      "backdrop_path": "/fZBQOScjDT8TAipEyCkLVeDTu5c.jpg",
+      "adult": false,
+      "overview": "Не сумев добиться успеха на Бродвее, Эйприл возвращается в свой маленький родной город и неохотно набирается, чтобы подготовить неподходящую группу молодых танцоров для большого соревнования.",
+      "poster_path": "/wXBxd34dFEx6Wruf5Ch5jKLBxDi.jpg",
+      "popularity": 153.959,
+      "media_type": "movie"
+    },
+    {
+      "id": 514593,
+      "video": false,
+      "vote_count": 26,
+      "vote_average": 4.9,
+      "title": "Тебе стоило уйти",
+      "release_date": "2020-06-19",
+      "original_language": "en",
+      "original_title": "You Should Have Left",
+      "genre_ids": [
+        27,
+        9648
+      ],
+      "backdrop_path": "/chAGSv4DB9s3fsgULpSZQLN7LgN.jpg",
+      "adult": false,
+      "overview": "Тео Конрой - обеспеченный бывший банкир на пенсии, чей брак с намного более молодой женой-актрисой, Сюзанной, трещит по швам из-за его ревности и мрачных теней в его прошлом. Стремясь наладить отношения, Тео и Сюзанна отправляются вместе с шестилетней дочкой Эллой отдохнуть в съемном загородном доме в Уэльсе. Однако вскоре после приезда Тео начинает подозревать, что некая зловещая сила в доме знает их с Сюзанной секреты даже лучше, чем они сами знают друг друга.",
+      "poster_path": "/2Gi9ZA4kRKKsWguUoTvIyj40dxF.jpg",
+      "popularity": 104.173,
+      "media_type": "movie"
+    },
+    {
+      "id": 451184,
+      "video": false,
+      "vote_count": 63,
+      "vote_average": 6.6,
+      "title": "Афера в Майами",
+      "release_date": "2020-01-29",
+      "original_language": "en",
+      "original_title": "Wasp Network",
+      "genre_ids": [
+        18,
+        36,
+        53
+      ],
+      "backdrop_path": "/72r4uAQGsa8KEv0DB2TpSu31lEB.jpg",
+      "adult": false,
+      "overview": "Кубинское правительство направляет в Майами своих шпионов для предотвращения терактов, организуемых враждебными группировками США. Но агенты под прикрытием не только успешно исполняют свою миссию, но и оказываются вовлечены в подпольную торговлю кокаином, что грозит мировым скандалом.",
+      "poster_path": "/3bYZq7DyMQoTZDKEXNrI3e2cBk8.jpg",
+      "popularity": 48.465,
+      "media_type": "movie"
+    },
+    {
+      "id": 509585,
+      "video": false,
+      "vote_count": 80,
+      "vote_average": 5.8,
+      "title": "7500",
+      "release_date": "2019-12-26",
+      "original_language": "en",
+      "original_title": "7500",
+      "genre_ids": [
+        18,
+        53
+      ],
+      "backdrop_path": "/akAbe8Lddj4J4vaT68EUVMufXZt.jpg",
+      "adult": false,
+      "overview": "Второй пилот пассажирского самолёта Тобиас Эллис вынужден противостоять террористам на высоте 9000 метров во время перелёта из Берлина в Париж. Не выходя из кабины, он пытается удержать управление самолётом и одновременно защитить пассажиров, проводя переговоры с захватчиками.",
+      "poster_path": "/nrW048JoWofimI5AKXDTBzvxqRr.jpg",
+      "popularity": 96.623,
+      "media_type": "movie"
+    },
+    {
+      "id": 475430,
+      "video": false,
+      "vote_count": 400,
+      "vote_average": 5.9,
+      "title": "Артемис Фаул",
+      "release_date": "2020-06-12",
+      "original_language": "en",
+      "original_title": "Artemis Fowl",
+      "genre_ids": [
+        12,
+        14,
+        878,
+        10751
+      ],
+      "backdrop_path": "/o0F8xAt8YuEm5mEZviX5pEFC12y.jpg",
+      "adult": false,
+      "overview": "Укрытый от посторонних глаз, глубоко под поверхностью земной коры таится целый мир, населенный гномами, эльфами, пикси, лепреконами, брауни и другими волшебными существами. Они спрятались от людей и создали свою собственную весьма развитую цивилизацию. Их тайна так и оставалась бы нераскрытой, если бы не юный Артемис Фаул, прирождённый мошенник и единственный наследник древнего рода криминальных гениев. Он сумел не только найти доказательства существования подземного мира, но и придумал дерзкий план — ограбить его обитателей.",
+      "poster_path": "/mhDdx7o7hhrxrikq8aqPLLnS9w8.jpg",
+      "popularity": 194.272,
+      "media_type": "movie"
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/uZMZyvarQuXLRqf3xdpdMqzdtjb.jpg",
+      "genre_ids": [
+        53,
+        878,
+        27
+      ],
+      "id": 570670,
+      "original_language": "en",
+      "original_title": "The Invisible Man",
+      "overview": "Когда отношения с богатым и гениальным учёным оборачиваются сплошным насилием и агрессией, Сесилия Касс сбегает под покровом ночи. Скрываться ей помогают сестра, друг детства и его дочь-подросток. Вскоре бывший бойфренд Сесилии совершает самоубийство и оставляет ей в наследство немалую долю своего огромного состояния. Однако девушка подозревает, что её бывший инсценировал свою смерть и на самом деле всё ещё жив. Столкнувшись с чередой жутких и смертельно опасных происшествий, Сесилия постепенно начинает сходить с ума, отчаянно пытаясь доказать, что её преследует некто невидимый.",
+      "poster_path": "/dMfPWvQkETaB19fVQ50MQYeHCdQ.jpg",
+      "release_date": "2020-02-26",
+      "title": "Человек-невидимка",
+      "video": false,
+      "vote_average": 7.2,
+      "vote_count": 2182,
+      "popularity": 101.743,
+      "media_type": "movie"
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/1M2Tku5XZYXOmAXM6LdRppC8RID.jpg",
+      "genre_ids": [
+        18,
+        10749
+      ],
+      "id": 664413,
+      "original_language": "pl",
+      "original_title": "365 dni",
+      "overview": "Массимо Торичелли — молодой, красивый босс сицилийской мафиозной семьи. После убийства отца конкурентами он вынужден взять на себя его обязанности. Лаура Бель — директор по продажам в роскошном отеле. Она успешна в профессии, но в личной жизни ей не хватает страсти. Лаура делает последнюю попытку сохранить отношения. Вместе с партнёром и друзьями она летит на Сицилию, где у неё на пути встаёт Массимо — самый опасный мужчина на острове, который похитит её и даст ей 365 дней, чтобы она его полюбила.",
+      "poster_path": "/ibaDBJBAvWd4J5lzfbpq1PJ6ZU1.jpg",
+      "release_date": "2020-02-07",
+      "title": "365 дней",
+      "video": false,
+      "vote_average": 7.1,
+      "vote_count": 1872,
+      "popularity": 63.865,
+      "media_type": "movie"
+    },
+    {
+      "id": 581859,
+      "video": false,
+      "vote_count": 203,
+      "vote_average": 6.9,
+      "title": "Пятеро одной крови",
+      "release_date": "2020-06-12",
+      "original_language": "en",
+      "original_title": "Da 5 Bloods",
+      "genre_ids": [
+        18,
+        10752
+      ],
+      "backdrop_path": "/Aq5Zhj9iaTF6BEKNk05dlUxeHKa.jpg",
+      "adult": false,
+      "overview": "Ветераны войны во Вьетнаме возвращаются в далёкие джунгли, чтобы вновь обрести себя. Оказавшись в знакомой среде, где много лет назад им грозила постоянная опасность, они надеются спасти своего сбившегося с пути товарища.",
+      "poster_path": "/yx4cp1ljJMDSFeEex0Zjv45b55E.jpg",
+      "popularity": 100.01,
+      "media_type": "movie"
+    },
+    {
+      "id": 38700,
+      "video": false,
+      "vote_count": 4412,
+      "vote_average": 7.2,
+      "title": "Плохие парни навсегда",
+      "release_date": "2020-01-15",
+      "original_language": "en",
+      "original_title": "Bad Boys for Life",
+      "genre_ids": [
+        28,
+        80,
+        53
+      ],
+      "backdrop_path": "/upUy2QhMZEmtypPW3PdieKLAHxh.jpg",
+      "adult": false,
+      "overview": "Детективы Майк Лоури и Маркус Бёрнетт снова в деле! Правда, их отстраняют от всех операций, но разве отчаянных друзей когда-нибудь что-либо останавливало? Ведь на этот раз на Майка открывает охоту некто из его прошлой жизни. Так что парням придется отжечь по полной!",
+      "poster_path": "/7vyOB2wWvyild4ETMrW7EZOaWZx.jpg",
+      "popularity": 54.728,
+      "media_type": "movie"
+    },
+    {
+      "id": 454626,
+      "video": false,
+      "vote_count": 4715,
+      "vote_average": 7.5,
+      "title": "Соник в кино",
+      "release_date": "2020-02-12",
+      "original_language": "en",
+      "original_title": "Sonic the Hedgehog",
+      "genre_ids": [
+        28,
+        35,
+        878,
+        10751
+      ],
+      "backdrop_path": "/stmYfCUGd8Iy6kAMBr6AmWqx8Bq.jpg",
+      "adult": false,
+      "overview": "Отвязный ярко-синий ёжик Соник вместе с новообретённым — человеческим — лучшим другом Томом Вачовски знакомится со сложностями жизни на Земле и противостоит злодейскому доктору Роботнику, который хочет пленить Соника и использовать его безграничные суперсилы для завоевания мирового господства.",
+      "poster_path": "/z7S7EX1YHOhCX9afC9aSyStJFEE.jpg",
+      "popularity": 98.652,
+      "media_type": "movie"
+    },
+    {
+      "id": 299534,
+      "video": false,
+      "vote_count": 13759,
+      "vote_average": 8.3,
+      "title": "Мстители: Финал",
+      "release_date": "2019-04-24",
+      "original_language": "en",
+      "original_title": "Avengers: Endgame",
+      "genre_ids": [
+        28,
+        12,
+        878
+      ],
+      "backdrop_path": "/7RyHsO4yDXtBv1zUU3mTpHeQ0d5.jpg",
+      "adult": false,
+      "overview": "После разрушительных событий в \"Мстители: Войны бесконечности\", вселенная лежит в руинах. Оставшиеся в живых участники команды Мстителей снова объединяются в попытке восстановить баланс во вселенной.",
+      "poster_path": "/dzAtuccZlvtcussbdZxpF4dkrB5.jpg",
+      "popularity": 47.024,
+      "media_type": "movie"
+    },
+    {
+      "id": 667520,
+      "video": false,
+      "vote_count": 82,
+      "vote_average": 8.3,
+      "title": "Сквозь слёзы я притворяюсь кошкой",
+      "release_date": "2020-06-18",
+      "original_language": "ja",
+      "original_title": "泣きたい私は猫をかぶる",
+      "genre_ids": [
+        16,
+        18,
+        14,
+        10749
+      ],
+      "backdrop_path": "/eHTZoXmB4vnDqANZXPZcdAiYQo5.jpg",
+      "adult": false,
+      "overview": "Обычная японская старшеклассница Миё живёт своей обычной японской жизнью. Но когда девушка влюбляется в одноклассника, а тот не обращает на неё никакого внимания, она решает, что единственный способ добиться его расположения — стать кошечкой. В этом ей поможет волшебная маска. Вскоре также выяснится, что существует параллельный кошачий мир, а вернуться в человеческое обличье не так просто.",
+      "poster_path": "/75hyeJQwa6Q4CDF4g99GYq2WVLK.jpg",
+      "popularity": 68.766,
+      "media_type": "movie"
+    },
+    {
+      "id": 522627,
+      "video": false,
+      "vote_count": 1469,
+      "vote_average": 7.7,
+      "title": "Джентльмены",
+      "release_date": "2019-12-03",
+      "original_language": "en",
+      "original_title": "The Gentlemen",
+      "genre_ids": [
+        28,
+        35,
+        80
+      ],
+      "backdrop_path": "/tintsaQ0WLzZsTMkTiqtMB3rfc8.jpg",
+      "adult": false,
+      "overview": "Талантливый выпускник Оксфорда, применив свой уникальный ум и невиданную дерзость, придумал нелегальную схему обогащения, используя поместья обедневшей английской аристократии. Однако когда он решает продать свой бизнес влиятельному клану миллиардеров из США, на его пути встают не менее обаятельные, но жесткие джентльмены. Намечается обмен любезностями, который точно не обойдется без перестрелок и парочки несчастных случаев…",
+      "poster_path": "/pk8uyafWnOdF3i681DaWeAqousE.jpg",
+      "popularity": 55.551,
+      "media_type": "movie"
+    },
+    {
+      "id": 522098,
+      "video": false,
+      "vote_count": 9,
+      "vote_average": 4.4,
+      "title": "Молочные зубы",
+      "release_date": "2020-06-18",
+      "original_language": "en",
+      "original_title": "Babyteeth",
+      "genre_ids": [
+        35,
+        18
+      ],
+      "backdrop_path": "/cQIusqAdSz0AMGSpHGHQkD6iStR.jpg",
+      "adult": false,
+      "overview": "Тяжело больная девушка Милла устала от чрезмерной опеки со стороны постоянно обеспокоенных родителей. Пытаясь почувствовать вкус жизни, она знакомится с мелким наркоторговцем Мозесом, в которого влюбляется без памяти. Эти отношения не устраивают родителей и привносят хаос в жизнь всех окружающих.",
+      "poster_path": "/aINpljdt3VVMrCLtJW4BektwYOp.jpg",
+      "popularity": 51.226,
+      "media_type": "movie"
+    },
+    {
+      "id": 508439,
+      "video": false,
+      "vote_count": 2285,
+      "vote_average": 7.9,
+      "title": "Вперёд",
+      "release_date": "2020-02-29",
+      "original_language": "en",
+      "original_title": "Onward",
+      "genre_ids": [
+        12,
+        16,
+        35,
+        14,
+        10751
+      ],
+      "backdrop_path": "/dW6yBuKwiMeronJZw8kozYLMorB.jpg",
+      "adult": false,
+      "overview": "Когда-то давно в сказочном мире царила магия, но после открытия электричества маги стали не нужны, и развитие пошло по техногенному пути. Теперь эльфы, тролли, гоблины, мантикоры, феи, кентавры и единороги летают на самолётах, пользуются автомобилями и мобильниками и ведут в целом прозаичную жизнь.\r Братья-эльфы Иэн и Барли Лайтфуты воспитывались одной мамой, потому что их отец умер, когда они были ещё совсем маленькими. На 16-летие Иэну достаётся посох отца, и магическое заклинание, которое должно вернуть того к жизни на один день, но волшебный кристалл исчезает, воскресив только нижнюю половину папы. Барли, большой любитель квестов, невероятно рад — прихватив полупапу, братья отправляются в приключение на поиски другого кристалла.",
+      "poster_path": "/xaJnPODeROjzvdiHotiF9YVdez2.jpg",
+      "popularity": 62.144,
+      "media_type": "movie"
+    },
+    {
+      "id": 181812,
+      "video": false,
+      "vote_count": 4944,
+      "vote_average": 6.5,
+      "title": "Звёздные войны: Скайуокер. Восход",
+      "release_date": "2019-12-18",
+      "original_language": "en",
+      "original_title": "Star Wars: The Rise of Skywalker",
+      "genre_ids": [
+        28,
+        12,
+        878
+      ],
+      "backdrop_path": "/jOzrELAzFxtMx2I4uDGHOotdfsS.jpg",
+      "adult": false,
+      "overview": "Фильм завершает невероятную историю семьи Скайуокеров, длящуюся уже более сорока лет, и обещает дать ответы на все загадки из предыдущих серий. Зрителя ожидают старые и новые герои, уникальные миры, увлекательные путешествия на край Галактики и грандиозный финал фантастической саги.",
+      "poster_path": "/mCD1ugUVWwa1pOmOACQY8sV7eu9.jpg",
+      "popularity": 78.182,
+      "media_type": "movie"
+    },
+    {
+      "id": 530915,
+      "video": false,
+      "vote_count": 5464,
+      "vote_average": 7.9,
+      "title": "1917",
+      "release_date": "2019-12-25",
+      "original_language": "en",
+      "original_title": "1917",
+      "genre_ids": [
+        28,
+        18,
+        36,
+        10752
+      ],
+      "backdrop_path": "/cqa3sa4c4jevgnEJwq3CMF8UfTG.jpg",
+      "adult": false,
+      "overview": "1917 год, разгар Первой мировой войны. Двум юным молодым солдатам поручают смертельно опасную миссию. Они должны пересечь вражескую территорию и доставить секретное сообщение, которое предотвратит неминуемую гибель сотен солдат… Смогут ли они выиграть гонку со временем?",
+      "poster_path": "/9PtIdTW2geKXQbOG17dKLe1JWu4.jpg",
+      "popularity": 72.707,
+      "media_type": "movie"
+    },
+    {
+      "id": 495764,
+      "video": false,
+      "vote_count": 4619,
+      "vote_average": 7.2,
+      "title": "Хищные птицы: Потрясающая история Харли Квинн",
+      "release_date": "2020-02-05",
+      "original_language": "en",
+      "original_title": "Birds of Prey (and the Fantabulous Emancipation of One Harley Quinn)",
+      "genre_ids": [
+        28,
+        35,
+        80
+      ],
+      "backdrop_path": "/kvbbK2rLGSJh9rf6gg1i1iVLYQS.jpg",
+      "adult": false,
+      "overview": "В центре сюжета окажется Харли Куинн, которая расстаётся со своим возлюбленным Джокером и собирает собственную команду опасных супергероинь. В их числе Бэтгёрл, Чёрная канарейка, Охотница и Рене Монтойя. Дерзким девушкам предстоит вступить в схватку с Чёрной Маской, который является криминальным авторитетом Готэма.",
+      "poster_path": "/wh5FEKiNeirvD02T2Ui22duZGCZ.jpg",
+      "popularity": 90.036,
+      "media_type": "movie"
+    }
+  ],
+  "total_pages": 1000,
+  "total_results": 20000
+}
