@@ -15,8 +15,6 @@ import serejka.telegram.bot.service.ReplyToUserService;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -39,6 +37,9 @@ public class Facade {
             CallbackQuery callbackQuery = update.getCallbackQuery();
             log.info(" <||> New callback from User: {}, with data: {}",
                     callbackQuery.getFrom().getUserName(), callbackQuery.getData());
+            return sendMsg(callbackQuery.getFrom().getId(),
+                    replyToUserService.replyMovie(callbackQuery.getFrom().getId(), callbackQuery.getData()));
+
         }
 
         Message message = update.getMessage();
@@ -58,27 +59,27 @@ public class Facade {
             case "Привет" -> reply = "И снова мы здороваемся!";
             case "/top" -> {
                 List<Movie> movies = parserService.getListMovies();
-                reply = replyToUserService.replyListMovies(message, movies);
-                return sendMsg(message, reply, getInlineMessageButtons(movies));
+                reply = replyToUserService.replyListMovies(message.getChatId(), movies);
+                return sendMsg(message.getChatId(), reply, getInlineMessageButtons(movies));
             }
-            default -> reply = replyToUserService.replyMovie(message);
+            default -> reply = replyToUserService.replyMovie(message.getChatId(), message.getText());
         }
-        return sendMsg(message, reply);
+        return sendMsg(message.getChatId(), reply);
     }
 
-    private SendMessage sendMsg(Message message, String text) {
+    private SendMessage sendMsg(long chatId, String text) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
-        sendMessage.setChatId(message.getChatId());
+        sendMessage.setChatId(chatId);
         sendMessage.setText(text).setParseMode("html");
         return sendMessage;
     }
 
-    private SendMessage sendMsg(Message message, String text, InlineKeyboardMarkup inlineKeyboardMarkup) {
+    private SendMessage sendMsg(long chatId, String text, InlineKeyboardMarkup inlineKeyboardMarkup) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
         sendMessage.setReplyMarkup(inlineKeyboardMarkup);
-        sendMessage.setChatId(message.getChatId());
+        sendMessage.setChatId(chatId);
         sendMessage.setText(text).setParseMode("html");
         return sendMessage;
     }

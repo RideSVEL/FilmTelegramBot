@@ -65,10 +65,10 @@ public class Bot extends TelegramWebhookBot {
         this.botToken = botToken;
     }
 
-    public void sendMediaGroup(Message message, List<InputMediaPhoto> inputMediaPhotos) {
+    public void sendMediaGroup(long chatId, List<InputMediaPhoto> inputMediaPhotos) {
         SendMediaGroup sendMediaGroup = new SendMediaGroup();
         sendMediaGroup.setMedia(Collections.unmodifiableList(inputMediaPhotos));
-        sendMediaGroup.setChatId(message.getChatId());
+        sendMediaGroup.setChatId(chatId);
         try {
             execute(sendMediaGroup);
         } catch (TelegramApiException e) {
@@ -77,9 +77,9 @@ public class Bot extends TelegramWebhookBot {
 
     }
 
-    public void sendChatActionUpdate(Message message, ActionType type) {
+    public void sendChatActionUpdate(long chatId, ActionType type) {
             SendChatAction sendChatAction = new SendChatAction();
-            sendChatAction.setChatId(message.getChatId());
+            sendChatAction.setChatId(chatId);
             sendChatAction.setAction(type);
             try {
                 execute(sendChatAction);

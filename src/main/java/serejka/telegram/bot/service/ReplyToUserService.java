@@ -36,9 +36,9 @@ public class ReplyToUserService {
         return "Привет, " + message.getFrom().getFirstName() + "!\n Давай пообщаемся! Как у тебя дела?";
     }
 
-    public String replyListMovies(Message message, List<Movie> movies) {
+    public String replyListMovies(long chatId, List<Movie> movies) {
         String reply;
-        superBot.sendChatActionUpdate(message, ActionType.TYPING);
+        superBot.sendChatActionUpdate(chatId, ActionType.TYPING);
         reply = "Блин братан, шось не то, звыняй";
         if (movies != null) {
             log.info("Get movie: {}", movies.toString());
@@ -60,24 +60,21 @@ public class ReplyToUserService {
     }
 
 
-
-
-
-    public String replyMovie(Message message) {
+    public String replyMovie(long chatId, String filmId) {
         String reply;
         try {
-            Movie movie = parserService.parseMovie(Integer.parseInt(message.getText()));
+            Movie movie = parserService.parseMovie(Integer.parseInt(filmId));
             reply = "Братан, я пока не умею отвечать на такие сообщения\n" +
                     "Надо чуточку потерпеть..";
             if (movie != null) {
-                superBot.sendChatActionUpdate(message, ActionType.UPLOADPHOTO);
+                superBot.sendChatActionUpdate(chatId, ActionType.UPLOADPHOTO);
                 log.info("Get movie: {}", movie.toString());
                 List<InputMediaPhoto> list = new ArrayList<>();
                 for (String s : movie.getPathToImages()) {
                     list.add(new InputMediaPhoto().setMedia(APIConfig.getPathToImage(s)));
                 }
-                superBot.sendMediaGroup(message, list);
-                superBot.sendChatActionUpdate(message, ActionType.TYPING);
+                superBot.sendMediaGroup(chatId, list);
+                superBot.sendChatActionUpdate(chatId, ActionType.TYPING);
                 reply = showMovie(movie);
             }
         } catch (NumberFormatException e) {
