@@ -12,6 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import serejka.telegram.bot.models.Movie;
 import serejka.telegram.bot.service.ParserService;
 import serejka.telegram.bot.service.ReplyToUserService;
+import serejka.telegram.bot.service.StatisticsService;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,10 +25,12 @@ public class Facade {
 
     private final ReplyToUserService replyToUserService;
     private final ParserService parserService;
+    private final StatisticsService statisticsService;
 
-    public Facade(ReplyToUserService replyToUserService, ParserService parserService) {
+    public Facade(ReplyToUserService replyToUserService, ParserService parserService, StatisticsService statisticsService) {
         this.replyToUserService = replyToUserService;
         this.parserService = parserService;
+        this.statisticsService = statisticsService;
     }
 
     public BotApiMethod<?> handle(Update update) throws IOException {
@@ -54,12 +57,19 @@ public class Facade {
     private SendMessage handleInputMessage(Message message) throws IOException {
         String reply;
         switch (message.getText()) {
-            case "/start" -> reply = replyToUserService.replyStart(message);
-            case "/help" -> reply = "Я тебе всегда помогу!";
+            case "/start" -> {
+                reply = replyToUserService.replyStart(message);
+                //statisticsService.updateCountCommand(1);
+            }
+            case "/help" -> {
+                reply = "Я тебе всегда помогу!";
+               // statisticsService.updateCountCommand(3);
+            }
             case "Привет" -> reply = "И снова мы здороваемся!";
             case "/top" -> {
                 List<Movie> movies = parserService.getListMovies();
                 reply = replyToUserService.replyListMovies(message.getChatId(), movies);
+                //statisticsService.updateCountCommand(2);
                 return sendMsg(message.getChatId(), reply, getInlineMessageButtons(movies));
             }
             default -> reply = replyToUserService.replyMovie(message.getChatId(), message.getText());

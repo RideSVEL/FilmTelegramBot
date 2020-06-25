@@ -7,6 +7,8 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import serejka.telegram.bot.models.User;
 import serejka.telegram.bot.repository.UserRepository;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -24,6 +26,10 @@ public class UserService {
 
     public boolean exists(Integer id) {
         return userRepository.existsUserByUserId(id);
+    }
+    
+    public List<User> findAllUsers() {
+        return (List<User>) userRepository.findAll();
     }
 
     public void checkAndSave(Message message) {
