@@ -11,7 +11,7 @@
         <th>ID</th>
         <th>FIRST NAME</th>
         <th>LAST NAME</th>
-        <th>CHAT ID</th>
+        <th>USER ID</th>
         <th>USER NAME</th>
     </tr>
     </thead>
@@ -22,6 +22,9 @@
         <td th:text="${user.lastName}"></td>
         <td th:text="${user.userId}"></td>
         <td th:text="${user.userName}"></td>
+        <td>
+            <a th:href="'/message/' + ${user.userId}">Send message</a>
+        </td>
     </tr>
     </tbody>
 </table>

@@ -7,7 +7,6 @@ import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendChatAction;
 import org.telegram.telegrambots.meta.api.methods.send.SendMediaGroup;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaPhoto;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -75,13 +74,13 @@ public class Bot extends TelegramWebhookBot {
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
-
     }
 
-    public void sendMessageByAdmin(long chatId) {
+    public void sendMessageByAdmin(long chatId, String reply) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         sendMessage.setParseMode("html");
+        sendMessage.setText(reply);
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
@@ -90,13 +89,13 @@ public class Bot extends TelegramWebhookBot {
     }
 
     public void sendChatActionUpdate(long chatId, ActionType type) {
-            SendChatAction sendChatAction = new SendChatAction();
-            sendChatAction.setChatId(chatId);
-            sendChatAction.setAction(type);
-            try {
-                execute(sendChatAction);
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
+        SendChatAction sendChatAction = new SendChatAction();
+        sendChatAction.setChatId(chatId);
+        sendChatAction.setAction(type);
+        try {
+            execute(sendChatAction);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -8,7 +8,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
-import org.telegram.telegrambots.meta.ApiContext;
 import serejka.telegram.bot.botapi.Commands;
 import serejka.telegram.bot.config.APIConfig;
 import serejka.telegram.bot.models.Movie;

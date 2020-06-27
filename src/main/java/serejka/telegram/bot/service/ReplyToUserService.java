@@ -6,14 +6,11 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.ActionType;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaPhoto;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import serejka.telegram.bot.botapi.Bot;
 import serejka.telegram.bot.botapi.Commands;
 import serejka.telegram.bot.config.APIConfig;
 import serejka.telegram.bot.models.Movie;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
