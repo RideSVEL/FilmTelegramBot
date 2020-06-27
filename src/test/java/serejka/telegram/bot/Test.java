@@ -8,6 +8,6 @@ public class Test {
 
     public static void main(String[] args) {
 
-        System.out.println(new ParserService().parseMovie(15472));
+        System.out.println(new ParserService(superBot).parseMovie(15472));
     }
 }

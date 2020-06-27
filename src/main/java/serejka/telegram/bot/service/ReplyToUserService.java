@@ -9,6 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.media.InputMediaPhoto;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import serejka.telegram.bot.botapi.Bot;
+import serejka.telegram.bot.botapi.Commands;
 import serejka.telegram.bot.config.APIConfig;
 import serejka.telegram.bot.models.Movie;
 
@@ -36,14 +37,17 @@ public class ReplyToUserService {
         return "Привет, " + message.getFrom().getFirstName() + "!\n Давай пообщаемся! Как у тебя дела?";
     }
 
-    public String replyListMovies(long chatId, List<Movie> movies) {
+    public String replyListMovies(long chatId, List<Movie> movies, Commands commands) {
         String reply;
-        superBot.sendChatActionUpdate(chatId, ActionType.TYPING);
+
         reply = "Блин братан, шось не то, звыняй";
         if (movies != null) {
             log.info("Get movie: {}", movies.toString());
             StringBuilder sb = new StringBuilder();
+            if (commands == Commands.TOPDAY)
             sb.append("<em>Популярные фильмы на сегодня:</em>");
+            if (commands == Commands.TOPWEEK)
+                sb.append("<em>Лучшее за наделю:</em>");
             for (int i = 0; i < movies.size(); i++) {
                 Movie movie = movies.get(i);
                 sb.append("\n\n<b>").append(i + 1).append(". <em>").append(movie.getTitle()).append(" (")

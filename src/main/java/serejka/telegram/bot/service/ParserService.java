@@ -8,8 +8,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import org.telegram.telegrambots.meta.ApiContext;
+import serejka.telegram.bot.botapi.Commands;
 import serejka.telegram.bot.config.APIConfig;
 import serejka.telegram.bot.models.Movie;
 
@@ -25,6 +25,7 @@ import java.util.Properties;
 public class ParserService {
 
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(ParserService.class);
+
 
     private static String getResponse(String request) {
         Unirest.setTimeouts(0, 0);
@@ -51,13 +52,22 @@ public class ParserService {
         return properties.getProperty("genre." + key, null);
     }
 
-    public List<Movie> getListMovies() throws IOException {
-        String response = getResponse(APIConfig.getDayMovie());
+    public List<Movie> getListMovies(Commands commands) throws IOException {
+        String response = null;
+        int number = 5;
+        switch (commands) {
+            case TOPDAY -> response = getResponse(APIConfig.getDayMovie());
+            case TOPWEEK -> response = getResponse(APIConfig.getWeekMovie());
+            case TOP -> {
+                response = getResponse(APIConfig.getTop());
+                number = 15;
+            }
+        }
         if (response != null) {
             List<Movie> movies = new ArrayList<>();
             JSONObject jsonObject = new JSONObject(response);
             JSONArray results = jsonObject.getJSONArray("results");
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < number; i++) {
                 JSONObject temp = results.getJSONObject(i);
                 Movie movie = new Movie();
                 movie.setId(temp.getInt("id"));

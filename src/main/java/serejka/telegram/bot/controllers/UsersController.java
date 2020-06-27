@@ -15,6 +15,11 @@ public class UsersController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("/")
+    public String redirect() {
+        return "redirect:/users";
+    }
+
     @GetMapping("/users")
     public String showAllUsers(Model model) {
         List<User> allUsers = userService.findAllUsers();

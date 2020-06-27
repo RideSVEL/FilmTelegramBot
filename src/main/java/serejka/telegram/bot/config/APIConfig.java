@@ -15,6 +15,7 @@ public class APIConfig {
     private static final String API_QUERY = "&query=";
     private static final String API_IMAGE = "https://image.tmdb.org/t/p/original";
     private static final String API_MOVIE_DAY = "https://api.themoviedb.org/3/trending/movie/day";
+    private static final String API_MOVIE_WEEK = "https://api.themoviedb.org/3/trending/movie/week";
 
     private static final String ON_IMDB = "https://www.imdb.com/title/";
 
@@ -24,6 +25,9 @@ public class APIConfig {
 
     public static String getDayMovie() {
         return API_MOVIE_DAY + API_KEY + API_LANGUAGE;
+    }
+    public static String getWeekMovie() {
+        return API_MOVIE_WEEK + API_KEY + API_LANGUAGE;
     }
 
     public static String getMovieBySearchRequest(String title) {
@@ -48,4 +52,7 @@ public class APIConfig {
     }
 
 
+    public static String getTop() {
+        return "";
+    }
 }

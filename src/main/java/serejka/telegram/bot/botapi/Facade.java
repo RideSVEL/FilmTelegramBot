@@ -1,7 +1,9 @@
 package serejka.telegram.bot.botapi;
 
 import org.slf4j.Logger;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.ActionType;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
@@ -26,11 +28,13 @@ public class Facade {
     private final ReplyToUserService replyToUserService;
     private final ParserService parserService;
     private final StatisticsService statisticsService;
+    private final Bot superBot;
 
-    public Facade(ReplyToUserService replyToUserService, ParserService parserService, StatisticsService statisticsService) {
+    public Facade(ReplyToUserService replyToUserService, ParserService parserService, StatisticsService statisticsService, @Lazy Bot superBot) {
         this.replyToUserService = replyToUserService;
         this.parserService = parserService;
         this.statisticsService = statisticsService;
+        this.superBot = superBot;
     }
 
     public BotApiMethod<?> handle(Update update) throws IOException {
@@ -59,17 +63,21 @@ public class Facade {
         switch (message.getText()) {
             case "/start" -> {
                 reply = replyToUserService.replyStart(message);
-                //statisticsService.updateCountCommand(1);
             }
             case "/help" -> {
                 reply = "Я тебе всегда помогу!";
-               // statisticsService.updateCountCommand(3);
             }
             case "Привет" -> reply = "И снова мы здороваемся!";
-            case "/top" -> {
-                List<Movie> movies = parserService.getListMovies();
-                reply = replyToUserService.replyListMovies(message.getChatId(), movies);
-                //statisticsService.updateCountCommand(2);
+            case "/topweek" -> {
+                superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
+                List<Movie> movies = parserService.getListMovies(Commands.TOPWEEK);
+                reply = replyToUserService.replyListMovies(message.getChatId(), movies, Commands.TOPWEEK);
+                return sendMsg(message.getChatId(), reply, getInlineMessageButtons(movies));
+            }
+            case "/topday" -> {
+                superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
+                List<Movie> movies = parserService.getListMovies(Commands.TOPDAY);
+                reply = replyToUserService.replyListMovies(message.getChatId(), movies, Commands.TOPDAY);
                 return sendMsg(message.getChatId(), reply, getInlineMessageButtons(movies));
             }
             default -> reply = replyToUserService.replyMovie(message.getChatId(), message.getText());
