@@ -26,6 +26,7 @@ public class APIConfig {
     public static String getDayMovie() {
         return API_MOVIE_DAY + API_KEY + API_LANGUAGE;
     }
+    
     public static String getWeekMovie() {
         return API_MOVIE_WEEK + API_KEY + API_LANGUAGE;
     }
@@ -50,7 +51,6 @@ public class APIConfig {
     public static String getPathToImage(String path) {
         return API_IMAGE + path;
     }
-
 
     public static String getTop() {
         return "";

@@ -27,7 +27,7 @@ public class UserService {
     public boolean exists(Integer id) {
         return userRepository.existsUserByUserId(id);
     }
-    
+
     public List<User> findAllUsers() {
         return (List<User>) userRepository.findAll();
     }
@@ -41,5 +41,9 @@ public class UserService {
             log.info(" <||> Save to DB User: {} ", user.toString());
             save(user);
         }
+    }
+
+    public User findUserByUserId(Integer userId) {
+        return userRepository.findUserByUserId(userId);
     }
 }

@@ -11,10 +11,11 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import serejka.telegram.bot.cache.UserDataCache;
 import serejka.telegram.bot.models.Movie;
-import serejka.telegram.bot.service.ParserService;
-import serejka.telegram.bot.service.ReplyToUserService;
-import serejka.telegram.bot.service.StatisticsService;
+import serejka.telegram.bot.models.Review;
+import serejka.telegram.bot.models.User;
+import serejka.telegram.bot.service.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,12 +30,20 @@ public class Facade {
     private final ParserService parserService;
     private final StatisticsService statisticsService;
     private final Bot superBot;
+    private final UserDataCache userDataCache;
+    private final ReviewService reviewService;
+    private final UserService userService;
 
-    public Facade(ReplyToUserService replyToUserService, ParserService parserService, StatisticsService statisticsService, @Lazy Bot superBot) {
+    public Facade(ReplyToUserService replyToUserService, ParserService parserService,
+                  StatisticsService statisticsService, @Lazy Bot superBot,
+                  UserDataCache userDataCache, ReviewService reviewService, UserService userService) {
         this.replyToUserService = replyToUserService;
         this.parserService = parserService;
         this.statisticsService = statisticsService;
         this.superBot = superBot;
+        this.userDataCache = userDataCache;
+        this.reviewService = reviewService;
+        this.userService = userService;
     }
 
     public BotApiMethod<?> handle(Update update) throws IOException {
@@ -53,7 +62,11 @@ public class Facade {
         if (message != null && message.hasText()) {
             log.info(" <||> New message from User: {}, chatId: {}, with text {}:",
                     message.getFrom().getUserName(), message.getChatId(), message.getText());
-            reply = handleInputMessage(message);
+            if (userDataCache.checkContainsKey(message.getFrom().getId())) {
+                reply = handleBotStateMessage(message);
+            } else {
+                reply = handleInputMessage(message);
+            }
         }
         return reply;
     }
@@ -61,12 +74,8 @@ public class Facade {
     private SendMessage handleInputMessage(Message message) throws IOException {
         String reply;
         switch (message.getText()) {
-            case "/start" -> {
-                reply = replyToUserService.replyStart(message);
-            }
-            case "/help" -> {
-                reply = "Я тебе всегда помогу!";
-            }
+            case "/start" -> reply = replyToUserService.replyStart(message);
+            case "/help" -> reply = "Я тебе всегда помогу!";
             case "Привет" -> reply = "И снова мы здороваемся!";
             case "/topweek" -> {
                 superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
@@ -80,10 +89,55 @@ public class Facade {
                 reply = replyToUserService.replyListMovies(message.getChatId(), movies, Commands.TOPDAY);
                 return sendMsg(message.getChatId(), reply, getInlineMessageButtons(movies));
             }
+            case "/review" -> {
+                superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
+                reply = "Я рад, что ты решил оставить отзыв о нашим боте," +
+                        " отправь свои пожелания\uD83D\uDE0C" +
+                        "\nЛибо можешь отменить операцию командой - /cancel\uD83D\uDE15";
+                userDataCache.setUserState(message.getFrom().getId(), BotState.REVIEW);
+            }
             default -> reply = replyToUserService.replyMovie(message.getChatId(), message.getText());
         }
         return sendMsg(message.getChatId(), reply);
     }
+
+    private SendMessage handleBotStateMessage(Message message) {
+        String reply = null;
+        BotState botState = userDataCache.getUserBotState(message.getFrom().getId());
+        if (botState != null) {
+            switch (botState) {
+                case REVIEW -> {
+                    if (message.getText().equals("/cancel")) {
+                        userDataCache.deleteStateUser(message.getFrom().getId());
+                        return sendMsg(message.getChatId(), "Жаль, что ты передумал(");
+                    }
+                    User user = userService.findUserByUserId(message.getFrom().getId());
+                    if (user != null) {
+                        Review review = new Review();
+                        review.setReview(message.getText());
+                        review.setUserId(message.getFrom().getId());
+                        try {
+                            reviewService.save(review);
+                            log.info(" <||> Save to DB new review from user: {}", message.getFrom().getId());
+                            reply = "Братан, спасибо тебе большое за отзыв! Ты лучший!";
+                            userDataCache.deleteStateUser(message.getFrom().getId());
+                        } catch (Exception e) {
+                            reply = "Шось не то, прости пожалуйста((";
+                            userDataCache.deleteStateUser(message.getFrom().getId());
+                        }
+                    } else {
+                        reply = "Шось не то, прости пожалуйста((";
+                        userDataCache.deleteStateUser(message.getFrom().getId());
+                    }
+                }
+                case SEARCH -> reply = "Результаты поиска: ";
+            }
+        } else {
+            reply = "Братик, звыняй, мои мозги пока пытаются обработать эту инфу, но шось не получается..";
+        }
+        return sendMsg(message.getChatId(), reply);
+    }
+
 
     private SendMessage sendMsg(long chatId, String text) {
         SendMessage sendMessage = new SendMessage();

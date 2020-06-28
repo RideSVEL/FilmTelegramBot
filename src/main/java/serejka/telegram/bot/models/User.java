@@ -2,6 +2,7 @@ package serejka.telegram.bot.models;
 
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "usr")
@@ -18,6 +19,7 @@ public class User {
     private String firstName;
 
     private String lastName;
+
 
     public User() {
     }
@@ -68,6 +70,7 @@ public class User {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
 
     @Override
     public String toString() {
