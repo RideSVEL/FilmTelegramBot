@@ -1,32 +1,36 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>List users</title>
-</head>
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:insert="blocks/head :: head"></div>
+
 <body>
-<table id="users_table" class="table table-dark table-hover table-striped ">
-    <thead class="thead-light" align="center">
-    <tr>
-        <th>ID</th>
-        <th>FIRST NAME</th>
-        <th>LAST NAME</th>
-        <th>USER ID</th>
-        <th>USER NAME</th>
-    </tr>
-    </thead>
-    <tbody th:each="user : ${users}">
-    <tr>
-        <td scope="row" th:text="${user.id}"></td>
-        <td th:text="${user.firstName}"></td>
-        <td th:text="${user.lastName}"></td>
-        <td th:text="${user.userId}"></td>
-        <td th:text="${user.userName}"></td>
-        <td>
-            <a th:href="'/message/' + ${user.userId}">Send message</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<div th:insert="blocks/header :: header"></div>
+<main role="main" class="container">
+    <div class="jumbotron">
+        <table id="users_table" class="table table-danger table-bordered table-hover table-striped ">
+            <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>FIRST NAME</th>
+                <th>LAST NAME</th>
+                <th>USER ID</th>
+                <th>USER NAME</th>
+                <th>MESSAGE</th>
+            </tr>
+            </thead>
+            <tbody th:each="user : ${users}">
+            <tr>
+                <td scope="row" th:text="${user.id}"></td>
+                <td scope="col" th:text="${user.firstName}"></td>
+                <td scope="col" th:text="${user.lastName}"></td>
+                <td scope="col" th:text="${user.userId}"></td>
+                <td scope="col" th:text="${user.userName}"></td>
+                <td scope="col">
+                    <a th:href="'/message/' + ${user.userId}" class="btn btn-success">Send message</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
 </body>
 </html>

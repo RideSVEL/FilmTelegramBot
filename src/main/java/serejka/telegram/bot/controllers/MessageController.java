@@ -19,6 +19,7 @@ public class MessageController {
 
     @GetMapping("/message/{id}")
     public String customMessageToUser(@PathVariable(value = "id") Long id, Model model) {
+        model.addAttribute("title", "Send message");
         model.addAttribute("id", id);
         return "message";
     }
@@ -30,7 +31,8 @@ public class MessageController {
     }
 
     @GetMapping("/message")
-    public String messageToAllUsers() {
+    public String messageToAllUsers(Model model) {
+        model.addAttribute("title", "Send message");
         return "message";
     }
 
