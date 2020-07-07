@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import serejka.telegram.bot.models.Review;
 import serejka.telegram.bot.repository.ReviewRepository;
 
+import java.util.List;
+
 @Service
 public class ReviewService {
 
@@ -14,4 +16,13 @@ public class ReviewService {
     public void save(Review review) {
         reviewRepository.save(review);
     }
+
+    public List<Review> getNewReviews() {
+        return reviewRepository.findAllByView(0);
+    }
+
+    public List<Review> getArchiveReviews() {
+        return reviewRepository.findAllByView(1);
+    }
+
 }

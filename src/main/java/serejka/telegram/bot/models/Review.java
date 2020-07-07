@@ -11,8 +11,27 @@ public class Review {
 
     private Integer userId;
 
-
     private String review;
+
+    private String date;
+
+    private int view;
+
+    public int getView() {
+        return view;
+    }
+
+    public void setView(int view) {
+        this.view = view;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 
     public Integer getId() {
         return id;

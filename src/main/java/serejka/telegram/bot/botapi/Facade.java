@@ -18,6 +18,7 @@ import serejka.telegram.bot.models.User;
 import serejka.telegram.bot.service.*;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,7 +92,7 @@ public class Facade {
             }
             case "/review" -> {
                 superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
-                reply = "Я рад, что ты решил оставить отзыв о нашим боте," +
+                reply = "Я рад, что ты решил оставить отзыв о нашем боте," +
                         " отправь свои пожелания\uD83D\uDE0C" +
                         "\nЛибо можешь отменить операцию командой - /cancel\uD83D\uDE15";
                 userDataCache.setUserState(message.getFrom().getId(), BotState.REVIEW);
@@ -116,6 +117,7 @@ public class Facade {
                         Review review = new Review();
                         review.setReview(message.getText());
                         review.setUserId(message.getFrom().getId());
+                        review.setDate(new Date().toString());
                         try {
                             reviewService.save(review);
                             log.info(" <||> Save to DB new review from user: {}", message.getFrom().getId());
