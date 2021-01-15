@@ -1,10 +1,9 @@
 package serejka.telegram.bot.models;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
 
 @Entity
-@Table(name = "stats")
+@Table(name = "statistics")
 public class Stats {
 
     @Id

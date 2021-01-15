@@ -11,6 +11,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+
 import serejka.telegram.bot.cache.UserDataCache;
 import serejka.telegram.bot.models.Movie;
 import serejka.telegram.bot.models.Review;
@@ -18,8 +19,8 @@ import serejka.telegram.bot.models.User;
 import serejka.telegram.bot.service.*;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -74,20 +75,21 @@ public class Facade {
 
     private SendMessage handleInputMessage(Message message) throws IOException {
         String reply;
+        List<Movie> movies;
         switch (message.getText()) {
             case "/start" -> reply = replyToUserService.replyStart(message);
             case "/help" -> reply = "Я тебе всегда помогу!";
             case "Привет" -> reply = "И снова мы здороваемся!";
             case "/topweek" -> {
                 superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
-                List<Movie> movies = parserService.getListMovies(Commands.TOPWEEK);
-                reply = replyToUserService.replyListMovies(message.getChatId(), movies, Commands.TOPWEEK);
+                movies = parserService.getListMovies(Commands.TOPWEEK);
+                reply = replyToUserService.replyListMovies(movies, Commands.TOPWEEK);
                 return sendMsg(message.getChatId(), reply, getInlineMessageButtons(movies));
             }
             case "/topday" -> {
                 superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
-                List<Movie> movies = parserService.getListMovies(Commands.TOPDAY);
-                reply = replyToUserService.replyListMovies(message.getChatId(), movies, Commands.TOPDAY);
+                movies = parserService.getListMovies(Commands.TOPDAY);
+                reply = replyToUserService.replyListMovies(movies, Commands.TOPDAY);
                 return sendMsg(message.getChatId(), reply, getInlineMessageButtons(movies));
             }
             case "/review" -> {

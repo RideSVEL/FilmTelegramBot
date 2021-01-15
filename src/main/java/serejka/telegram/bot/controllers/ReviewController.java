@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import serejka.telegram.bot.models.Review;
+import serejka.telegram.bot.models.User;
 import serejka.telegram.bot.service.ReviewService;
+import serejka.telegram.bot.service.UserService;
 
 import java.util.List;
 
@@ -14,9 +16,11 @@ import java.util.List;
 public class ReviewController {
 
     private final ReviewService reviewService;
+    private final UserService userService;
 
-    public ReviewController(ReviewService reviewService) {
+    public ReviewController(ReviewService reviewService, UserService userService) {
         this.reviewService = reviewService;
+        this.userService = userService;
     }
 
     @GetMapping("/reviews/new")
@@ -37,9 +41,20 @@ public class ReviewController {
         return "reviews";
     }
 
-    @PostMapping("/review/{id}}")
-    public String getReview(@PathVariable(value = "id") Long id) {
-        return "review-detail";
+    @GetMapping("/see/{id}}")
+    public String getReview(@PathVariable(value = "id") Long id, Model model) {
+        model.addAttribute("id", id);
+        Review review = reviewService.getReview(id);
+        if (review != null) {
+            model.addAttribute("review", review);
+            User userByUserId = userService.findUserByUserId(review.getUserId());
+            if (userByUserId != null) {
+                model.addAttribute("user", userByUserId);
+            }
+            review.setView(1);
+            reviewService.save(review);
+        }
+        return "details-review";
     }
 
 }

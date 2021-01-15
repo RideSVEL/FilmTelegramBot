@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.ActionType;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaPhoto;
 import serejka.telegram.bot.botapi.Bot;
@@ -34,7 +35,7 @@ public class ReplyToUserService {
         return "Привет, " + message.getFrom().getFirstName() + "!\n Давай пообщаемся! Как у тебя дела?";
     }
 
-    public String replyListMovies(long chatId, List<Movie> movies, Commands commands) {
+    public String replyListMovies(List<Movie> movies, Commands commands) {
         String reply;
 
         reply = "Блин братан, шось не то, звыняй";
@@ -72,7 +73,9 @@ public class ReplyToUserService {
                 log.info("Get movie: {}", movie.toString());
                 List<InputMediaPhoto> list = new ArrayList<>();
                 for (String s : movie.getPathToImages()) {
-                    list.add(new InputMediaPhoto().setMedia(APIConfig.getPathToImage(s)));
+                    InputMediaPhoto inputMediaPhoto = new InputMediaPhoto();
+                    inputMediaPhoto.setMedia(APIConfig.getPathToImage(s));
+                    list.add(inputMediaPhoto);
                 }
                 superBot.sendMediaGroup(chatId, list);
                 superBot.sendChatActionUpdate(chatId, ActionType.TYPING);

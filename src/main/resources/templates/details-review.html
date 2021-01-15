@@ -6,28 +6,15 @@
 <div th:insert="blocks/header :: header"></div>
 <main role="main" class="container">
     <div class="jumbotron">
-        <table id="users_table" class="table table-danger table-bordered table-hover table-striped ">
-            <thead class="thead-dark">
-            <tr>
-                <th>ID</th>
-                <th>USER ID</th>
-                <th>REVIEW</th>
-                <th>DATE</th>
-                <th>DETAILS</th>
-            </tr>
-            </thead>
-            <tbody th:each="review : ${reviews}">
-            <tr>
-                <td scope="row" th:text="${review.id}"></td>
-                <td scope="col" th:text="${review.userId}"></td>
-                <td scope="col" th:text="${review.review}"></td>
-                <td scope="col" th:text="${review.date}"></td>
-                <td scope="col">
-                    <a th:href="'/see/' + ${review.id}" class="btn btn-success">GET DETAILS</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+        <h1></h1>
+        <div th:if="${id}"><h1 th:text="'Review from - ' + ${id}"></h1></div>
+        <h1></h1>
+        <div th:if="${user.userName}"><h1 th:text="'With name - ' + ${user.userName}"></h1></div>
+        <h1></h1>
+        <div th:if="${user.lastName}"><h1 th:text="'With lastname - ' + ${user.lastName}"></h1></div>
+        <label for="message">Review: </label>
+        <p id="message" th:text="${review.review}"></p>
+        <p id="date" th:text="${review.date}"></p>
     </div>
 </main>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

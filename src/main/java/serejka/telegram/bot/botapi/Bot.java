@@ -68,7 +68,7 @@ public class Bot extends TelegramWebhookBot {
     public void sendMediaGroup(long chatId, List<InputMediaPhoto> inputMediaPhotos) {
         SendMediaGroup sendMediaGroup = new SendMediaGroup();
         sendMediaGroup.setMedia(Collections.unmodifiableList(inputMediaPhotos));
-        sendMediaGroup.setChatId(chatId);
+        sendMediaGroup.setChatId(String.valueOf(chatId));
         try {
             execute(sendMediaGroup);
         } catch (TelegramApiException e) {
@@ -78,7 +78,7 @@ public class Bot extends TelegramWebhookBot {
 
     public void sendMessageByAdmin(long chatId, String reply) {
         SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(chatId);
+        sendMessage.setChatId(String.valueOf(chatId));
         sendMessage.setParseMode("html");
         sendMessage.setText(reply);
         try {
@@ -90,7 +90,7 @@ public class Bot extends TelegramWebhookBot {
 
     public void sendChatActionUpdate(long chatId, ActionType type) {
         SendChatAction sendChatAction = new SendChatAction();
-        sendChatAction.setChatId(chatId);
+        sendChatAction.setChatId(String.valueOf(chatId));
         sendChatAction.setAction(type);
         try {
             execute(sendChatAction);

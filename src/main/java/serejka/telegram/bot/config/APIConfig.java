@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class APIConfig {
 
-    private static final String API_KEY_V3 = "lala";
+    private static final String API_KEY_V3 = "948e6670159df009cc3be4b3cbab0697";
     private static final String API_MOVIE = "https://api.themoviedb.org/3/movie/";
     private static final String API_KEY = "?api_key=" + API_KEY_V3;
     private static final String API_IMAGES = "&append_to_response=images&include_image_language=en,null,ru";

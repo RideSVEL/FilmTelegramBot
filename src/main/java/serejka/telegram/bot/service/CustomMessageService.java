@@ -1,16 +1,15 @@
 package serejka.telegram.bot.service;
 
-import org.slf4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import serejka.telegram.bot.botapi.Bot;
 import serejka.telegram.bot.models.User;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class CustomMessageService {
-
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(CustomMessageService.class);
 
     private final UserService userService;
     private final Bot superBot;

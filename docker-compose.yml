@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+  db:
+    image: oscarfonts/h2:1.4.199
+    restart: always
+    container_name: data
+    volumes:
+      - ./database:/opt/h2-data
+    ports:
+      - 1521:1521
+      - 81:81
