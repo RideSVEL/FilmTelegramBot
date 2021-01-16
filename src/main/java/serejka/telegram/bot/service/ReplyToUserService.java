@@ -1,10 +1,9 @@
 package serejka.telegram.bot.service;
 
-import org.slf4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.ActionType;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaPhoto;
 import serejka.telegram.bot.botapi.Bot;
@@ -12,9 +11,11 @@ import serejka.telegram.bot.botapi.Commands;
 import serejka.telegram.bot.config.APIConfig;
 import serejka.telegram.bot.models.Movie;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 public class ReplyToUserService {
 
@@ -27,8 +28,6 @@ public class ReplyToUserService {
         this.superBot = superBot;
         this.userService = userService;
     }
-
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(ReplyToUserService.class);
 
     public String replyStart(Message message) {
         userService.checkAndSave(message);
@@ -43,9 +42,11 @@ public class ReplyToUserService {
             log.info("Get movie: {}", movies.toString());
             StringBuilder sb = new StringBuilder();
             if (commands == Commands.TOPDAY)
-            sb.append("<em>Популярные фильмы на сегодня:</em>");
+                sb.append("<em>Популярные фильмы на сегодня:</em>");
             if (commands == Commands.TOPWEEK)
                 sb.append("<em>Лучшее за наделю:</em>");
+            if (commands == Commands.TOP)
+                sb.append("<em>Пользуются спросом большой промежуток времени:</em>");
             for (int i = 0; i < movies.size(); i++) {
                 Movie movie = movies.get(i);
                 sb.append("\n\n<b>").append(i + 1).append(". <em>").append(movie.getTitle()).append(" (")
@@ -66,9 +67,11 @@ public class ReplyToUserService {
         String reply;
         try {
             Movie movie = parserService.parseMovie(Integer.parseInt(filmId));
+            log.info(movie.toString());
             reply = "Братан, я пока не умею отвечать на такие сообщения\n" +
                     "Надо чуточку потерпеть..";
             if (movie != null) {
+                log.info(movie.toString());
                 superBot.sendChatActionUpdate(chatId, ActionType.UPLOADPHOTO);
                 log.info("Get movie: {}", movie.toString());
                 List<InputMediaPhoto> list = new ArrayList<>();
@@ -103,7 +106,7 @@ public class ReplyToUserService {
             sb.append(s).append(", ");
         }
         sb.delete(sb.length() - 2, sb.length() - 1);
-        sb.append("\nПремьера: ").append(movie.getPremiere());
+        sb.append("\nПремьера: ").append(movie.getReleaseDate());
         sb.append("\nБюджет: ").append(movie.getBudget()).append("$");
         sb.append("\nПродолжительность: ").append(movie.getRuntime()).append(" мин.");
         sb.append("\nОригинальное навание: ").append(movie.getOriginalTitle());

@@ -1,5 +1,6 @@
 package serejka.telegram.bot.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import serejka.telegram.bot.botapi.Bot;
@@ -9,15 +10,11 @@ import java.util.List;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class CustomMessageService {
 
     private final UserService userService;
     private final Bot superBot;
-
-    public CustomMessageService(UserService userService, Bot superBot) {
-        this.userService = userService;
-        this.superBot = superBot;
-    }
 
     public void sendCustomMessageToUser(long chatId, String reply) {
         superBot.sendMessageByAdmin(chatId, reply);

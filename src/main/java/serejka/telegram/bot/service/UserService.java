@@ -1,7 +1,6 @@
 package serejka.telegram.bot.service;
 
-import org.slf4j.Logger;
-
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import serejka.telegram.bot.models.User;
@@ -9,10 +8,9 @@ import serejka.telegram.bot.repository.UserRepository;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class UserService {
-
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(UserService.class);
 
     private final UserRepository userRepository;
 

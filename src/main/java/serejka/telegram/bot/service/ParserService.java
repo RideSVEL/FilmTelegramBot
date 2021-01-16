@@ -1,13 +1,13 @@
 package serejka.telegram.bot.service;
 
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.slf4j.Logger;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import serejka.telegram.bot.botapi.Commands;
 import serejka.telegram.bot.config.APIConfig;
 import serejka.telegram.bot.models.Movie;
@@ -20,26 +20,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+@Slf4j
 @Service
 public class ParserService {
 
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(ParserService.class);
+    private final RestTemplate restTemplate;
 
-
-    private static String getResponse(String request) {
-        Unirest.setTimeouts(0, 0);
-        HttpResponse<String> response = null;
-        try {
-            response = Unirest.get(request).asString();
-            log.info("Get response from API with code {}", response.getStatus());
-        } catch (UnirestException e) {
-            e.printStackTrace();
-        }
-        if (response != null) {
-            return response.getBody();
-        } else {
-            return null;
-        }
+    public ParserService() {
+        this.restTemplate = new RestTemplate();
     }
 
     private static String getGenreById(Integer key) throws IOException {
@@ -52,42 +40,39 @@ public class ParserService {
     }
 
     public List<Movie> getListMovies(Commands commands) throws IOException {
-        String response = null;
+        ResponseEntity<String> entity;
         int number = 5;
         switch (commands) {
-            case TOPDAY -> response = getResponse(APIConfig.getDayMovie());
-            case TOPWEEK -> response = getResponse(APIConfig.getWeekMovie());
+            case TOPDAY -> entity = restTemplate.getForEntity(APIConfig.getDayMovie(), String.class);
+            case TOPWEEK -> entity = restTemplate.getForEntity(APIConfig.getWeekMovie(), String.class);
             case TOP -> {
-                response = getResponse(APIConfig.getTop());
-                number = 15;
+                entity = restTemplate.getForEntity(APIConfig.getTop(), String.class);
+                number = 8;
+            }
+            default -> {
+                return null;
             }
         }
-        if (response != null) {
-            List<Movie> movies = new ArrayList<>();
-            JSONObject jsonObject = new JSONObject(response);
-            JSONArray results = jsonObject.getJSONArray("results");
-            for (int i = 0; i < number; i++) {
-                JSONObject temp = results.getJSONObject(i);
-                Movie movie = new Movie();
-                movie.setId(temp.getInt("id"));
-                movie.setTitle(temp.getString("title"));
-                movie.setYear(temp.getString("release_date").split("-")[0]);
-                movie.setVoteAverage(temp.getFloat("vote_average"));
-                JSONArray jsonArray = temp.getJSONArray("genre_ids");
-                List<String> genres = new ArrayList<>();
-                for (int j = 0; j < jsonArray.length(); j++) {
-                    genres.add(getGenreById((Integer) jsonArray.get(j)));
-                }
-                movie.setGenres(genres);
-                movies.add(movie);
+        List<Movie> movies = new ArrayList<>();
+        JSONObject jsonObject = new JSONObject(entity.getBody());
+        JSONArray results = jsonObject.getJSONArray("results");
+        for (int i = 0; i < number; i++) {
+            JSONObject temp = results.getJSONObject(i);
+            Movie movie = new ObjectMapper().readValue(temp.toString(), Movie.class);
+            movie.setYear(temp.getString("release_date").split("-")[0]);
+            JSONArray jsonArray = temp.getJSONArray("genre_ids");
+            List<String> genres = new ArrayList<>();
+            for (int j = 0; j < jsonArray.length(); j++) {
+                genres.add(getGenreById((Integer) jsonArray.get(j)));
             }
-            return movies;
+            movie.setGenres(genres);
+            movies.add(movie);
         }
-        return null;
+        return movies;
     }
 
     public Movie parseMovie(Integer id) {
-        String response = getResponse(APIConfig.getMovieRequest(id));
+        String response = restTemplate.getForEntity(APIConfig.getMovieRequest(id), String.class).getBody();
         if (response != null) {
             Movie movie = new Movie();
             try {
@@ -100,7 +85,7 @@ public class ParserService {
                 movie.setTitle(jsonObject.getString("title"));
                 movie.setVotes(jsonObject.getInt("vote_count"));
                 movie.setVoteAverage(jsonObject.getFloat("vote_average"));
-                movie.setPremiere(jsonObject.getString("release_date"));
+                movie.setReleaseDate(jsonObject.getString("release_date"));
                 JSONArray genresJSON = jsonObject.getJSONArray("genres");
                 List<String> genres = new ArrayList<>();
                 for (int i = 0; i < genresJSON.length(); i++) {
@@ -131,7 +116,6 @@ public class ParserService {
         } else {
             return null;
         }
-
     }
 
 }

@@ -1,10 +1,12 @@
 package serejka.telegram.bot.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 @NoArgsConstructor
 public class Movie {
@@ -15,7 +17,7 @@ public class Movie {
     private String overview;
     private List<String> genres;
     private String year;
-    private String premiere;
+    private String releaseDate;
     private List<String> country;
     private int runtime;
     private float voteAverage;

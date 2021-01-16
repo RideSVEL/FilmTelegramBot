@@ -1,29 +1,34 @@
 package serejka.telegram.bot.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import serejka.telegram.bot.botapi.Commands;
 import serejka.telegram.bot.models.Stats;
 import serejka.telegram.bot.repository.StatsRepository;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class StatisticsService {
 
     private final StatsRepository statsRepository;
 
-    public StatisticsService(StatsRepository statsRepository) {
-        this.statsRepository = statsRepository;
-    }
-
-    public void updateCountCommand(Integer id) {
-        Optional<Stats> stats = statsRepository.findById(id);
-        List<Stats> list = new ArrayList<>();
-        stats.ifPresent(list::add);
-        Stats temp = list.get(0);
-        temp.setCount(temp.getCount() + 1);
-        statsRepository.save(temp);
+    public void updateCountCommand(Commands command) {
+        Stats stats1;
+        if (command != null) {
+            Optional<Stats> stats = statsRepository.findByCommandName(command.getCommand());
+            stats1 = stats.orElseGet(
+                    Stats::new);
+            stats1.setCommandName(command.getCommand());
+        } else {
+            Optional<Stats> byCommandName
+                    = statsRepository.findByCommandName(Commands.OTHER.getCommand());
+            stats1 = byCommandName.orElseGet(
+                    Stats::new);
+            stats1.setCommandName(Commands.OTHER.getCommand());
+        }
+        stats1.setCount(stats1.getCount() + 1);
+        statsRepository.save(stats1);
     }
 }

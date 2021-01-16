@@ -4,12 +4,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import serejka.telegram.bot.models.Review;
 import serejka.telegram.bot.models.User;
 import serejka.telegram.bot.service.ReviewService;
 import serejka.telegram.bot.service.UserService;
 
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -26,6 +26,7 @@ public class ReviewController {
     @GetMapping("/reviews/new")
     public String getNewReviews(Model model) {
         List<Review> newReviews = reviewService.getNewReviews();
+        Collections.reverse(newReviews);
         model.addAttribute("reviews", newReviews);
         model.addAttribute("activeNew", true);
         model.addAttribute("title", "New reviews");

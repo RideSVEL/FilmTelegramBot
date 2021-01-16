@@ -11,7 +11,6 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-
 import serejka.telegram.bot.cache.UserDataCache;
 import serejka.telegram.bot.models.Movie;
 import serejka.telegram.bot.models.Review;
@@ -57,7 +56,6 @@ public class Facade {
                     callbackQuery.getFrom().getUserName(), callbackQuery.getData());
             return sendMsg(callbackQuery.getFrom().getId(),
                     replyToUserService.replyMovie(callbackQuery.getFrom().getId(), callbackQuery.getData()));
-
         }
 
         Message message = update.getMessage();
@@ -76,6 +74,8 @@ public class Facade {
     private SendMessage handleInputMessage(Message message) throws IOException {
         String reply;
         List<Movie> movies;
+        Commands name = Commands.getName(message.getText());
+        statisticsService.updateCountCommand(name);
         switch (message.getText()) {
             case "/start" -> reply = replyToUserService.replyStart(message);
             case "/help" -> reply = "Я тебе всегда помогу!";
@@ -90,6 +90,12 @@ public class Facade {
                 superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
                 movies = parserService.getListMovies(Commands.TOPDAY);
                 reply = replyToUserService.replyListMovies(movies, Commands.TOPDAY);
+                return sendMsg(message.getChatId(), reply, getInlineMessageButtons(movies));
+            }
+            case "/top" -> {
+                superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
+                movies = parserService.getListMovies(Commands.TOP);
+                reply = replyToUserService.replyListMovies(movies, Commands.TOP);
                 return sendMsg(message.getChatId(), reply, getInlineMessageButtons(movies));
             }
             case "/review" -> {

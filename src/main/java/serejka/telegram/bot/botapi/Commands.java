@@ -1,7 +1,10 @@
 package serejka.telegram.bot.botapi;
 
 public enum Commands {
-    TOPDAY("/topday"), TOPWEEK("/topweek"), TOP("/top"), START("/start"), HELP("/help");
+
+    TOPDAY("/topday"), TOPWEEK("/topweek"), TOP("/top"),
+    START("/start"), HELP("/help"), OTHER("other"),
+    REVIEW("/review"), CANCEL("/cancel");
 
     Commands(String command) {
         this.command = command;
@@ -13,14 +16,14 @@ public enum Commands {
         return command;
     }
 
-//    public static Commands getName(String command) {
-//        for (Commands commands : Commands.values()) {
-//            if (commands.getCommand().equals(command)) {
-//                return commands;
-//            }
-//        }
-//        return null;
-//    }
+    public static Commands getName(String command) {
+        for (Commands commands : Commands.values()) {
+            if (commands.getCommand().equals(command)) {
+                return commands;
+            }
+        }
+        return null;
+    }
 
 
 }

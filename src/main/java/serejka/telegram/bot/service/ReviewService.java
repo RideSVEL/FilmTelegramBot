@@ -1,5 +1,6 @@
 package serejka.telegram.bot.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import serejka.telegram.bot.models.Review;
@@ -8,11 +9,11 @@ import serejka.telegram.bot.repository.ReviewRepository;
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class ReviewService {
 
-    @Autowired
-    private ReviewRepository reviewRepository;
+    private final ReviewRepository reviewRepository;
 
     public void save(Review review) {
         reviewRepository.save(review);

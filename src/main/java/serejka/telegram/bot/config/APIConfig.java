@@ -53,6 +53,6 @@ public class APIConfig {
     }
 
     public static String getTop() {
-        return "";
+        return API_MOVIE + "popular" + API_KEY + API_LANGUAGE;
     }
 }
