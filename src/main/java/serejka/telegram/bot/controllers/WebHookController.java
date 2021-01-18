@@ -1,17 +1,15 @@
 package serejka.telegram.bot.controllers;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import serejka.telegram.bot.botapi.Bot;
 
+@RequiredArgsConstructor
 @RestController
 public class WebHookController {
     private final Bot superBot;
-
-    public WebHookController(Bot superBot) {
-        this.superBot = superBot;
-    }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public BotApiMethod<?> onUpdateReceived(@RequestBody Update update) {

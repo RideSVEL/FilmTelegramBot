@@ -1,5 +1,6 @@
 package serejka.telegram.bot.controllers;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,14 +9,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import serejka.telegram.bot.service.CustomMessageService;
 
+@RequiredArgsConstructor
 @Controller
 public class MessageController {
 
     private final CustomMessageService customMessageService;
-
-    public MessageController(CustomMessageService customMessageService) {
-        this.customMessageService = customMessageService;
-    }
 
     @GetMapping("/message/{id}")
     public String customMessageToUser(@PathVariable(value = "id") Long id, Model model) {

@@ -6,6 +6,7 @@ import serejka.telegram.bot.botapi.Commands;
 import serejka.telegram.bot.models.Stats;
 import serejka.telegram.bot.repository.StatsRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -13,6 +14,10 @@ import java.util.Optional;
 public class StatisticsService {
 
     private final StatsRepository statsRepository;
+
+    public List<Stats> findAllStatsCommand() {
+        return statsRepository.findAll();
+    }
 
     public void updateCountCommand(Commands command) {
         Stats stats1;
