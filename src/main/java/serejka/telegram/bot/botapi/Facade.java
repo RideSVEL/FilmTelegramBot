@@ -77,35 +77,40 @@ public class Facade {
         Commands name = Commands.getName(message.getText());
         statisticsService.updateCountCommand(name);
         switch (message.getText()) {
-            case "/start" -> reply = replyToUserService.replyStart(message);
-            case "/help" -> reply = "Я тебе всегда помогу!";
-            case "Привет" -> reply = "И снова мы здороваемся!";
-            case "/topweek" -> {
+            case "/start":
+                reply = replyToUserService.replyStart(message);
+                break;
+            case "/help":
+                reply = "Я тебе всегда помогу!";
+                break;
+            case "Привет":
+                reply = "И снова мы здороваемся!";
+                break;
+            case "/topweek":
                 superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
                 movies = parserService.getListMovies(Commands.TOPWEEK);
                 reply = replyToUserService.replyListMovies(movies, Commands.TOPWEEK);
                 return sendMsg(message.getChatId(), reply, getInlineMessageButtons(movies));
-            }
-            case "/topday" -> {
+            case "/topday":
                 superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
                 movies = parserService.getListMovies(Commands.TOPDAY);
                 reply = replyToUserService.replyListMovies(movies, Commands.TOPDAY);
                 return sendMsg(message.getChatId(), reply, getInlineMessageButtons(movies));
-            }
-            case "/top" -> {
+            case "/top":
                 superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
                 movies = parserService.getListMovies(Commands.TOP);
                 reply = replyToUserService.replyListMovies(movies, Commands.TOP);
                 return sendMsg(message.getChatId(), reply, getInlineMessageButtons(movies));
-            }
-            case "/review" -> {
+            case "/review":
                 superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
                 reply = "Я рад, что ты решил оставить отзыв о нашем боте," +
                         " отправь свои пожелания\uD83D\uDE0C" +
                         "\nЛибо можешь отменить операцию командой - /cancel\uD83D\uDE15";
                 userDataCache.setUserState(message.getFrom().getId(), BotState.REVIEW);
-            }
-            default -> reply = replyToUserService.replyMovie(message.getChatId(), message.getText());
+                break;
+            default:
+                reply = replyToUserService.replyMovie(message.getChatId(), message.getText());
+                break;
         }
         return sendMsg(message.getChatId(), reply);
     }
@@ -115,7 +120,7 @@ public class Facade {
         BotState botState = userDataCache.getUserBotState(message.getFrom().getId());
         if (botState != null) {
             switch (botState) {
-                case REVIEW -> {
+                case REVIEW:
                     if (message.getText().equals("/cancel")) {
                         userDataCache.deleteStateUser(message.getFrom().getId());
                         return sendMsg(message.getChatId(), "Жаль, что ты передумал(");
@@ -139,8 +144,10 @@ public class Facade {
                         reply = "Шось не то, прости пожалуйста((";
                         userDataCache.deleteStateUser(message.getFrom().getId());
                     }
-                }
-                case SEARCH -> reply = "Результаты поиска: ";
+                    break;
+                case SEARCH:
+                    reply = "Результаты поиска: ";
+                    break;
             }
         } else {
             reply = "Братик, звыняй, мои мозги пока пытаются обработать эту инфу, но шось не получается..";
