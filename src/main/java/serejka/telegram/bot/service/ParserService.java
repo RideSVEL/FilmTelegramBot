@@ -43,15 +43,18 @@ public class ParserService {
         ResponseEntity<String> entity;
         int number = 5;
         switch (commands) {
-            case TOPDAY -> entity = restTemplate.getForEntity(APIConfig.getDayMovie(), String.class);
-            case TOPWEEK -> entity = restTemplate.getForEntity(APIConfig.getWeekMovie(), String.class);
-            case TOP -> {
+            case TOPDAY:
+                entity = restTemplate.getForEntity(APIConfig.getDayMovie(), String.class);
+                break;
+            case TOPWEEK:
+                entity = restTemplate.getForEntity(APIConfig.getWeekMovie(), String.class);
+                break;
+            case TOP:
                 entity = restTemplate.getForEntity(APIConfig.getTop(), String.class);
                 number = 8;
-            }
-            default -> {
+                break;
+            default:
                 return null;
-            }
         }
         List<Movie> movies = new ArrayList<>();
         JSONObject jsonObject = new JSONObject(entity.getBody());

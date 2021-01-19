@@ -6,7 +6,7 @@ plugins {
 
 group = 'serejka.telegram.bot'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '15'
+sourceCompatibility = '8'
 
 repositories {
     mavenCentral()
@@ -24,7 +24,6 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
     compile group: 'com.h2database', name: 'h2', version: '1.4.200'
     compile group: 'org.telegram', name: 'telegrambots-spring-boot-starter', version: '4.9.2'
-//	compile group: 'org.postgresql', name: 'postgresql', version: '42.2.12'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
