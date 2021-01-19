@@ -1,31 +1,38 @@
 package serejka.telegram.bot.plug;
 
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
+@EnableScheduling
 @Slf4j
-@Data
 @Service
 public class Pings {
 
-    @Value("${google.com}")
+    @Value("${api.request}")
     private String url;
 
-    @Scheduled(cron = "0 20 * * * *")
-    public void ping() throws IOException {
-        log.info("ping ping ping");
-        URL url = new URL(getUrl());
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.connect();
-        log.info("Ping {}, OK - response code {}", url.getHost(), connection.getResponseCode());
-        connection.disconnect();
+    private final RestTemplate rest;
+
+    public Pings() {
+        rest = new RestTemplate();
+    }
+
+    @Scheduled(fixedRate = 1200000)
+    public void ping() {
+        try {
+            ResponseEntity<String> forEntity = rest.getForEntity(url, String.class);
+            log.info("Get response with status - {}, with body - {} ",
+                    forEntity.getStatusCode(), forEntity.getBody());
+        } catch (Exception e) {
+            log.info("Bad request");
+            e.printStackTrace();
+        }
+
     }
 
 }
