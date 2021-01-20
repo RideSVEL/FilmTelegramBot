@@ -11,7 +11,7 @@ import serejka.telegram.bot.botapi.Bot;
 public class WebHookController {
     private final Bot superBot;
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @PostMapping("/")
     public BotApiMethod<?> onUpdateReceived(@RequestBody Update update) {
         return superBot.onWebhookUpdateReceived(update);
     }
