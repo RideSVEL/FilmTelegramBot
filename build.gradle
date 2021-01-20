@@ -20,9 +20,8 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
+    compile group: 'org.postgresql', name: 'postgresql', version: '42.2.18'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    runtimeOnly 'com.h2database:h2'
-    compile group: 'com.h2database', name: 'h2', version: '1.4.200'
     compile group: 'org.telegram', name: 'telegrambots-spring-boot-starter', version: '4.9.2'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
