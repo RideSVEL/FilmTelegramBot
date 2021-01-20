@@ -17,7 +17,7 @@ public class UsersController {
 
     @GetMapping("/")
     public String redirect() {
-        return "redirect:/users";
+        return "Hello";
     }
 
     @GetMapping("/users")
