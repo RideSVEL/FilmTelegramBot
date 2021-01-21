@@ -1,7 +1,47 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:insert="blocks/head :: head"></div>
 <head>
-    <title>Spring Security Example </title>
+    <style>
+        .form-login {
+            position: relative;
+            width: 330px;
+            height: 330px;
+            top: 50%;
+            left: 50%;
+            margin-top: 300px;
+            margin-left: -170px;
+            background: #ffffff;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, .1);
+            -webkit-animation-name: bounceIn;
+            -webkit-animation-fill-mode: both;
+            -webkit-animation-duration: 1s;
+            -webkit-animation-iteration-count: 1;
+            -webkit-animation-timing-function: linear;
+            -moz-animation-name: bounceIn;
+            -moz-animation-fill-mode: both;
+            -moz-animation-duration: 1s;
+            -moz-animation-iteration-count: 1;
+            -moz-animation-timing-function: linear;
+            animation-name: bounceIn;
+            animation-fill-mode: both;
+            animation-duration: 1s;
+            animation-iteration-count: 1;
+            animation-timing-function: linear;
+        }
+
+        .login-page {
+            color: #06051b;
+            text-align: center;
+            position: relative;
+            width: 250px;
+            padding: 10% 0 0;
+            margin: 0 auto;
+
+        }
+    </style>
 </head>
 <body>
 <div th:if="${param.error}">
@@ -10,10 +50,38 @@
 <div th:if="${param.logout}">
     You have been logged out.
 </div>
-<form th:action="@{/login}" method="post">
-    <div><label> User Name : <input type="text" name="username"/> </label></div>
-    <div><label> Password: <input type="password" name="password"/> </label></div>
-    <div><input type="submit" value="Sign In"/></div>
-</form>
+<div class="form-login">
+    <div class="login-page">
+        <form th:action="@{/login}" method="post" target="_parent">
+            <div class="form-group ">
+                <label for="login">Username</label>
+                <div class="input-group shadow-lg">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">@</span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+                           aria-describedby="basic-addon1" name="username" id="login" required
+                           pattern="[\w&#1072;-&#1103;&#1040;-&#1071;]{5,20}">
+                </div>
+            </div>
+            <div class="form-group ">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" class="form-control shadow-lg"
+                       placeholder="Password" required pattern="[\w&#1072;-&#1103;&#1040;-&#1071;]{5,20}"/>
+            </div>
+            <input type="submit" class="btn btn-success btn-block shadow-lg"
+                   value="Sign in">
+        </form>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
 </body>
 </html>
