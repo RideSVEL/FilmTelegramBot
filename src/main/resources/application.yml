@@ -1,0 +1,28 @@
+server:
+  port: 5000
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true # set false for production
+  datasource:
+    url: 'jdbc:postgresql://ec2-54-170-109-0.eu-west-1.compute.amazonaws.com:5432/dd0euod6do05sh'
+    username: 'enbnpntsdyvpme'
+    password: '04f1d68258a32b674d75e018702254062850407100bb9e313169bd13f6bd102f'
+    hikari:
+      minimumIdle: 5
+      maximumPoolSize: 40
+      idleTimeout: 30000
+      maxLifetime: 2000000
+      connectionTimeout: 30000
+      poolName: Telegram
+
+telegrambot:
+  botUsername: '@Botting_bot_bot'
+  botToken: '1196132719:AAFavCJ8hdXjLOarub2MsQANwDqP6urzfpQ'
+  webHookPath: 'https://7ac4626793a9.ngrok.io'
+
+
+api:
+  request: 'https://official-joke-api.appspot.com/jokes/programming/random'

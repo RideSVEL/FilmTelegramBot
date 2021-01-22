@@ -1,6 +1,6 @@
 package serejka.telegram.bot.botapi;
 
-import org.slf4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.ActionType;
@@ -23,9 +23,10 @@ import java.util.Date;
 import java.util.List;
 
 
+@Slf4j
 @Component
 public class Facade {
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(Facade.class);
+
 
     private final ReplyToUserService replyToUserService;
     private final ParserService parserService;
@@ -73,46 +74,43 @@ public class Facade {
 
     private SendMessage handleInputMessage(Message message) throws IOException {
         String reply;
-        List<Movie> movies;
-        Commands name = Commands.getName(message.getText());
-        statisticsService.updateCountCommand(name);
+        updateStatisticCommand(message);
         switch (message.getText()) {
-            case "/start":
-                reply = replyToUserService.replyStart(message);
-                break;
-            case "/help":
-                reply = "Я тебе всегда помогу!";
-                break;
-            case "Привет":
-                reply = "И снова мы здороваемся!";
-                break;
-            case "/topweek":
-                superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
-                movies = parserService.getListMovies(Commands.TOPWEEK);
-                reply = replyToUserService.replyListMovies(movies, Commands.TOPWEEK);
-                return sendMsg(message.getChatId(), reply, getInlineMessageButtons(movies));
-            case "/topday":
-                superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
-                movies = parserService.getListMovies(Commands.TOPDAY);
-                reply = replyToUserService.replyListMovies(movies, Commands.TOPDAY);
-                return sendMsg(message.getChatId(), reply, getInlineMessageButtons(movies));
-            case "/top":
-                superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
-                movies = parserService.getListMovies(Commands.TOP);
-                reply = replyToUserService.replyListMovies(movies, Commands.TOP);
-                return sendMsg(message.getChatId(), reply, getInlineMessageButtons(movies));
-            case "/review":
+            case "/start" -> reply = replyToUserService.replyStart(message);
+            case "/help" -> reply = "Я тебе всегда помогу!";
+            case "Привет" -> reply = "И снова мы здороваемся!";
+            case "/topweek" -> {
+                return sendListMovies(Commands.TOPWEEK, message);
+            }
+            case "/topday" -> {
+                return sendListMovies(Commands.TOPDAY, message);
+            }
+            case "/top" -> {
+                return sendListMovies(Commands.TOP, message);
+            }
+            case "/review" -> {
                 superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
                 reply = "Я рад, что ты решил оставить отзыв о нашем боте," +
                         " отправь свои пожелания\uD83D\uDE0C" +
                         "\nЛибо можешь отменить операцию командой - /cancel\uD83D\uDE15";
                 userDataCache.setUserState(message.getFrom().getId(), BotState.REVIEW);
-                break;
-            default:
-                reply = replyToUserService.replyMovie(message.getChatId(), message.getText());
-                break;
+            }
+            default -> reply = replyToUserService.replyMovie(message.getChatId(), message.getText());
         }
         return sendMsg(message.getChatId(), reply);
+    }
+
+    private void updateStatisticCommand(Message message) {
+        Commands name = Commands.getName(message.getText());
+        statisticsService.updateCountCommand(name);
+    }
+
+    private SendMessage sendListMovies(Commands command, Message message) throws IOException {
+        List<Movie> movies;
+        superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
+        movies = parserService.getListMovies(command);
+        String reply = replyToUserService.replyListMovies(movies, command);
+        return sendMsg(message.getChatId(), reply, getInlineMessageButtons(movies));
     }
 
     private SendMessage handleBotStateMessage(Message message) {
@@ -120,7 +118,7 @@ public class Facade {
         BotState botState = userDataCache.getUserBotState(message.getFrom().getId());
         if (botState != null) {
             switch (botState) {
-                case REVIEW:
+                case REVIEW -> {
                     if (message.getText().equals("/cancel")) {
                         userDataCache.deleteStateUser(message.getFrom().getId());
                         return sendMsg(message.getChatId(), "Жаль, что ты передумал(");
@@ -144,10 +142,8 @@ public class Facade {
                         reply = "Шось не то, прости пожалуйста((";
                         userDataCache.deleteStateUser(message.getFrom().getId());
                     }
-                    break;
-                case SEARCH:
-                    reply = "Результаты поиска: ";
-                    break;
+                }
+                case SEARCH -> reply = "Результаты поиска: ";
             }
         } else {
             reply = "Братик, звыняй, мои мозги пока пытаются обработать эту инфу, но шось не получается..";
