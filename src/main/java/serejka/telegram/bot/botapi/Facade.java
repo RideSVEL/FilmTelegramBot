@@ -104,7 +104,8 @@ public class Facade {
                         " отправь свои пожелания\uD83D\uDE0C" +
                         "\nЛибо можешь отменить операцию командой - /cancel\uD83D\uDE15";
                 userDataCache.setUserState(message.getFrom().getId(), BotState.REVIEW);
-                break;
+                return keyboardService.getMainKeyboard(message.getChatId(),
+                        reply, Commands.REVIEW);
             default:
                 reply = replyToUserService.replyMovie(message.getChatId(), message.getText());
                 break;
