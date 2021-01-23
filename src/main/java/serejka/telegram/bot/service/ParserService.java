@@ -63,6 +63,7 @@ public class ParserService {
             JSONObject temp = results.getJSONObject(i);
             Movie movie = new ObjectMapper().readValue(temp.toString(), Movie.class);
             movie.setYear(temp.getString("release_date").split("-")[0]);
+            movie.setVoteAverage(temp.getFloat("vote_average"));
             JSONArray jsonArray = temp.getJSONArray("genre_ids");
             List<String> genres = new ArrayList<>();
             for (int j = 0; j < jsonArray.length(); j++) {
@@ -75,7 +76,12 @@ public class ParserService {
     }
 
     public Movie parseMovie(Integer id) {
-        String response = restTemplate.getForEntity(APIConfig.getMovieRequest(id), String.class).getBody();
+        String response;
+        try {
+            response = restTemplate.getForEntity(APIConfig.getMovieRequest(id), String.class).getBody();
+        } catch (Exception e) {
+            return null;
+        }
         if (response != null) {
             Movie movie = new Movie();
             try {

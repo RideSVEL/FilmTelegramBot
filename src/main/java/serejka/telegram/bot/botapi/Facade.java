@@ -35,10 +35,12 @@ public class Facade {
     private final UserDataCache userDataCache;
     private final ReviewService reviewService;
     private final UserService userService;
+    private final KeyboardService keyboardService;
+
 
     public Facade(ReplyToUserService replyToUserService, ParserService parserService,
                   StatisticsService statisticsService, @Lazy Bot superBot,
-                  UserDataCache userDataCache, ReviewService reviewService, UserService userService) {
+                  UserDataCache userDataCache, ReviewService reviewService, UserService userService, KeyboardService keyboardService) {
         this.replyToUserService = replyToUserService;
         this.parserService = parserService;
         this.statisticsService = statisticsService;
@@ -46,6 +48,7 @@ public class Facade {
         this.userDataCache = userDataCache;
         this.reviewService = reviewService;
         this.userService = userService;
+        this.keyboardService = keyboardService;
     }
 
     public BotApiMethod<?> handle(Update update) throws IOException {
@@ -76,28 +79,39 @@ public class Facade {
         String reply;
         updateStatisticCommand(message);
         switch (message.getText()) {
-            case "/start" -> reply = replyToUserService.replyStart(message);
-            case "/help" -> reply = "Я тебе всегда помогу!";
-            case "Привет" -> reply = "И снова мы здороваемся!";
-            case "/topweek" -> {
+            case "/start":
+                return keyboardService.getMainKeyboard(message.getChatId(),
+                        replyToUserService.replyStart(message), Commands.START);
+            case "Помощь\uD83C\uDD98":
+            case "/help":
+                reply = "Я тебе всегда помогу!";
+                break;
+            case "Привет":
+                reply = "И снова мы здороваемся!";
+                break;
+            case "TOP Недели\uD83D\uDE0E":
+            case "/topweek":
                 return sendListMovies(Commands.TOPWEEK, message);
-            }
-            case "/topday" -> {
+            case "Новинки\uD83C\uDD95":
+            case "/topday":
                 return sendListMovies(Commands.TOPDAY, message);
-            }
-            case "/top" -> {
+            case "TOP\uD83D\uDD25":
+            case "Оставить отзыв\uD83D\uDE4B\u200D♂️":
+            case "/top":
                 return sendListMovies(Commands.TOP, message);
-            }
-            case "/review" -> {
+            case "/review":
                 superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
                 reply = "Я рад, что ты решил оставить отзыв о нашем боте," +
                         " отправь свои пожелания\uD83D\uDE0C" +
                         "\nЛибо можешь отменить операцию командой - /cancel\uD83D\uDE15";
                 userDataCache.setUserState(message.getFrom().getId(), BotState.REVIEW);
-            }
-            default -> reply = replyToUserService.replyMovie(message.getChatId(), message.getText());
+                break;
+            default:
+                reply = replyToUserService.replyMovie(message.getChatId(), message.getText());
+                break;
         }
-        return sendMsg(message.getChatId(), reply);
+        return keyboardService.getMainKeyboard(message.getChatId(),
+                reply, Commands.OTHER);
     }
 
     private void updateStatisticCommand(Message message) {

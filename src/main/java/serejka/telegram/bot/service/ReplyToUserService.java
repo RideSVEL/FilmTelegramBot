@@ -37,7 +37,6 @@ public class ReplyToUserService {
 
     public String replyListMovies(List<Movie> movies, Commands commands) {
         String reply;
-
         reply = "Блин братан, шось не то, звыняй";
         if (movies != null) {
             log.info("Get movie: {}", movies.toString());
@@ -45,13 +44,13 @@ public class ReplyToUserService {
             if (commands == Commands.TOPDAY)
                 sb.append("<em>Популярные фильмы на сегодня:</em>");
             if (commands == Commands.TOPWEEK)
-                sb.append("<em>Лучшее за наделю:</em>");
+                sb.append("<em>Лучшее за неделю:</em>");
             if (commands == Commands.TOP)
                 sb.append("<em>Пользуются спросом большой промежуток времени:</em>");
             for (int i = 0; i < movies.size(); i++) {
                 Movie movie = movies.get(i);
                 sb.append("\n\n<b>").append(i + 1).append(". <em>").append(movie.getTitle()).append(" (")
-                        .append(movie.getYear()).append(")</em></b>").append("\nЖанр: ");
+                        .append(movie.getYear()).append(")</em></b>").append(" | ").append(movie.getVoteAverage()).append("\nЖанр: ");
                 for (String genre : movie.getGenres()) {
                     sb.append(genre).append(", ");
                 }
