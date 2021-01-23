@@ -19,9 +19,9 @@ spring:
       poolName: Telegram
 
 telegrambot:
-  botUsername: '@Botting_bot_bot'
-  botToken: '1196132719:AAFavCJ8hdXjLOarub2MsQANwDqP6urzfpQ'
-  webHookPath: 'https://7ac4626793a9.ngrok.io'
+  botUsername: '@behold_filmbot'
+  botToken: ${telegram.token}
+  webHookPath: 'https://beholdfilm.herokuapp.com/'
 
 api:
   request: 'https://official-joke-api.appspot.com/jokes/programming/random'
