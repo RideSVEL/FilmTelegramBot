@@ -8,8 +8,8 @@ spring:
     show-sql: true # set false for production
   datasource:
     url: 'jdbc:postgresql://ec2-54-170-109-0.eu-west-1.compute.amazonaws.com:5432/dd0euod6do05sh'
-    username: 'enbnpntsdyvpme'
-    password: '04f1d68258a32b674d75e018702254062850407100bb9e313169bd13f6bd102f'
+    username: ${jdbc.user}
+    password: ${jdbc.pass}
     hikari:
       minimumIdle: 5
       maximumPoolSize: 40
@@ -22,7 +22,6 @@ telegrambot:
   botUsername: '@behold_filmbot'
   botToken: '755574677:AAELEN-8csuJFV_TdE6K0Ywujs9sBISw7gQ'
   webHookPath: 'https://beholdfilm.herokuapp.com/'
-
 
 api:
   request: 'https://official-joke-api.appspot.com/jokes/programming/random'
