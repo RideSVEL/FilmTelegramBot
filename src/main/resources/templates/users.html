@@ -6,7 +6,8 @@
 <div th:insert="blocks/header :: header"></div>
 <main role="main" class="container">
     <div class="jumbotron">
-        <table id="users_table" class="table table-danger table-bordered table-hover table-striped ">
+        <div class="table-responsive">
+        <table id="users_table" class="table table-danger table-bordered table-hover table-striped">
             <thead class="thead-dark">
             <tr>
                 <th>ID</th>
@@ -30,6 +31,7 @@
             </tr>
             </tbody>
         </table>
+        </div>
     </div>
 </main>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
