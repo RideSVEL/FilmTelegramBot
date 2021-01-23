@@ -27,7 +27,6 @@ import java.util.List;
 @Component
 public class Facade {
 
-
     private final ReplyToUserService replyToUserService;
     private final ParserService parserService;
     private final StatisticsService statisticsService;
@@ -35,10 +34,11 @@ public class Facade {
     private final UserDataCache userDataCache;
     private final ReviewService reviewService;
     private final UserService userService;
+    private final KeyboardService keyboardService;
 
     public Facade(ReplyToUserService replyToUserService, ParserService parserService,
                   StatisticsService statisticsService, @Lazy Bot superBot,
-                  UserDataCache userDataCache, ReviewService reviewService, UserService userService) {
+                  UserDataCache userDataCache, ReviewService reviewService, UserService userService, KeyboardService keyboardService) {
         this.replyToUserService = replyToUserService;
         this.parserService = parserService;
         this.statisticsService = statisticsService;
@@ -46,6 +46,7 @@ public class Facade {
         this.userDataCache = userDataCache;
         this.reviewService = reviewService;
         this.userService = userService;
+        this.keyboardService = keyboardService;
     }
 
     public BotApiMethod<?> handle(Update update) throws IOException {
@@ -72,30 +73,57 @@ public class Facade {
         return reply;
     }
 
+    private SendMessage handleBotStateMessage(Message message) {
+        String reply = null;
+        BotState botState = userDataCache.getUserBotState(message.getFrom().getId());
+        if (botState != null) {
+            switch (botState) {
+                case REVIEW -> {
+                    return reviewLogic(message);
+                }
+                case SEARCH -> reply = "Результаты поиска: ";
+            }
+        } else {
+            reply = "Братик, звыняй, мои мозги пока пытаются обработать эту инфу, но шось не получается..";
+        }
+        return sendMsg(message.getChatId(), reply);
+    }
+
     private SendMessage handleInputMessage(Message message) throws IOException {
         String reply;
         updateStatisticCommand(message);
         switch (message.getText()) {
-            case "/start" -> reply = replyToUserService.replyStart(message);
-            case "/help" -> reply = "Я тебе всегда помогу!";
-            case "Привет" -> reply = "И снова мы здороваемся!";
-            case "/topweek" -> {
+            case "/start":
+                return keyboardService.getMainKeyboard(message.getChatId(),
+                        replyToUserService.replyStart(message), Commands.START);
+            case "Помощь\uD83C\uDD98":
+            case "/help":
+                reply = "Я тебе всегда помогу!";
+                break;
+            case "Привет":
+                reply = "И снова мы здороваемся!";
+                break;
+            case "TOP Недели\uD83D\uDE0E":
+            case "/topweek":
                 return sendListMovies(Commands.TOPWEEK, message);
-            }
-            case "/topday" -> {
+            case "Новинки\uD83C\uDD95":
+            case "/topday":
                 return sendListMovies(Commands.TOPDAY, message);
-            }
-            case "/top" -> {
+            case "TOP\uD83D\uDD25":
+            case "/top":
                 return sendListMovies(Commands.TOP, message);
-            }
-            case "/review" -> {
+            case "Оставить отзыв\uD83D\uDE4B\u200D♂️":
+            case "/review":
                 superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
                 reply = "Я рад, что ты решил оставить отзыв о нашем боте," +
                         " отправь свои пожелания\uD83D\uDE0C" +
                         "\nЛибо можешь отменить операцию командой - /cancel\uD83D\uDE15";
                 userDataCache.setUserState(message.getFrom().getId(), BotState.REVIEW);
-            }
-            default -> reply = replyToUserService.replyMovie(message.getChatId(), message.getText());
+                return keyboardService.getMainKeyboard(message.getChatId(),
+                        reply, Commands.REVIEW);
+            default:
+                reply = replyToUserService.replyMovie(message.getChatId(), message.getText());
+                break;
         }
         return sendMsg(message.getChatId(), reply);
     }
@@ -113,40 +141,32 @@ public class Facade {
         return sendMsg(message.getChatId(), reply, getInlineMessageButtons(movies));
     }
 
-    private SendMessage handleBotStateMessage(Message message) {
-        String reply = null;
-        BotState botState = userDataCache.getUserBotState(message.getFrom().getId());
-        if (botState != null) {
-            switch (botState) {
-                case REVIEW -> {
-                    if (message.getText().equals("/cancel")) {
-                        userDataCache.deleteStateUser(message.getFrom().getId());
-                        return sendMsg(message.getChatId(), "Жаль, что ты передумал(");
-                    }
-                    User user = userService.findUserByUserId(message.getFrom().getId());
-                    if (user != null) {
-                        Review review = new Review();
-                        review.setReview(message.getText());
-                        review.setUserId(message.getFrom().getId());
-                        review.setDate(new Date().toString());
-                        try {
-                            reviewService.save(review);
-                            log.info(" <||> Save to DB new review from user: {}", message.getFrom().getId());
-                            reply = "Братан, спасибо тебе большое за отзыв! Ты лучший!";
-                            userDataCache.deleteStateUser(message.getFrom().getId());
-                        } catch (Exception e) {
-                            reply = "Шось не то, прости пожалуйста((";
-                            userDataCache.deleteStateUser(message.getFrom().getId());
-                        }
-                    } else {
-                        reply = "Шось не то, прости пожалуйста((";
-                        userDataCache.deleteStateUser(message.getFrom().getId());
-                    }
-                }
-                case SEARCH -> reply = "Результаты поиска: ";
+    private SendMessage reviewLogic(Message message) {
+        if (message.getText().equals("/cancel")
+                || message.getText().equals("Отменить\uD83D\uDE15")) {
+            userDataCache.deleteStateUser(message.getFrom().getId());
+            return keyboardService.getMainKeyboard(message.getChatId(),
+                    "Жаль, что ты передумал(", Commands.START);
+        }
+        User user = userService.findUserByUserId(message.getFrom().getId());
+        String reply;
+        if (user != null) {
+            Review review = new Review();
+            review.setReview(message.getText());
+            review.setUserId(message.getFrom().getId());
+            review.setDate(new Date().toString());
+            try {
+                reviewService.save(review);
+                log.info(" <||> Save to DB new review from user: {}", message.getFrom().getId());
+                reply = "Братан, спасибо тебе большое за отзыв! Ты лучший!";
+                userDataCache.deleteStateUser(message.getFrom().getId());
+            } catch (Exception e) {
+                reply = "Шось не то, прости пожалуйста((";
+                userDataCache.deleteStateUser(message.getFrom().getId());
             }
         } else {
-            reply = "Братик, звыняй, мои мозги пока пытаются обработать эту инфу, но шось не получается..";
+            reply = "Шось не то, прости пожалуйста((";
+            userDataCache.deleteStateUser(message.getFrom().getId());
         }
         return sendMsg(message.getChatId(), reply);
     }
