@@ -20,7 +20,7 @@ spring:
 
 telegrambot:
   botUsername: '@behold_filmbot'
-  botToken: ${telegram.token}
+  botToken: ${telegram.token:755574677:AAGp-rX9_5UZzd09VkxiR_XAnHtx2hDu2tk}
   webHookPath: 'https://beholdfilm.herokuapp.com/'
 
 api:
