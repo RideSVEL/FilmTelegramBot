@@ -21,7 +21,7 @@ spring:
 telegrambot:
   botUsername: '@Botting_bot_bot'
   botToken: '1196132719:AAFavCJ8hdXjLOarub2MsQANwDqP6urzfpQ'
-  webHookPath: 'https://87b28378b2c6.ngrok.io'
+  webHookPath: 'https://cbfde49166cb.ngrok.io'
 
 api:
   request: 'https://official-joke-api.appspot.com/jokes/programming/random'

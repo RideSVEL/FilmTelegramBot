@@ -105,12 +105,15 @@ public class Facade {
                 break;
             case "TOP Недели\uD83D\uDE0E":
             case "/topweek":
+                superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
                 return sendListMovies(Commands.TOPWEEK, message);
             case "Новинки\uD83C\uDD95":
             case "/topday":
+                superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
                 return sendListMovies(Commands.TOPDAY, message);
             case "TOP\uD83D\uDD25":
             case "/top":
+                superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
                 return sendListMovies(Commands.TOP, message);
             case "Оставить отзыв\uD83D\uDE4B\u200D♂️":
             case "/review":
@@ -135,7 +138,6 @@ public class Facade {
 
     private SendMessage sendListMovies(Commands command, Message message) throws IOException {
         List<Movie> movies;
-        superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
         movies = parserService.getListMovies(command);
         String reply = replyToUserService.replyListMovies(movies, command);
         return sendMsg(message.getChatId(), reply, getInlineMessageButtons(movies));
