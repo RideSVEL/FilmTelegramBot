@@ -45,13 +45,13 @@ public class ReplyToUserService {
             if (commands == Commands.TOPDAY)
                 sb.append("<em>Популярные фильмы на сегодня:</em>");
             if (commands == Commands.TOPWEEK)
-                sb.append("<em>Лучшее за наделю:</em>");
+                sb.append("<em>Лучшее за неделю:</em>");
             if (commands == Commands.TOP)
                 sb.append("<em>Пользуются спросом большой промежуток времени:</em>");
             for (int i = 0; i < movies.size(); i++) {
                 Movie movie = movies.get(i);
                 sb.append("\n\n<b>").append(i + 1).append(". <em>").append(movie.getTitle()).append(" (")
-                        .append(movie.getYear()).append(")</em></b>").append("\nЖанр: ");
+                        .append(movie.getYear()).append(")</em></b>").append(" | ").append(movie.getVoteAverage()).append("\nЖанр: ");
                 for (String genre : movie.getGenres()) {
                     sb.append(genre).append(", ");
                 }
@@ -68,7 +68,6 @@ public class ReplyToUserService {
         String reply;
         try {
             Movie movie = parserService.parseMovie(Integer.parseInt(filmId));
-            log.info(movie.toString());
             reply = "Братан, я пока не умею отвечать на такие сообщения\n" +
                     "Надо чуточку потерпеть..";
             if (movie != null) {
