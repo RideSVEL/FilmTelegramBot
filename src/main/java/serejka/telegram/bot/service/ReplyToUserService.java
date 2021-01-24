@@ -67,11 +67,9 @@ public class ReplyToUserService {
         String reply;
         try {
             Movie movie = parserService.parseMovie(Integer.parseInt(filmId));
-            log.info(movie.toString());
             reply = "Братан, я пока не умею отвечать на такие сообщения\n" +
                     "Надо чуточку потерпеть..";
             if (movie != null) {
-                log.info(movie.toString());
                 superBot.sendChatActionUpdate(chatId, ActionType.UPLOADPHOTO);
                 log.info("Get movie: {}", movie.toString());
                 List<InputMediaPhoto> list = new ArrayList<>();
