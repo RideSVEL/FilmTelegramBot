@@ -23,7 +23,7 @@ dependencies {
     }
     compile group: 'org.postgresql', name: 'postgresql', version: '42.2.18'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    compile group: 'org.telegram', name: 'telegrambots-spring-boot-starter', version: '4.9.2'
+    compile group: 'org.telegram', name: 'telegrambots-spring-boot-starter', version: '5.0.1'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
