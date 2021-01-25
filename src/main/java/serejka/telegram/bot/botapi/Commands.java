@@ -4,7 +4,7 @@ public enum Commands {
 
     TOPDAY("/topday"), TOPWEEK("/topweek"), TOP("/top"),
     START("/start"), HELP("/help"), OTHER("other"),
-    REVIEW("/review"), CANCEL("/cancel");
+    REVIEW("/review"), CANCEL("/cancel"), SEARCH("/search");
 
     Commands(String command) {
         this.command = command;

@@ -32,12 +32,33 @@ public class ReplyToUserService {
 
     public String replyStart(Message message) {
         userService.checkAndSave(message);
-        return "Привет, " + message.getFrom().getFirstName() + "!\n Давай пообщаемся! Как у тебя дела?";
+        return "Привет, " + message.getFrom().getFirstName()
+                + "!\nТы попал в лучший бот по подбору фильмов :)" +
+                "\nВсе необходимые функции ты сможешь найти на клавиатуре снизу" +
+                "\nЕсли возникут вопросы, используй клавишу \"Помощь\", либо отправь команду /help" +
+                "\nУдачки! \uD83D\uDE1C";
     }
+
+    public String replyReview() {
+        return "Я рад, что ты решил оставить отзыв о нашем боте," +
+                " отправь свои пожелания\uD83D\uDE0C" +
+                "\nЛибо можешь отменить операцию командой - /cancel\uD83D\uDE15";
+    }
+
+    public String replySearch() {
+        return "Давай найдем нужный тебе фильм\uD83D\uDE09" +
+                "\nПиши название, либо можешь отменить операцию нажав соответствующую клавишу на клавиаутре)";
+    }
+
+    public String replyError(){
+        return "Что-то не так, извини\uD83D\uDE1E";
+    }
+
+
 
     public String replyListMovies(List<Movie> movies, Commands commands) {
         String reply;
-        reply = "Блин братан, шось не то, звыняй";
+        reply = replyError();
         if (movies != null) {
             log.info("Get movie: {}", movies.toString());
             StringBuilder sb = new StringBuilder();
@@ -47,6 +68,10 @@ public class ReplyToUserService {
                 sb.append("<em>Лучшее за неделю:</em>");
             if (commands == Commands.TOP)
                 sb.append("<em>Пользуются спросом большой промежуток времени:</em>");
+            if (commands == Commands.SEARCH)
+                sb.append("Если результаты отсутствуют или не удовлетворяют поиски, повтори ввод\uD83D\uDE09" +
+                        "\nТакже можешь отменить операцию, нажав клавишу на клавиатуре" +
+                        "\n\n<em>Нашлось:</em>");
             for (int i = 0; i < movies.size(); i++) {
                 Movie movie = movies.get(i);
                 sb.append("\n\n<b>").append(i + 1).append(". <em>").append(movie.getTitle()).append(" (")
