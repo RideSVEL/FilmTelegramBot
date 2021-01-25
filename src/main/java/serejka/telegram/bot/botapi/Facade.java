@@ -18,9 +18,7 @@ import serejka.telegram.bot.models.User;
 import serejka.telegram.bot.service.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @Slf4j
@@ -79,7 +77,7 @@ public class Facade {
         updateStatisticCommand(message);
         switch (message.getText()) {
             case "/start":
-                return keyboardService.getMainKeyboard(message.getChatId(),
+                return keyboardService.getKeyboard(message.getChatId(),
                         replyToUserService.replyStart(message), Commands.START);
             case "Помощь\uD83C\uDD98":
             case "/help":
@@ -100,17 +98,20 @@ public class Facade {
             case "Оставить отзыв\uD83D\uDE4B\u200D♂️":
             case "/review":
                 superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
-                reply = "Я рад, что ты решил оставить отзыв о нашем боте," +
-                        " отправь свои пожелания\uD83D\uDE0C" +
-                        "\nЛибо можешь отменить операцию командой - /cancel\uD83D\uDE15";
                 userDataCache.setUserState(message.getFrom().getId(), BotState.REVIEW);
-                return keyboardService.getMainKeyboard(message.getChatId(),
-                        reply, Commands.REVIEW);
+                return keyboardService.getKeyboard(message.getChatId(),
+                        replyToUserService.replyReview(), Commands.REVIEW);
+            case "Поиск\uD83D\uDD0D":
+            case "/search":
+                superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
+                userDataCache.setUserState(message.getFrom().getId(), BotState.SEARCH);
+                return keyboardService.getKeyboard(message.getChatId(),
+                        replyToUserService.replySearch(), Commands.SEARCH);
             default:
                 reply = replyToUserService.replyMovie(message.getChatId(), message.getText());
                 break;
         }
-        return keyboardService.getMainKeyboard(message.getChatId(),
+        return keyboardService.getKeyboard(message.getChatId(),
                 reply, Commands.OTHER);
     }
 
@@ -127,7 +128,17 @@ public class Facade {
         return sendMsg(message.getChatId(), reply, getInlineMessageButtons(movies));
     }
 
-    private SendMessage handleBotStateMessage(Message message) {
+    private SendMessage sendListMoviesSearch(Message message) throws IOException {
+        List<Movie> movies;
+        superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
+        movies = parserService.getListMoviesBySearch(message.getText());
+        movies.sort(((o1, o2) -> -1 * Float.compare(o1.getVoteAverage(), o2.getVoteAverage())));
+        movies.sort(((o1, o2) -> -1 * o1.getVotes() - o2.getVotes()));
+        String reply = replyToUserService.replyListMovies(movies, Commands.SEARCH);
+        return sendMsg(message.getChatId(), reply, getInlineMessageButtons(movies));
+    }
+
+    private SendMessage handleBotStateMessage(Message message) throws IOException {
         String reply = null;
         BotState botState = userDataCache.getUserBotState(message.getFrom().getId());
         if (botState != null) {
@@ -135,21 +146,33 @@ public class Facade {
                 case REVIEW -> {
                     return reviewLogic(message);
                 }
-                case SEARCH -> reply = "Результаты поиска: ";
+                case SEARCH -> {
+                    return searchLogic(message);
+                }
             }
         } else {
-            reply = "Братик, звыняй, мои мозги пока пытаются обработать эту инфу, но шось не получается..";
+            reply = replyToUserService.replyError();
         }
-        return keyboardService.getMainKeyboard(message.getChatId(),
+        return keyboardService.getKeyboard(message.getChatId(),
                 reply, Commands.OTHER);
+    }
+
+    private SendMessage searchLogic(Message message) throws IOException {
+        if (message.getText().equals("/cancel")
+                || message.getText().equals("Вернуться\uD83D\uDE15")) {
+            userDataCache.deleteStateUser(message.getFrom().getId());
+            return keyboardService.getKeyboard(message.getChatId(),
+                    "Увидимся в следующий раз\uD83D\uDE0A", Commands.START);
+        }
+        return sendListMoviesSearch(message);
     }
 
     private SendMessage reviewLogic(Message message) {
         if (message.getText().equals("/cancel")
-                || message.getText().equals("Отменить\uD83D\uDE15")) {
+                || message.getText().equals("Вернуться\uD83D\uDE15")) {
             userDataCache.deleteStateUser(message.getFrom().getId());
-            return keyboardService.getMainKeyboard(message.getChatId(),
-                    "Жаль, что ты передумал(", Commands.START);
+            return keyboardService.getKeyboard(message.getChatId(),
+                    "Увидимся в следующий раз\uD83D\uDE0A", Commands.START);
         }
         User user = userService.findUserByUserId(message.getFrom().getId());
         String reply;
@@ -168,10 +191,10 @@ public class Facade {
                 userDataCache.deleteStateUser(message.getFrom().getId());
             }
         } else {
-            reply = "Братик, звыняй, мои мозги пока пытаются обработать эту инфу, но шось не получается..";
+            reply = replyToUserService.replyError();
             userDataCache.deleteStateUser(message.getFrom().getId());
         }
-        return keyboardService.getMainKeyboard(message.getChatId(),
+        return keyboardService.getKeyboard(message.getChatId(),
                 reply, Commands.OTHER);
     }
 

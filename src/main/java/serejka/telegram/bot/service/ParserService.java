@@ -25,6 +25,7 @@ import java.util.Properties;
 public class ParserService {
 
     private final RestTemplate restTemplate;
+    private final static int NUMBER_OF_FILMS = 5;
 
     public ParserService() {
         this.restTemplate = new RestTemplate();
@@ -39,9 +40,14 @@ public class ParserService {
         return properties.getProperty("genre." + key, null);
     }
 
+    public List<Movie> getListMoviesBySearch(String title) throws IOException {
+        ResponseEntity<String> entity;
+        entity = restTemplate.getForEntity(APIConfig.getMovieBySearchRequest(title), String.class);
+        return parseListMovies(entity.getBody());
+    }
+
     public List<Movie> getListMovies(Commands commands) throws IOException {
         ResponseEntity<String> entity;
-        int number = 5;
         switch (commands) {
             case TOPDAY:
                 entity = restTemplate.getForEntity(APIConfig.getDayMovie(), String.class);
@@ -51,28 +57,35 @@ public class ParserService {
                 break;
             case TOP:
                 entity = restTemplate.getForEntity(APIConfig.getTop(), String.class);
-                number = 8;
                 break;
             default:
                 return null;
         }
+        return parseListMovies(entity.getBody());
+    }
+
+    private List<Movie> parseListMovies(String responseBody) {
         List<Movie> movies = new ArrayList<>();
-        JSONObject jsonObject = new JSONObject(entity.getBody());
-        JSONArray results = jsonObject.getJSONArray("results");
-        for (int i = 0; i < number; i++) {
-            JSONObject temp = results.getJSONObject(i);
-            Movie movie = new ObjectMapper().readValue(temp.toString(), Movie.class);
-            movie.setYear(temp.getString("release_date").split("-")[0]);
-            movie.setVoteAverage(temp.getFloat("vote_average"));
-            JSONArray jsonArray = temp.getJSONArray("genre_ids");
-            List<String> genres = new ArrayList<>();
-            for (int j = 0; j < jsonArray.length(); j++) {
-                genres.add(getGenreById((Integer) jsonArray.get(j)));
+        try {
+            JSONObject jsonObject = new JSONObject(responseBody);
+            JSONArray results = jsonObject.getJSONArray("results");
+            for (int i = 0; i < NUMBER_OF_FILMS; i++) {
+                JSONObject temp = results.getJSONObject(i);
+                Movie movie = new ObjectMapper().readValue(temp.toString(), Movie.class);
+                movie.setYear(temp.getString("release_date").split("-")[0]);
+                movie.setVoteAverage(temp.getFloat("vote_average"));
+                JSONArray jsonArray = temp.getJSONArray("genre_ids");
+                List<String> genres = new ArrayList<>();
+                for (int j = 0; j < jsonArray.length(); j++) {
+                    genres.add(getGenreById((Integer) jsonArray.get(j)));
+                }
+                movie.setGenres(genres);
+                movies.add(movie);
             }
-            movie.setGenres(genres);
-            movies.add(movie);
+            return movies;
+        } catch (Exception e) {
+            return movies;
         }
-        return movies;
     }
 
     public Movie parseMovie(Integer id) {

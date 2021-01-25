@@ -13,17 +13,17 @@ import java.util.List;
 @Service
 public class KeyboardService {
 
-    public SendMessage getMainKeyboard(long chatId, String text, Commands command) {
-        return command.equals(Commands.REVIEW)
-                ? sendKeyboardWithMessage(chatId, text, createReviewKeyboard())
+    public SendMessage getKeyboard(long chatId, String text, Commands command) {
+        return command.equals(Commands.REVIEW) || command.equals(Commands.SEARCH)
+                ? sendKeyboardWithMessage(chatId, text, createReturnKeyboard())
                 : sendKeyboardWithMessage(chatId, text, createMainKeyboard());
     }
 
-    private ReplyKeyboardMarkup createReviewKeyboard() {
+    private ReplyKeyboardMarkup createReturnKeyboard() {
         ReplyKeyboardMarkup replyKeyboardMarkup = createReplyMarkup();
         List<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow row1 = new KeyboardRow();
-        row1.add(new KeyboardButton("Отменить\uD83D\uDE15"));
+        row1.add(new KeyboardButton("Вернуться\uD83D\uDE15"));
         keyboard.add(row1);
         replyKeyboardMarkup.setKeyboard(keyboard);
         return replyKeyboardMarkup;
@@ -37,7 +37,7 @@ public class KeyboardService {
         return replyKeyboardMarkup;
     }
 
-    private ReplyKeyboardMarkup createMainKeyboard() {
+    public ReplyKeyboardMarkup createMainKeyboard() {
         ReplyKeyboardMarkup replyKeyboardMarkup = createReplyMarkup();
         List<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow row1 = new KeyboardRow();
@@ -47,6 +47,7 @@ public class KeyboardService {
         row2.add(new KeyboardButton("TOP\uD83D\uDD25"));
         row2.add(new KeyboardButton("Помощь\uD83C\uDD98"));
         KeyboardRow row3 = new KeyboardRow();
+        row3.add(new KeyboardButton("Поиск\uD83D\uDD0D"));
         row3.add(new KeyboardButton("Оставить отзыв\uD83D\uDE4B\u200D♂️"));
         keyboard.add(row1);
         keyboard.add(row2);
