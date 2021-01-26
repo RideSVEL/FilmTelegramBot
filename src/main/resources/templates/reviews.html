@@ -6,28 +6,30 @@
 <div th:insert="blocks/header :: header"></div>
 <main role="main" class="container">
     <div class="jumbotron">
-        <table id="users_table" class="table table-danger table-bordered table-hover table-striped ">
-            <thead class="thead-dark">
-            <tr>
-                <th>ID</th>
-                <th>USER ID</th>
-                <th>REVIEW</th>
-                <th>DATE</th>
-                <th>DETAILS</th>
-            </tr>
-            </thead>
-            <tbody th:each="review : ${reviews}">
-            <tr>
-                <td scope="row" th:text="${review.id}"></td>
-                <td scope="col" th:text="${review.userId}"></td>
-                <td scope="col" th:text="${review.review}"></td>
-                <td scope="col" th:text="${review.date}"></td>
-                <td scope="col">
-                    <a th:href="'/see/' + ${review.id}" class="btn btn-success">GET DETAILS</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table id="users_table" class="table table-danger table-bordered table-hover table-striped ">
+                <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>USER ID</th>
+                    <th>REVIEW</th>
+                    <th>DATE</th>
+                    <th>DETAILS</th>
+                </tr>
+                </thead>
+                <tbody th:each="review : ${reviews}">
+                <tr>
+                    <td scope="row" th:text="${review.id}"></td>
+                    <td scope="col" th:text="${review.userId}"></td>
+                    <td scope="col" th:text="${review.review}"></td>
+                    <td scope="col" th:text="${review.date}"></td>
+                    <td scope="col">
+                        <a th:href="'/see/' + ${review.id}" class="btn btn-success">GET DETAILS</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </main>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

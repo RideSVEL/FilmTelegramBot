@@ -6,30 +6,32 @@
 <div th:insert="blocks/header :: header"></div>
 <main role="main" class="container">
     <div class="jumbotron">
-        <table id="users_table" class="table table-danger table-bordered table-hover table-striped ">
-            <thead class="thead-dark">
-            <tr>
-                <th>ID</th>
-                <th>FIRST NAME</th>
-                <th>LAST NAME</th>
-                <th>USER ID</th>
-                <th>USER NAME</th>
-                <th>MESSAGE</th>
-            </tr>
-            </thead>
-            <tbody th:each="user : ${users}">
-            <tr>
-                <td scope="row" th:text="${user.id}"></td>
-                <td scope="col" th:text="${user.firstName}"></td>
-                <td scope="col" th:text="${user.lastName}"></td>
-                <td scope="col" th:text="${user.userId}"></td>
-                <td scope="col" th:text="${user.userName}"></td>
-                <td scope="col">
-                    <a th:href="'/message/' + ${user.userId}" class="btn btn-success">Send message</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table id="users_table" class="table table-danger table-bordered table-hover table-striped ">
+                <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>FIRST NAME</th>
+                    <th>LAST NAME</th>
+                    <th>USER ID</th>
+                    <th>USER NAME</th>
+                    <th>MESSAGE</th>
+                </tr>
+                </thead>
+                <tbody th:each="user : ${users}">
+                <tr>
+                    <td scope="row" th:text="${user.id}"></td>
+                    <td scope="col" th:text="${user.firstName}"></td>
+                    <td scope="col" th:text="${user.lastName}"></td>
+                    <td scope="col" th:text="${user.userId}"></td>
+                    <td scope="col" th:text="${user.userName}"></td>
+                    <td scope="col">
+                        <a th:href="'/message/' + ${user.userId}" class="btn btn-success">Send message</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </main>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
