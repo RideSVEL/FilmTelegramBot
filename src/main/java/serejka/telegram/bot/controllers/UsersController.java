@@ -1,6 +1,8 @@
 package serejka.telegram.bot.controllers;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,9 +15,10 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @Controller
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UsersController {
 
-    private final UserService userService;
+    UserService userService;
 
     @GetMapping("/")
     public String redirect() {

@@ -1,6 +1,8 @@
 package serejka.telegram.bot.config;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,9 +18,10 @@ import serejka.telegram.bot.service.AuthService;
 @EnableWebSecurity
 @RequiredArgsConstructor
 @Configuration
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final AuthService authService;
+    AuthService authService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

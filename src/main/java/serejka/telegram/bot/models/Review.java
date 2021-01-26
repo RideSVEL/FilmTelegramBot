@@ -1,21 +1,24 @@
 package serejka.telegram.bot.models;
 
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.ToString;
+import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 
 @Data
 @Entity
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    Integer id;
     @Column(nullable = false)
-    private Integer userId;
-    private String review;
-    private String date;
-    private int view;
+    Integer userId;
+    String review;
+    String date;
+    int view;
 
 }

@@ -1,8 +1,10 @@
 package serejka.telegram.bot.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 import java.util.Comparator;
 import java.util.List;
@@ -10,21 +12,22 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 @NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Movie {
 
-    private int id;
-    private String title;
-    private String originalTitle;
-    private String overview;
-    private List<String> genres;
-    private String year;
-    private String releaseDate;
-    private List<String> country;
-    private int runtime;
-    private float voteAverage;
-    private int votes;
-    private List<String> pathToImages;
-    private String imdb;
-    private long budget;
+    int id;
+    String title;
+    String originalTitle;
+    String overview;
+    List<String> genres;
+    String year;
+    String releaseDate;
+    List<String> country;
+    int runtime;
+    float voteAverage;
+    int votes;
+    List<String> pathToImages;
+    String imdb;
+    long budget;
 
 }

@@ -1,5 +1,7 @@
 package serejka.telegram.bot.service;
 
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
@@ -18,11 +20,12 @@ import java.util.List;
 
 @Slf4j
 @Service
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ReplyToUserService {
 
-    private final ParserService parserService;
-    private final Bot superBot;
-    private final UserService userService;
+    ParserService parserService;
+    Bot superBot;
+    UserService userService;
 
     public ReplyToUserService(ParserService parserService, @Lazy Bot superBot, UserService userService) {
         this.parserService = parserService;

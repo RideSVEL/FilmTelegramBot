@@ -1,6 +1,8 @@
 package serejka.telegram.bot.service;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import serejka.telegram.bot.botapi.Bot;
@@ -11,10 +13,11 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CustomMessageService {
 
-    private final UserService userService;
-    private final Bot superBot;
+    UserService userService;
+    Bot superBot;
 
     public void sendCustomMessageToUser(long chatId, String reply) {
         superBot.sendMessageByAdmin(chatId, reply);
