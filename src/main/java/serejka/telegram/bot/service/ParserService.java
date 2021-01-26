@@ -1,6 +1,9 @@
 package serejka.telegram.bot.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,14 +25,12 @@ import java.util.Properties;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ParserService {
 
-    private final RestTemplate restTemplate;
-    private final static int NUMBER_OF_FILMS = 5;
-
-    public ParserService() {
-        this.restTemplate = new RestTemplate();
-    }
+    RestTemplate restTemplate;
+    static int NUMBER_OF_FILMS = 5;
 
     private static String getGenreById(Integer key) throws IOException {
         Properties properties = new Properties();
@@ -40,13 +41,13 @@ public class ParserService {
         return properties.getProperty("genre." + key, null);
     }
 
-    public List<Movie> getListMoviesBySearch(String title) throws IOException {
+    public List<Movie> getListMoviesBySearch(String title) {
         ResponseEntity<String> entity;
         entity = restTemplate.getForEntity(APIConfig.getMovieBySearchRequest(title), String.class);
         return parseListMovies(entity.getBody());
     }
 
-    public List<Movie> getListMovies(Commands commands) throws IOException {
+    public List<Movie> getListMovies(Commands commands) {
         ResponseEntity<String> entity;
         switch (commands) {
             case TOPDAY:

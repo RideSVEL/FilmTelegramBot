@@ -1,6 +1,8 @@
 package serejka.telegram.bot.controllers;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -8,8 +10,10 @@ import serejka.telegram.bot.botapi.Bot;
 
 @RequiredArgsConstructor
 @RestController
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class WebHookController {
-    private final Bot superBot;
+
+    Bot superBot;
 
     @PostMapping("/")
     public BotApiMethod<?> onUpdateReceived(@RequestBody Update update) {

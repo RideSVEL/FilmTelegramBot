@@ -1,6 +1,8 @@
 package serejka.telegram.bot.controllers;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,10 +17,11 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ReviewController {
 
-    private final ReviewService reviewService;
-    private final UserService userService;
+    ReviewService reviewService;
+    UserService userService;
 
     @GetMapping("/reviews/new")
     public String getNewReviews(Model model) {

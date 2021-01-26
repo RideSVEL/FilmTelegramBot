@@ -1,8 +1,10 @@
 package serejka.telegram.bot.models;
 
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.experimental.FieldDefaults;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,16 +15,17 @@ import javax.persistence.Id;
 @Data
 @NoArgsConstructor
 @Entity(name = "admins")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Admin {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
 
     @Column(unique = true, nullable = false)
-    private String username;
+    String username;
 
     @ToString.Exclude
     @Column(nullable = false)
-    private String password;
+    String password;
 }

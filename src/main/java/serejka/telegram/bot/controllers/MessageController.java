@@ -1,6 +1,8 @@
 package serejka.telegram.bot.controllers;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,9 +13,10 @@ import serejka.telegram.bot.service.CustomMessageService;
 
 @RequiredArgsConstructor
 @Controller
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class MessageController {
 
-    private final CustomMessageService customMessageService;
+    CustomMessageService customMessageService;
 
     @GetMapping("/message/{id}")
     public String customMessageToUser(@PathVariable(value = "id") Long id, Model model) {

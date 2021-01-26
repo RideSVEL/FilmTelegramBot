@@ -1,6 +1,8 @@
 package serejka.telegram.bot.service;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import serejka.telegram.bot.botapi.Commands;
 import serejka.telegram.bot.models.Stats;
@@ -11,9 +13,10 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class StatisticsService {
 
-    private final StatsRepository statsRepository;
+    StatsRepository statsRepository;
 
     public List<Stats> findAllStatsCommand() {
         return statsRepository.findAll();

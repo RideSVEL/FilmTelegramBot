@@ -1,6 +1,7 @@
 package serejka.telegram.bot.models;
 
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 
@@ -9,13 +10,14 @@ import javax.persistence.*;
 @Entity
 @Table(name = "statistics")
 @NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Stats {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private int count;
+    Integer id;
+    int count;
     @Column(unique = true)
-    private String commandName;
+    String commandName;
 
 }

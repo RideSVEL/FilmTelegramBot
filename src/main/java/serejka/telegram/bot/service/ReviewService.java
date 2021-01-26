@@ -1,6 +1,8 @@
 package serejka.telegram.bot.service;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import serejka.telegram.bot.models.Review;
@@ -11,9 +13,10 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ReviewService {
 
-    private final ReviewRepository reviewRepository;
+    ReviewRepository reviewRepository;
 
     public void save(Review review) {
         reviewRepository.save(review);
