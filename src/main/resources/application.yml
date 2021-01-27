@@ -23,5 +23,3 @@ telegrambot:
   botToken: 1196132719:AAFavCJ8hdXjLOarub2MsQANwDqP6urzfpQ
   webHookPath: 'https://616a0bea363f.ngrok.io'
 
-api:
-  request: 'https://official-joke-api.appspot.com/jokes/programming/random'
