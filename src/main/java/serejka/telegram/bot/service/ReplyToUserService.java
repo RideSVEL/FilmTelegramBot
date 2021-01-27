@@ -3,18 +3,16 @@ package serejka.telegram.bot.service;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.ActionType;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaPhoto;
-import serejka.telegram.bot.botapi.Bot;
-import serejka.telegram.bot.botapi.Commands;
+import serejka.telegram.bot.logic.Bot;
+import serejka.telegram.bot.logic.Commands;
 import serejka.telegram.bot.config.APIConfig;
 import serejka.telegram.bot.models.Movie;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +29,10 @@ public class ReplyToUserService {
         this.parserService = parserService;
         this.superBot = superBot;
         this.userService = userService;
+    }
+
+    public String replyHelp() {
+        return "Я тебе всегда помогу!";
     }
 
     public String replyStart(Message message) {
@@ -53,10 +55,9 @@ public class ReplyToUserService {
                 "\nПиши название, либо можешь отменить операцию нажав соответствующую клавишу на клавиаутре)";
     }
 
-    public String replyError(){
+    public String replyError() {
         return "Что-то не так, извини\uD83D\uDE1E";
     }
-
 
 
     public String replyListMovies(List<Movie> movies, Commands commands) {

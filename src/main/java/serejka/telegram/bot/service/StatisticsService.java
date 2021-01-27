@@ -4,7 +4,8 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
-import serejka.telegram.bot.botapi.Commands;
+import org.telegram.telegrambots.meta.api.objects.Message;
+import serejka.telegram.bot.logic.Commands;
 import serejka.telegram.bot.models.Stats;
 import serejka.telegram.bot.repository.StatsRepository;
 
@@ -22,19 +23,25 @@ public class StatisticsService {
         return statsRepository.findAll();
     }
 
+    public void updateStatisticCommand(Message message) {
+        Commands name = Commands.getName(message.getText());
+        updateCountCommand(name);
+    }
+
     public void updateCountCommand(Commands command) {
         Stats stats1;
+
         if (command != null) {
-            Optional<Stats> stats = statsRepository.findByCommandName(command.getCommand());
+            Optional<Stats> stats = statsRepository.findByCommandName(command.getFirstCommandName());
             stats1 = stats.orElseGet(
                     Stats::new);
-            stats1.setCommandName(command.getCommand());
+            stats1.setCommandName(command.getFirstCommandName());
         } else {
             Optional<Stats> byCommandName
-                    = statsRepository.findByCommandName(Commands.OTHER.getCommand());
+                    = statsRepository.findByCommandName(Commands.OTHER.getFirstCommandName());
             stats1 = byCommandName.orElseGet(
                     Stats::new);
-            stats1.setCommandName(Commands.OTHER.getCommand());
+            stats1.setCommandName(Commands.OTHER.getFirstCommandName());
         }
         stats1.setCount(stats1.getCount() + 1);
         statsRepository.save(stats1);
