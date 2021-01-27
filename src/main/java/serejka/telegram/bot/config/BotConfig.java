@@ -11,8 +11,8 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.web.client.RestTemplate;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.ApiContext;
-import serejka.telegram.bot.botapi.Bot;
-import serejka.telegram.bot.botapi.Facade;
+import serejka.telegram.bot.logic.Bot;
+import serejka.telegram.bot.logic.Facade;
 
 @Getter
 @Setter

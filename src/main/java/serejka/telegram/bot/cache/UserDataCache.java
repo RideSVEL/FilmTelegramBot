@@ -1,7 +1,7 @@
 package serejka.telegram.bot.cache;
 
 import org.springframework.stereotype.Component;
-import serejka.telegram.bot.botapi.BotState;
+import serejka.telegram.bot.logic.BotState;
 
 import java.util.HashMap;
 import java.util.Map;

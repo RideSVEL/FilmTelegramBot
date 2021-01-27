@@ -1,4 +1,4 @@
-package serejka.telegram.bot.botapi;
+package serejka.telegram.bot.logic;
 
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
@@ -9,9 +9,9 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMediaGroup;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaPhoto;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,12 +25,7 @@ public class Bot extends TelegramWebhookBot {
 
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
-        try {
-            return facade.handle(update);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return facade.handle(update);
     }
 
     public Bot(DefaultBotOptions options, Facade facade) {
@@ -81,6 +76,24 @@ public class Bot extends TelegramWebhookBot {
         sendMessage.setChatId(String.valueOf(chatId));
         sendMessage.setParseMode("html");
         sendMessage.setText(reply);
+        try {
+            execute(sendMessage);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void sendMessageWithKeyboard(
+            long chatId, String text, ReplyKeyboardMarkup replyKeyboardMarkup) {
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.enableMarkdown(true);
+        sendMessage.setParseMode("html");
+        sendMessage.setChatId(chatId);
+        sendMessage.setText(text);
+        if (replyKeyboardMarkup != null) {
+            sendMessage.setReplyMarkup(replyKeyboardMarkup);
+        }
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
