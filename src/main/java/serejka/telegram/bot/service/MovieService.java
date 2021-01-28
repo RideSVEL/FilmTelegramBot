@@ -2,19 +2,26 @@ package serejka.telegram.bot.service;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.methods.ActionType;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import serejka.telegram.bot.logic.Commands;
 import serejka.telegram.bot.cache.UserDataCache;
+import serejka.telegram.bot.logic.Bot;
+import serejka.telegram.bot.logic.Commands;
 import serejka.telegram.bot.models.Movie;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -25,6 +32,7 @@ public class MovieService {
     SendMessageService sendMsg;
     UserDataCache userDataCache;
     KeyboardService keyboardService;
+    ReplyToUserService replyToUserService;
 
     public SendMessage searchLogic(Message message) {
         if (message.getText().equals("/cancel")
@@ -68,6 +76,25 @@ public class MovieService {
         rowList.add(keyboardButtons);
         inlineKeyboardMarkup.setKeyboard(rowList);
         return inlineKeyboardMarkup;
+    }
+
+
+    @SneakyThrows
+    @Async
+    public void sendRandomMovie(Message message, Bot superBot) {
+        superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
+        SecureRandom random = new SecureRandom();
+        Movie movie;
+        log.info("Thread in async method {}", Thread.currentThread().getName());
+        while (true) {
+            movie = parserService.parseMovie(random.nextInt(800000));
+            if (movie != null && movie.getVotes() > 50 && Integer.parseInt(movie.getYear()) > 1989) {
+                String text = replyToUserService.replyMovie(message.getChatId(), String.valueOf(movie.getId()));
+                superBot.execute(sendMsg.sendMsg(message.getFrom().getId(), text));
+                return;
+            }
+        }
+
     }
 
 }

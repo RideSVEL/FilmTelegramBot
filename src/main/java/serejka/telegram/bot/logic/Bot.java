@@ -1,10 +1,12 @@
 package serejka.telegram.bot.logic;
 
+import lombok.SneakyThrows;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.ActionType;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendChatAction;
+import org.telegram.telegrambots.meta.api.methods.send.SendDice;
 import org.telegram.telegrambots.meta.api.methods.send.SendMediaGroup;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -23,6 +25,7 @@ public class Bot extends TelegramWebhookBot {
 
     private final Facade facade;
 
+    @SneakyThrows
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
         return facade.handle(update);
@@ -107,6 +110,16 @@ public class Bot extends TelegramWebhookBot {
         sendChatAction.setAction(type);
         try {
             execute(sendChatAction);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendDiceForWaiting(long chatId) {
+        SendDice sendDice = new SendDice();
+        sendDice.setChatId(chatId);
+        try {
+            execute(sendDice);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }

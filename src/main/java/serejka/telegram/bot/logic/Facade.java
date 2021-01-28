@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.ActionType;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.send.SendDice;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -75,6 +76,9 @@ public class Facade {
             case SEARCH:
                 userDataCache.setUserState(message.getFrom().getId(), BotState.SEARCH);
                 return logic.replySearchKeyboard(message);
+            case RANDOM:
+                reply = logic.sendRandomMovie(message, superBot);
+                break;
             default:
                 reply = logic.replyDefaultMovieById(message);
         }

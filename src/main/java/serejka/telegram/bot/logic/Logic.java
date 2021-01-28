@@ -2,18 +2,16 @@ package serejka.telegram.bot.logic;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import serejka.telegram.bot.service.KeyboardService;
-import serejka.telegram.bot.service.MovieService;
-import serejka.telegram.bot.service.ReplyToUserService;
-import serejka.telegram.bot.service.ReviewService;
-import serejka.telegram.bot.service.SendMessageService;
-import serejka.telegram.bot.service.StatisticsService;
+import serejka.telegram.bot.service.*;
 
+@Slf4j
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Component
@@ -77,6 +75,16 @@ public class Logic {
 
     public String replyHelp() {
         return replyToUserService.replyHelp();
+    }
+
+    @SneakyThrows
+    public String sendRandomMovie(Message message, Bot superBot) {
+        superBot.execute(sendMsg.sendMsg(message.getChatId(),
+                replyToUserService.replyCheckMessageToUser(message)));
+        superBot.sendDiceForWaiting(message.getChatId());
+        movieService.sendRandomMovie(message, superBot);
+        return replyToUserService.senWaiting(message);
+
     }
 
 }

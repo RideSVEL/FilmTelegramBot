@@ -32,16 +32,16 @@ public class StatisticsService {
         Stats stats1;
 
         if (command != null) {
-            Optional<Stats> stats = statsRepository.findByCommandName(command.getFirstCommandName());
+            Optional<Stats> stats = statsRepository.findByCommandName(command.name());
             stats1 = stats.orElseGet(
                     Stats::new);
-            stats1.setCommandName(command.getFirstCommandName());
+            stats1.setCommandName(command.name());
         } else {
             Optional<Stats> byCommandName
-                    = statsRepository.findByCommandName(Commands.OTHER.getFirstCommandName());
+                    = statsRepository.findByCommandName(Commands.OTHER.name());
             stats1 = byCommandName.orElseGet(
                     Stats::new);
-            stats1.setCommandName(Commands.OTHER.getFirstCommandName());
+            stats1.setCommandName(Commands.OTHER.name());
         }
         stats1.setCount(stats1.getCount() + 1);
         statsRepository.save(stats1);

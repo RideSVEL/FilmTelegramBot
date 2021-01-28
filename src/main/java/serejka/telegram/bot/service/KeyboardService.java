@@ -6,6 +6,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import serejka.telegram.bot.logic.Commands;
+import serejka.telegram.bot.logic.KeyboardCommands;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,17 +42,20 @@ public class KeyboardService {
         ReplyKeyboardMarkup replyKeyboardMarkup = createReplyMarkup();
         List<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow row1 = new KeyboardRow();
-        row1.add(new KeyboardButton("Новинки\uD83C\uDD95"));
-        row1.add(new KeyboardButton("TOP Недели\uD83D\uDE0E"));
+        row1.add(new KeyboardButton(KeyboardCommands.TOPDAY.getValue()));
+        row1.add(new KeyboardButton(KeyboardCommands.TOPWEEK.getValue()));
         KeyboardRow row2 = new KeyboardRow();
-        row2.add(new KeyboardButton("TOP\uD83D\uDD25"));
-        row2.add(new KeyboardButton("Помощь\uD83C\uDD98"));
+        row2.add(new KeyboardButton(KeyboardCommands.TOP.getValue()));
+        row2.add(new KeyboardButton(KeyboardCommands.HELP.getValue()));
         KeyboardRow row3 = new KeyboardRow();
-        row3.add(new KeyboardButton("Поиск\uD83D\uDD0D"));
-        row3.add(new KeyboardButton("Оставить отзыв\uD83D\uDE4B\u200D♂️"));
+        row3.add(new KeyboardButton(KeyboardCommands.RANDOM.getValue()));
+        KeyboardRow row4 = new KeyboardRow();
+        row4.add(new KeyboardButton(KeyboardCommands.SEARCH.getValue()));
+        row4.add(new KeyboardButton(KeyboardCommands.REVIEW.getValue()));
         keyboard.add(row1);
         keyboard.add(row2);
         keyboard.add(row3);
+        keyboard.add(row4);
         replyKeyboardMarkup.setKeyboard(keyboard);
         return replyKeyboardMarkup;
     }
