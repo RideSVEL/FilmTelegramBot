@@ -8,7 +8,8 @@ public enum Commands {
 
     TOPDAY("/topday", "Новинки\uD83C\uDD95"), TOPWEEK("/topweek", "TOP Недели\uD83D\uDE0E"), TOP("/top", "TOP\uD83D\uDD25"),
     START("/start"), HELP("/help", "Помощь\uD83C\uDD98"), OTHER("other"),
-    REVIEW("/review", "Оставить отзыв\uD83D\uDE4B\u200D♂️"), CANCEL("/cancel", "Вернуться\uD83D\uDE15"), SEARCH("/search", "Поиск\uD83D\uDD0D");
+    REVIEW("/review", "Оставить отзыв\uD83D\uDE4B\u200D♂️"), CANCEL("/cancel", "Вернуться\uD83D\uDE15"),
+    SEARCH("/search", "Поиск\uD83D\uDD0D"), RANDOM("/random");
 
     Commands(String... commands) {
         firstCommandName = commands[0];

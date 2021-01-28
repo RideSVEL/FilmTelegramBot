@@ -21,5 +21,5 @@ spring:
 telegrambot:
   botUsername: '@Botting_bot_bot'
   botToken: 1196132719:AAFavCJ8hdXjLOarub2MsQANwDqP6urzfpQ
-  webHookPath: 'https://616a0bea363f.ngrok.io'
+  webHookPath: 'https://2753558f722d.ngrok.io'
 

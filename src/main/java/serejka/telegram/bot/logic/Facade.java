@@ -11,7 +11,10 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import serejka.telegram.bot.cache.UserDataCache;
+
+import java.util.concurrent.ExecutionException;
 
 
 @Slf4j
@@ -30,7 +33,7 @@ public class Facade {
         this.logic = logic;
     }
 
-    public BotApiMethod<?> handle(Update update) {
+    public BotApiMethod<?> handle(Update update) throws TelegramApiException {
         SendMessage reply = null;
         if (update.hasCallbackQuery()) {
             CallbackQuery callbackQuery = update.getCallbackQuery();
@@ -75,6 +78,9 @@ public class Facade {
             case SEARCH:
                 userDataCache.setUserState(message.getFrom().getId(), BotState.SEARCH);
                 return logic.replySearchKeyboard(message);
+            case RANDOM:
+                reply = logic.sendRandomMovie(message, superBot);
+                break;
             default:
                 reply = logic.replyDefaultMovieById(message);
         }

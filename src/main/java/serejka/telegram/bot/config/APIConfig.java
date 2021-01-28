@@ -19,8 +19,7 @@ public class APIConfig {
     static String API_IMAGE = "https://image.tmdb.org/t/p/original";
     static String API_MOVIE_DAY = "https://api.themoviedb.org/3/trending/movie/day";
     static String API_MOVIE_WEEK = "https://api.themoviedb.org/3/trending/movie/week";
-
-    private static final String ON_IMDB = "https://www.imdb.com/title/";
+    static String ON_IMDB = "https://www.imdb.com/title/";
 
     public static String getMovieRequest(Integer id) {
         return API_MOVIE + id + API_KEY + API_LANGUAGE + API_IMAGES;

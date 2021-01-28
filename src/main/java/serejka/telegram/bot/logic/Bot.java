@@ -1,5 +1,6 @@
 package serejka.telegram.bot.logic;
 
+import lombok.SneakyThrows;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.ActionType;
@@ -23,6 +24,7 @@ public class Bot extends TelegramWebhookBot {
 
     private final Facade facade;
 
+    @SneakyThrows
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
         return facade.handle(update);

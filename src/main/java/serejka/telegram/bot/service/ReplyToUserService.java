@@ -91,13 +91,18 @@ public class ReplyToUserService {
         return reply;
     }
 
+    public String replyCheckMessageToUser(Message message) {
+        superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
+        return "Данная функция находится на стадии тестирования, поэтому возможны небольшие задержки\uD83D\uDE22" +
+                "\nНадо чуточку потерпеть\uD83D\uDC40";
+    }
+
 
     public String replyMovie(long chatId, String filmId) {
         String reply;
         try {
+            reply = "Что-то не получилось найти такой фильм...";
             Movie movie = parserService.parseMovie(Integer.parseInt(filmId));
-            reply = "Братан, я пока не умею отвечать на такие сообщения\n" +
-                    "Надо чуточку потерпеть..";
             if (movie != null) {
                 superBot.sendChatActionUpdate(chatId, ActionType.UPLOADPHOTO);
                 log.info("Get movie: {}", movie.toString());
@@ -112,8 +117,7 @@ public class ReplyToUserService {
                 reply = showMovie(movie);
             }
         } catch (NumberFormatException e) {
-            reply = "Братан, я пока не умею отвечать на такие сообщения\n" +
-                    "Надо чуточку потерпеть..";
+            reply = "Что-то не получилось найти такой фильм...";
         }
         return reply;
     }
