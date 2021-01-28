@@ -19,7 +19,7 @@ public class AsyncConfig {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(2);
         executor.setMaxPoolSize(10);
-        executor.setQueueCapacity(100);
+        executor.setQueueCapacity(50);
         executor.setThreadNamePrefix("MovieThread - ");
         executor.initialize();
         return executor;

@@ -97,6 +97,11 @@ public class ReplyToUserService {
                 "\nНадо чуточку потерпеть\uD83D\uDC40";
     }
 
+    public String senWaiting(Message message) {
+        superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
+        return "Подбираем фильм...";
+    }
+
 
     public String replyMovie(long chatId, String filmId) {
         String reply;

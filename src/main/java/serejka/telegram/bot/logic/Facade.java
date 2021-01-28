@@ -7,14 +7,12 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.ActionType;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.send.SendDice;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import serejka.telegram.bot.cache.UserDataCache;
-
-import java.util.concurrent.ExecutionException;
 
 
 @Slf4j
@@ -33,7 +31,7 @@ public class Facade {
         this.logic = logic;
     }
 
-    public BotApiMethod<?> handle(Update update) throws TelegramApiException {
+    public BotApiMethod<?> handle(Update update) {
         SendMessage reply = null;
         if (update.hasCallbackQuery()) {
             CallbackQuery callbackQuery = update.getCallbackQuery();

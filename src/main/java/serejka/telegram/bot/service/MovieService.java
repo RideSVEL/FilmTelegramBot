@@ -85,7 +85,7 @@ public class MovieService {
         superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
         SecureRandom random = new SecureRandom();
         Movie movie;
-        log.info("Thread in async method {}",Thread.currentThread().getName());
+        log.info("Thread in async method {}", Thread.currentThread().getName());
         while (true) {
             movie = parserService.parseMovie(random.nextInt(800000));
             if (movie != null && movie.getVotes() > 50 && Integer.parseInt(movie.getYear()) > 1989) {

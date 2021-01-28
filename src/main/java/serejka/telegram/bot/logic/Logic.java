@@ -2,6 +2,7 @@ package serejka.telegram.bot.logic;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -76,10 +77,13 @@ public class Logic {
         return replyToUserService.replyHelp();
     }
 
+    @SneakyThrows
     public String sendRandomMovie(Message message, Bot superBot) {
-        log.info("Thread in sync method {}", Thread.currentThread().getName());
+        superBot.execute(sendMsg.sendMsg(message.getChatId(),
+                replyToUserService.replyCheckMessageToUser(message)));
+        superBot.sendDiceForWaiting(message.getChatId());
         movieService.sendRandomMovie(message, superBot);
-        return replyToUserService.replyCheckMessageToUser(message);
+        return replyToUserService.senWaiting(message);
 
     }
 
