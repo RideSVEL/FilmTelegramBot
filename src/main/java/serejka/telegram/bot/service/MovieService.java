@@ -40,8 +40,6 @@ public class MovieService {
     KeyboardService keyboardService;
     ReplyToUserService replyToUserService;
 
-    ThreadMovie[] threadMovies = new ThreadMovie[NUM_OF_THREADS];
-
     public SendMessage searchLogic(Message message) {
         if (message.getText().equals("/cancel")
                 || message.getText().equals("Вернуться\uD83D\uDE15")) {
@@ -92,10 +90,11 @@ public class MovieService {
     public void sendRandomMovie(Message message, Bot superBot) {
         superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
         long start = new Date().getTime();
+        ThreadMovie[] threadMovies = new ThreadMovie[NUM_OF_THREADS];
         SecureRandom secureRandom = new SecureRandom();
-        updateTaskForThreadsAndStart(secureRandom);
-        Movie movie = getMovieFromAnyThread();
-        stopAllThreads();
+        updateTaskForThreadsAndStart(threadMovies, secureRandom);
+        Movie movie = getMovieFromAnyThread(threadMovies);
+        stopAllThreads(threadMovies);
         String text = replyToUserService.replyMovie(message.getChatId(), String.valueOf(movie.getId()));
         superBot.execute(sendMsg.sendMsg(message.getFrom().getId(), text));
         log.info("Send movie to user with time - {}", new Date().getTime() - start);
@@ -108,7 +107,7 @@ public class MovieService {
         return threadMovie;
     }
 
-    private void updateTaskForThreadsAndStart(SecureRandom random) {
+    private void updateTaskForThreadsAndStart(ThreadMovie[] threadMovies, SecureRandom random) {
         int counter = 0;
         for (int i = 0; i < threadMovies.length; i++) {
             threadMovies[i] = initializeThread(counter, random);
@@ -117,7 +116,7 @@ public class MovieService {
         }
     }
 
-    private Movie getMovieFromAnyThread() {
+    private Movie getMovieFromAnyThread(ThreadMovie[] threadMovies) {
         Movie movie;
         while (true) {
             for (ThreadMovie threadMovie : threadMovies) {
@@ -129,7 +128,7 @@ public class MovieService {
         }
     }
 
-    private void stopAllThreads() {
+    private void stopAllThreads(ThreadMovie[] threadMovies) {
         for (ThreadMovie threadMovie : threadMovies) {
             threadMovie.interrupt();
         }
