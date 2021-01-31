@@ -1,10 +1,9 @@
 package serejka.telegram.bot.service;
 
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.glassfish.grizzly.threadpool.FixedThreadPool;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.ActionType;
@@ -19,13 +18,22 @@ import serejka.telegram.bot.models.Movie;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class MovieService {
+
+    static int NUM_OF_FILMS = 800000;
+    static int NUM_OF_THREADS = 8;
+    static int INITIAL_CASE = NUM_OF_FILMS / NUM_OF_THREADS;
 
     ParserService parserService;
     ReplyToUserService replyService;
@@ -83,18 +91,77 @@ public class MovieService {
     @Async
     public void sendRandomMovie(Message message, Bot superBot) {
         superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
-        SecureRandom random = new SecureRandom();
-        Movie movie;
-        log.info("Thread in async method {}", Thread.currentThread().getName());
-        while (true) {
-            movie = parserService.parseMovie(random.nextInt(800000));
-            if (movie != null && movie.getVotes() > 50 && Integer.parseInt(movie.getYear()) > 1989) {
-                String text = replyToUserService.replyMovie(message.getChatId(), String.valueOf(movie.getId()));
-                superBot.execute(sendMsg.sendMsg(message.getFrom().getId(), text));
-                return;
+        long start = new Date().getTime();
+        Movie movie = null;
+        int counter = 0;
+        SecureRandom secureRandom = new SecureRandom();
+        ThreadMovie[] threadMovies = new ThreadMovie[NUM_OF_THREADS];
+        for (int i = 0; i < threadMovies.length; i++) {
+            threadMovies[i] = initializeThread(counter, secureRandom);
+            counter += INITIAL_CASE;
+            threadMovies[i].start();
+        }
+        while (movie == null) {
+            for (ThreadMovie threadMovie : threadMovies) {
+                if (threadMovie.getMovie() != null) {
+                    movie = threadMovie.getMovie();
+                    break;
+                }
+            }
+        }
+        for (ThreadMovie threadMovie : threadMovies) {
+            threadMovie.interrupt();
+        }
+        String text = replyToUserService.replyMovie(message.getChatId(), String.valueOf(movie.getId()));
+        superBot.execute(sendMsg.sendMsg(message.getFrom().getId(), text));
+        log.info("Send movie to user with time - {}", new Date().getTime() - start);
+    }
+
+    private ThreadMovie initializeThread(int number, SecureRandom random) {
+        ThreadMovie threadMovie = new ThreadMovie();
+        threadMovie.setNumber(number);
+        threadMovie.setRandom(random);
+        return threadMovie;
+    }
+
+    @Getter
+    @Setter
+    private final class ThreadMovie extends Thread {
+
+        @Override
+        public void run() {
+            Movie tempMovie;
+            while (!interrupted()) {
+                tempMovie = parserService.parseMovie(random.nextInt(INITIAL_CASE) + number);
+                if (tempMovie != null && tempMovie.getVotes() > 100 && Integer.parseInt(tempMovie.getYear()) > 1989) {
+                    log.info("Find movie {}", tempMovie);
+                    movie = tempMovie;
+                    return;
+                }
             }
         }
 
+        private int number;
+        private Movie movie;
+        private SecureRandom random;
+
+    }
+
+    private final class ExecutorThread implements Callable<Movie> {
+
+        @Override
+        public Movie call() {
+            log.info("Work in thread - {}", Thread.currentThread().getName());
+            Movie tempMovie;
+            SecureRandom secureRandom = new SecureRandom();
+            while (true) {
+                tempMovie = parserService.parseMovie(secureRandom.nextInt(800000));
+                if (tempMovie != null && tempMovie.getVotes() > 100 && Integer.parseInt(tempMovie.getYear()) > 1989) {
+                    log.info("Find movie {}", tempMovie);
+                    return tempMovie;
+                }
+            }
+        }
     }
 
 }

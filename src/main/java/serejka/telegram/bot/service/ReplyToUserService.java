@@ -66,16 +66,14 @@ public class ReplyToUserService {
         if (movies != null) {
             log.info("Get movie: {}", movies.toString());
             StringBuilder sb = new StringBuilder();
-            if (commands == Commands.TOPDAY)
-                sb.append("<em>Популярные фильмы на сегодня:</em>");
-            if (commands == Commands.TOPWEEK)
-                sb.append("<em>Лучшее за неделю:</em>");
-            if (commands == Commands.TOP)
-                sb.append("<em>Пользуются спросом большой промежуток времени:</em>");
-            if (commands == Commands.SEARCH)
-                sb.append("Если результаты отсутствуют или не удовлетворяют поиски, повтори ввод\uD83D\uDE09" +
+            switch (commands) {
+                case TOPDAY -> sb.append("<em>Популярные фильмы на сегодня:</em>");
+                case TOPWEEK -> sb.append("<em>Лучшее за неделю:</em>");
+                case TOP -> sb.append("<em>Пользуются спросом большой промежуток времени:</em>");
+                case SEARCH -> sb.append("Если результаты отсутствуют или не удовлетворяют поиски, повтори ввод\uD83D\uDE09" +
                         "\nТакже можешь отменить операцию, нажав клавишу на клавиатуре" +
                         "\n\n<em>Нашлось:</em>");
+            }
             for (int i = 0; i < movies.size(); i++) {
                 Movie movie = movies.get(i);
                 sb.append("\n\n<b>").append(i + 1).append(". <em>").append(movie.getTitle()).append(" (")
@@ -99,7 +97,7 @@ public class ReplyToUserService {
 
     public String senWaiting(Message message) {
         superBot.sendChatActionUpdate(message.getChatId(), ActionType.TYPING);
-        return "Подбираем фильм...";
+        return "Несколько секундочек ожидания) Подбираем фильм...";
     }
 
 
