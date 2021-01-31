@@ -7,12 +7,12 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.ActionType;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.send.SendDice;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import serejka.telegram.bot.cache.UserDataCache;
+import serejka.telegram.bot.service.UserService;
 
 
 @Slf4j
@@ -23,6 +23,7 @@ public class Facade {
     Bot superBot;
     UserDataCache userDataCache;
     Logic logic;
+
 
     public Facade(@Lazy Bot superBot,
                   UserDataCache userDataCache, Logic logic) {
@@ -37,6 +38,7 @@ public class Facade {
             CallbackQuery callbackQuery = update.getCallbackQuery();
             log.info(" <||> New callback from User: {}, with data: {}",
                     callbackQuery.getFrom().getUserName(), callbackQuery.getData());
+            logic.updateCountOfUse(callbackQuery.getFrom().getId());
             return logic.replyMovieCallback(callbackQuery);
         }
 
@@ -44,6 +46,7 @@ public class Facade {
         if (message != null && message.hasText()) {
             superBot.sendChatActionUpdate(update.getMessage().getChatId(), ActionType.TYPING);
             logic.updateStatisticsByCommand(message);
+            logic.updateCountOfUse(message.getFrom().getId());
             log.info(" <||> New message from User: {}, chatId: {}, with text {}:",
                     message.getFrom().getUserName(), message.getChatId(), message.getText());
             if (userDataCache.checkContainsKey(message.getFrom().getId())) {

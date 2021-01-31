@@ -38,7 +38,7 @@ public class UserService {
             log.info(" <||> User already exists!");
         } else {
             User user = new User(message.getFrom().getId(), message.getFrom().getUserName(),
-                    message.getFrom().getFirstName(), message.getFrom().getLastName());
+                    message.getFrom().getFirstName(), message.getFrom().getLastName(), 0);
             log.info(" <||> Save to DB User: {} ", user.toString());
             save(user);
         }
@@ -46,5 +46,11 @@ public class UserService {
 
     public User findUserByUserId(Integer userId) {
         return userRepository.findUserByUserId(userId);
+    }
+
+    public void updateByUserIdCountOfUse(Integer userId) {
+        User userByUserId = findUserByUserId(userId);
+        userByUserId.setCountOfUse(userByUserId.getCountOfUse() + 1);
+        save(userByUserId);
     }
 }
