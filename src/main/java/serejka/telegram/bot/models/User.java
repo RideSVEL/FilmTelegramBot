@@ -24,12 +24,14 @@ public class User {
     String userName;
     String firstName;
     String lastName;
+    int countOfUse;
 
-    public User(Integer userId, String userName, String firstName, String lastName) {
+    public User(Integer userId, String userName, String firstName, String lastName, int countOfUse) {
         this.userId = userId;
         this.userName = userName;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.countOfUse = countOfUse;
     }
 
 }

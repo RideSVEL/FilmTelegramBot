@@ -15,6 +15,7 @@
                     <th>LAST NAME</th>
                     <th>USER ID</th>
                     <th>USER NAME</th>
+                    <th>COUNTER</th>
                     <th>MESSAGE</th>
                 </tr>
                 </thead>
@@ -25,6 +26,7 @@
                     <td scope="col" th:text="${user.lastName}"></td>
                     <td scope="col" th:text="${user.userId}"></td>
                     <td scope="col" th:text="${user.userName}"></td>
+                    <td scope="col" th:text="${user.countOfUse}"></td>
                     <td scope="col">
                         <a th:href="'/message/' + ${user.userId}" class="btn btn-success">Send message</a>
                     </td>

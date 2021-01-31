@@ -9,12 +9,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import serejka.telegram.bot.service.KeyboardService;
-import serejka.telegram.bot.service.MovieService;
-import serejka.telegram.bot.service.ReplyToUserService;
-import serejka.telegram.bot.service.ReviewService;
-import serejka.telegram.bot.service.SendMessageService;
-import serejka.telegram.bot.service.StatisticsService;
+import serejka.telegram.bot.service.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -28,6 +23,7 @@ public class Logic {
     KeyboardService keyboardService;
     MovieService movieService;
     SendMessageService sendMsg;
+    UserService userService;
 
     public SendMessage startCommand(Message message) {
         return keyboardService.getKeyboard(message.getChatId(),
@@ -90,6 +86,10 @@ public class Logic {
         movieService.sendRandomMovie(message, superBot);
         return replyToUserService.senWaiting(message);
 
+    }
+
+    public void updateCountOfUse(Integer userId) {
+        userService.updateByUserIdCountOfUse(userId);
     }
 
 }
