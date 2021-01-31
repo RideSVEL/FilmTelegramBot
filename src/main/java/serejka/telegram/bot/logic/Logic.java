@@ -9,7 +9,12 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import serejka.telegram.bot.service.*;
+import serejka.telegram.bot.service.KeyboardService;
+import serejka.telegram.bot.service.MovieService;
+import serejka.telegram.bot.service.ReplyToUserService;
+import serejka.telegram.bot.service.ReviewService;
+import serejka.telegram.bot.service.SendMessageService;
+import serejka.telegram.bot.service.StatisticsService;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -79,8 +84,8 @@ public class Logic {
 
     @SneakyThrows
     public String sendRandomMovie(Message message, Bot superBot) {
-        superBot.execute(sendMsg.sendMsg(message.getChatId(),
-                replyToUserService.replyCheckMessageToUser(message)));
+//        superBot.execute(sendMsg.sendMsg(message.getChatId(),
+//                replyToUserService.replyCheckMessageToUser(message)));
         superBot.sendDiceForWaiting(message.getChatId());
         movieService.sendRandomMovie(message, superBot);
         return replyToUserService.senWaiting(message);

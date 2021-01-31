@@ -1,5 +1,6 @@
 package serejka.telegram.bot.config;
 
+import info.movito.themoviedbapi.TmdbApi;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -44,6 +45,11 @@ public class BotConfig {
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         return builder.build();
+    }
+
+    @Bean
+    public TmdbApi tmdbApi() {
+        return new TmdbApi("948e6670159df009cc3be4b3cbab0697");
     }
 
 
