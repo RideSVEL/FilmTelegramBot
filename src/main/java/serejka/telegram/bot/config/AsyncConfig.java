@@ -8,6 +8,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Slf4j
 @Configuration
@@ -26,7 +27,8 @@ public class AsyncConfig {
         return executor;
     }
 
+    @Bean
     public ExecutorService movieExecutor() {
-        return null;
+        return Executors.newFixedThreadPool(8);
     }
 }
