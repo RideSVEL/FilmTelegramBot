@@ -49,8 +49,12 @@ public class UserService {
     }
 
     public void updateByUserIdCountOfUse(Integer userId) {
-        User userByUserId = findUserByUserId(userId);
-        userByUserId.setCountOfUse(userByUserId.getCountOfUse() + 1);
-        save(userByUserId);
+        try {
+            User userByUserId = findUserByUserId(userId);
+            userByUserId.setCountOfUse(userByUserId.getCountOfUse() + 1);
+            save(userByUserId);
+        } catch (NullPointerException e) {
+            log.error("GET NPE FOR FIRST USER");
+        }
     }
 }
