@@ -1,4 +1,4 @@
-package serejka.telegram.bot.logic;
+package serejka.telegram.bot.logic.enums;
 
 public enum KeyboardCommands {
     TOPDAY("Новинки\uD83C\uDD95"), TOPWEEK("TOP Недели\uD83D\uDE0E"),

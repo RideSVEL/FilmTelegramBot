@@ -1,4 +1,4 @@
-package serejka.telegram.bot.logic;
+package serejka.telegram.bot.logic.enums;
 
 import java.util.Arrays;
 import java.util.HashSet;

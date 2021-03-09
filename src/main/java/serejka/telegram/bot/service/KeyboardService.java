@@ -2,11 +2,13 @@ package serejka.telegram.bot.service;
 
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
-import serejka.telegram.bot.logic.Commands;
-import serejka.telegram.bot.logic.KeyboardCommands;
+import serejka.telegram.bot.logic.enums.Commands;
+import serejka.telegram.bot.logic.enums.KeyboardCommands;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,5 +73,19 @@ public class KeyboardService {
             sendMessage.setReplyMarkup(replyKeyboardMarkup);
         }
         return sendMessage;
+    }
+
+    public InlineKeyboardMarkup getInlineMessageButtonForFilm(Integer movie_id) {
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        InlineKeyboardButton button;
+        List<InlineKeyboardButton> keyboardButtons = new ArrayList<>();
+        button = new InlineKeyboardButton();
+        button.setText("Добавить в закладки✅");
+        button.setCallbackData("bookmark=" + movie_id);
+        keyboardButtons.add(button);
+        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
+        rowList.add(keyboardButtons);
+        inlineKeyboardMarkup.setKeyboard(rowList);
+        return inlineKeyboardMarkup;
     }
 }

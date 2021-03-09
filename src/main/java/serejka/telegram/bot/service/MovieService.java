@@ -11,16 +11,14 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import serejka.telegram.bot.cache.UserDataCache;
-import serejka.telegram.bot.logic.Bot;
-import serejka.telegram.bot.logic.Commands;
+import serejka.telegram.bot.logic.bot.Bot;
+import serejka.telegram.bot.logic.enums.Commands;
 import serejka.telegram.bot.models.Movie;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
 
 @Slf4j
 @Service
@@ -31,7 +29,6 @@ public class MovieService {
     static int NUM_OF_FILMS = 800000;
     static int NUM_OF_THREADS = 8;
     static int INITIAL_CASE = NUM_OF_FILMS / NUM_OF_THREADS;
-//    static boolean flag = true;
 
     ParserService parserService;
     ReplyToUserService replyService;
@@ -49,7 +46,6 @@ public class MovieService {
         }
         return sendListMoviesSearch(message);
     }
-
 
     public SendMessage sendListMovies(Commands command, Message message) {
         List<Movie> movies;
@@ -75,7 +71,7 @@ public class MovieService {
         for (int i = 0; i < list.size(); i++) {
             button = new InlineKeyboardButton();
             button.setText((i + 1) + ".");
-            button.setCallbackData(String.valueOf(list.get(i).getId()));
+            button.setCallbackData("movie=" + list.get(i).getId());
             keyboardButtons.add(button);
         }
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
@@ -96,7 +92,11 @@ public class MovieService {
         Movie movie = getMovieFromAnyThread(threadMovies);
         stopAllThreads(threadMovies);
         String text = replyToUserService.replyMovie(message.getChatId(), String.valueOf(movie.getId()));
-        superBot.execute(sendMsg.sendMsg(message.getFrom().getId(), text));
+        if (text.equals("Что-то не получилось найти такой фильм...")) {
+            superBot.execute(sendMsg.sendMsg(message.getFrom().getId(), text));
+        }
+        superBot.execute(sendMsg.sendMsg(message.getFrom().getId(), text,
+                keyboardService.getInlineMessageButtonForFilm(movie.getId())));
         log.info("Send movie to user with time - {}", new Date().getTime() - start);
     }
 
@@ -134,24 +134,6 @@ public class MovieService {
         }
     }
 
-
-//    private ExecutorThread initializeCallable(int number, SecureRandom random) {
-//        ExecutorThread executorThread = new ExecutorThread();
-//        executorThread.setNumber(number);
-//        executorThread.setRandom(random);
-//        return executorThread;
-//    }
-//
-//    private List<Callable<Movie>> createListOfTasks(SecureRandom random) {
-//        List<Callable<Movie>> moviesTasks = new ArrayList<>();
-//        int counter = 0;
-//        for (int i = 0; i < NUM_OF_THREADS; i++) {
-//            moviesTasks.add(initializeCallable(counter, random));
-//            counter += INITIAL_CASE;
-//        }
-//        return moviesTasks;
-//    }
-
     @Getter
     @Setter
     private final class ThreadMovie extends Thread {
@@ -175,28 +157,5 @@ public class MovieService {
         private SecureRandom random;
 
     }
-
-//    @Getter
-//    @Setter
-//    private final class ExecutorThread implements Callable<Movie> {
-//
-//        private SecureRandom random;
-//        private int number;
-//
-//        @Override
-//        public Movie call() {
-//            log.info("Work in thread - {}", Thread.currentThread().getName());
-//            Movie movie;
-//            while (true) {
-//                movie = parserService.parseMovie(random.nextInt(INITIAL_CASE) + number);
-//                if (movie != null && movie.getVotes() > 100 && Integer.parseInt(movie.getYear()) > 1989) {
-//                    log.info("Find movie {}", movie);
-//                    flag = false;
-//                    return movie;
-//                }
-//            }
-//        }
-//
-//    }
 
 }

@@ -1,4 +1,4 @@
-package serejka.telegram.bot.logic;
+package serejka.telegram.bot.logic.bot;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -12,7 +12,8 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import serejka.telegram.bot.cache.UserDataCache;
-import serejka.telegram.bot.service.UserService;
+import serejka.telegram.bot.logic.commands.CommandsRealer;
+import serejka.telegram.bot.logic.enums.BotState;
 
 
 @Slf4j
@@ -22,14 +23,16 @@ public class Facade {
 
     Bot superBot;
     UserDataCache userDataCache;
-    Logic logic;
+    Util util;
+    CommandsRealer commandsRealer;
 
 
     public Facade(@Lazy Bot superBot,
-                  UserDataCache userDataCache, Logic logic) {
+                  UserDataCache userDataCache, Util util, CommandsRealer commandsRealer) {
         this.superBot = superBot;
         this.userDataCache = userDataCache;
-        this.logic = logic;
+        this.util = util;
+        this.commandsRealer = commandsRealer;
     }
 
     public BotApiMethod<?> handle(Update update) {
@@ -38,54 +41,24 @@ public class Facade {
             CallbackQuery callbackQuery = update.getCallbackQuery();
             log.info(" <||> New callback from User: {}, with data: {}",
                     callbackQuery.getFrom().getUserName(), callbackQuery.getData());
-            logic.updateCountOfUse(callbackQuery.getFrom().getId());
-            return logic.replyMovieCallback(callbackQuery);
+            util.updateCountOfUse(callbackQuery.getFrom().getId());
+            return commandsRealer.answerOnUpdate(callbackQuery);
         }
 
         Message message = update.getMessage();
         if (message != null && message.hasText()) {
             superBot.sendChatActionUpdate(update.getMessage().getChatId(), ActionType.TYPING);
-            logic.updateStatisticsByCommand(message);
-            logic.updateCountOfUse(message.getFrom().getId());
+            util.updateStatisticsByCommand(message);
+            util.updateCountOfUse(message.getFrom().getId());
             log.info(" <||> New message from User: {}, chatId: {}, with text {}:",
                     message.getFrom().getUserName(), message.getChatId(), message.getText());
             if (userDataCache.checkContainsKey(message.getFrom().getId())) {
                 reply = handleBotStateMessage(message);
             } else {
-                reply = handleInputMessage(message);
+                reply = commandsRealer.answerOnUpdate(message);
             }
         }
         return reply;
-    }
-
-    private SendMessage handleInputMessage(Message message) {
-        String reply;
-        Commands commands = Commands.getName(message.getText());
-        switch (commands) {
-            case START:
-                return logic.startCommand(message);
-            case HELP:
-                reply = logic.replyHelp();
-                break;
-            case TOPWEEK:
-                return logic.listMovieCommand(message, Commands.TOPWEEK);
-            case TOPDAY:
-                return logic.listMovieCommand(message, Commands.TOPDAY);
-            case TOP:
-                return logic.listMovieCommand(message, Commands.TOP);
-            case REVIEW:
-                userDataCache.setUserState(message.getFrom().getId(), BotState.REVIEW);
-                return logic.replyReviewKeyboard(message);
-            case SEARCH:
-                userDataCache.setUserState(message.getFrom().getId(), BotState.SEARCH);
-                return logic.replySearchKeyboard(message);
-            case RANDOM:
-                reply = logic.sendRandomMovie(message, superBot);
-                break;
-            default:
-                reply = logic.replyDefaultMovieById(message);
-        }
-        return logic.replyMainKeyboard(message, reply);
     }
 
 
@@ -95,16 +68,16 @@ public class Facade {
         if (botState != null) {
             switch (botState) {
                 case REVIEW -> {
-                    return logic.botStateReview(message);
+                    return util.botStateReview(message);
                 }
                 case SEARCH -> {
-                    return logic.botStateSearch(message);
+                    return util.botStateSearch(message);
                 }
             }
         } else {
-            reply = logic.replyError();
+            reply = util.replyError();
         }
-        return logic.replyMainKeyboard(message, reply);
+        return util.replyMainKeyboard(message, reply);
     }
 
 }

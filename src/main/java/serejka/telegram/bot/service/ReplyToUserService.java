@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.ActionType;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaPhoto;
-import serejka.telegram.bot.logic.Bot;
-import serejka.telegram.bot.logic.Commands;
+import serejka.telegram.bot.logic.bot.Bot;
+import serejka.telegram.bot.logic.enums.Commands;
 import serejka.telegram.bot.config.APIConfig;
 import serejka.telegram.bot.models.Movie;
 
@@ -56,7 +56,7 @@ public class ReplyToUserService {
     }
 
     public String replyError() {
-        return "Что-то не так, извини\uD83D\uDE1E";
+        return "Что-то не так, извини\uD83D\uDE1E\nДавай пользоваться кнопками☺️";
     }
 
 
