@@ -11,7 +11,7 @@ public enum CallbackCommands {
     }
 
     public static CallbackCommands getName(String data) {
-        for (CallbackCommands commands : CallbackCommands.values()) {
+        for (CallbackCommands commands : values()) {
             if (commands.value.equals(data)) {
                 return commands;
             }
@@ -19,7 +19,4 @@ public enum CallbackCommands {
         return OTHER;
     }
 
-    public String getValue() {
-        return value;
-    }
 }
