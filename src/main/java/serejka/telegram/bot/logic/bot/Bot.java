@@ -1,4 +1,4 @@
-package serejka.telegram.bot.logic;
+package serejka.telegram.bot.logic.bot;
 
 import lombok.SneakyThrows;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
@@ -63,30 +63,24 @@ public class Bot extends TelegramWebhookBot {
         this.botToken = botToken;
     }
 
+    @SneakyThrows
     public void sendMediaGroup(long chatId, List<InputMediaPhoto> inputMediaPhotos) {
         SendMediaGroup sendMediaGroup = new SendMediaGroup();
         sendMediaGroup.setMedia(Collections.unmodifiableList(inputMediaPhotos));
         sendMediaGroup.setChatId(String.valueOf(chatId));
-        try {
             execute(sendMediaGroup);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
     }
 
+    @SneakyThrows
     public void sendMessageByAdmin(long chatId, String reply) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(chatId));
         sendMessage.setParseMode("html");
         sendMessage.setText(reply);
-        try {
             execute(sendMessage);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
     }
 
-
+    @SneakyThrows
     public void sendMessageWithKeyboard(
             long chatId, String text, ReplyKeyboardMarkup replyKeyboardMarkup) {
         SendMessage sendMessage = new SendMessage();
@@ -97,31 +91,23 @@ public class Bot extends TelegramWebhookBot {
         if (replyKeyboardMarkup != null) {
             sendMessage.setReplyMarkup(replyKeyboardMarkup);
         }
-        try {
             execute(sendMessage);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
+
     }
 
+    @SneakyThrows
     public void sendChatActionUpdate(long chatId, ActionType type) {
         SendChatAction sendChatAction = new SendChatAction();
         sendChatAction.setChatId(String.valueOf(chatId));
         sendChatAction.setAction(type);
-        try {
             execute(sendChatAction);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
+
     }
 
+    @SneakyThrows
     public void sendDiceForWaiting(long chatId) {
         SendDice sendDice = new SendDice();
         sendDice.setChatId(chatId);
-        try {
             execute(sendDice);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
     }
 }

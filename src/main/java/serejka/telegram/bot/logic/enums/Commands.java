@@ -1,4 +1,4 @@
-package serejka.telegram.bot.logic;
+package serejka.telegram.bot.logic.enums;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -6,10 +6,11 @@ import java.util.Set;
 
 public enum Commands {
 
-    TOPDAY("/topday", KeyboardCommands.TOPDAY.getValue()), TOPWEEK("/topweek", KeyboardCommands.TOPWEEK.getValue()), TOP("/top", KeyboardCommands.TOP.getValue()),
-    START("/start"), HELP("/help",KeyboardCommands.HELP.getValue()), OTHER("other"),
-    REVIEW("/review",KeyboardCommands.REVIEW.getValue()), CANCEL("/cancel", KeyboardCommands.CANCEL.getValue()),
-    SEARCH("/search", KeyboardCommands.SEARCH.getValue()), RANDOM("/random", KeyboardCommands.RANDOM.getValue());
+    TOPDAY("/topday", KeyboardCommands.TOPDAY.getValue()), TOPWEEK("/topweek", KeyboardCommands.TOPWEEK.getValue()),
+    TOP("/top", KeyboardCommands.TOP.getValue()), START("/start"), HELP("/help",KeyboardCommands.HELP.getValue()),
+    OTHER("other"), REVIEW("/review",KeyboardCommands.REVIEW.getValue()), CANCEL("/cancel", KeyboardCommands.CANCEL.getValue()),
+    SEARCH("/search", KeyboardCommands.SEARCH.getValue()), RANDOM("/random", KeyboardCommands.RANDOM.getValue()),
+    BOOKMARKS("/bookmarks", KeyboardCommands.BOOKMARKS.getValue());
 
     Commands(String... commands) {
         this.commandNames = new HashSet<>(Arrays.asList(commands));

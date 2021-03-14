@@ -11,7 +11,7 @@ import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import serejka.telegram.bot.logic.Commands;
+import serejka.telegram.bot.logic.enums.Commands;
 import serejka.telegram.bot.config.APIConfig;
 import serejka.telegram.bot.models.Movie;
 

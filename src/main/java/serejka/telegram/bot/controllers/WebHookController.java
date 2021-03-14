@@ -6,7 +6,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import serejka.telegram.bot.logic.Bot;
+import serejka.telegram.bot.logic.bot.Bot;
 
 @RequiredArgsConstructor
 @RestController

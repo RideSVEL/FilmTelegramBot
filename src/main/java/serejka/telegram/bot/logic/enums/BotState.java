@@ -1,4 +1,4 @@
-package serejka.telegram.bot.logic;
+package serejka.telegram.bot.logic.enums;
 
 public enum BotState {
     SEARCH, REVIEW

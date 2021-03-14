@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import serejka.telegram.bot.logic.Commands;
+import serejka.telegram.bot.logic.enums.Commands;
 import serejka.telegram.bot.models.Stats;
 import serejka.telegram.bot.repository.StatsRepository;
 
