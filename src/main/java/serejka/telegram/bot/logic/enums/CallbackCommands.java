@@ -2,7 +2,8 @@ package serejka.telegram.bot.logic.enums;
 
 public enum CallbackCommands {
 
-    MOVIE("movie"), BOOKMARK("bookmark"), OTHER("other");
+    MOVIE("movie"), BOOKMARK("bookmark"), OTHER("other"),
+    DELETE_BOOKMARK("deleteBookmark");
 
     private final String value;
 
@@ -19,4 +20,7 @@ public enum CallbackCommands {
         return OTHER;
     }
 
+    public String getValue() {
+        return value;
+    }
 }

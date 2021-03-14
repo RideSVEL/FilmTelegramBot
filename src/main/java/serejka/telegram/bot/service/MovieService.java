@@ -12,6 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import serejka.telegram.bot.cache.UserDataCache;
 import serejka.telegram.bot.logic.bot.Bot;
+import serejka.telegram.bot.logic.enums.CallbackCommands;
 import serejka.telegram.bot.logic.enums.Commands;
 import serejka.telegram.bot.models.Movie;
 
@@ -52,7 +53,7 @@ public class MovieService {
 
         movies = parserService.getListMovies(command);
         String reply = replyService.replyListMovies(movies, command);
-        return sendMsg.sendMsg(message.getChatId(), reply, getInlineMessageButtons(movies));
+        return sendMsg.sendMsg(message.getChatId(), reply, getInlineMessageButtons(movies, false));
     }
 
     public SendMessage sendListMoviesSearch(Message message) {
@@ -61,21 +62,32 @@ public class MovieService {
         movies.sort(((o1, o2) -> -1 * Float.compare(o1.getVoteAverage(), o2.getVoteAverage())));
         movies.sort(((o1, o2) -> -1 * o1.getVotes() - o2.getVotes()));
         String reply = replyService.replyListMovies(movies, Commands.SEARCH);
-        return sendMsg.sendMsg(message.getChatId(), reply, getInlineMessageButtons(movies));
+        return sendMsg.sendMsg(message.getChatId(), reply, getInlineMessageButtons(movies, false));
     }
 
-    private InlineKeyboardMarkup getInlineMessageButtons(List<Movie> list) {
+    public InlineKeyboardMarkup getInlineMessageButtons(List<Movie> list, boolean bookmarks) {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         InlineKeyboardButton button;
+        InlineKeyboardButton button1;
         List<InlineKeyboardButton> keyboardButtons = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++) {
+        List<InlineKeyboardButton> bookmarkButtons = new ArrayList<>();
+        for (int i = 0; i < Math.min(5, list.size()); i++) {
             button = new InlineKeyboardButton();
             button.setText((i + 1) + ".");
-            button.setCallbackData("movie=" + list.get(i).getId());
+            button.setCallbackData(CallbackCommands.MOVIE.getValue() + "=" + list.get(i).getId());
             keyboardButtons.add(button);
+            if (bookmarks) {
+                button1 = new InlineKeyboardButton();
+                button1.setText("❌");
+                button1.setCallbackData(CallbackCommands.DELETE_BOOKMARK.getValue() + "=" + list.get(i).getId());
+                bookmarkButtons.add(button1);
+            }
         }
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
         rowList.add(keyboardButtons);
+        if (bookmarks) {
+            rowList.add(bookmarkButtons);
+        }
         inlineKeyboardMarkup.setKeyboard(rowList);
         return inlineKeyboardMarkup;
     }
@@ -96,7 +108,7 @@ public class MovieService {
             superBot.execute(sendMsg.sendMsg(message.getFrom().getId(), text));
         }
         superBot.execute(sendMsg.sendMsg(message.getFrom().getId(), text,
-                keyboardService.getInlineMessageButtonForFilm(movie.getId())));
+                keyboardService.getInlineMessageButtonForFilm(movie.getId(), message.getFrom().getId())));
         log.info("Send movie to user with time - {}", new Date().getTime() - start);
     }
 

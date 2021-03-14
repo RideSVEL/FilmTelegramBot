@@ -15,9 +15,9 @@ import java.io.Serializable;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Bookmark implements Serializable {
 
-    public Bookmark(User user, Long movie_id) {
+    public Bookmark(User user, Long movieId) {
         this.user = user;
-        this.movie_id = movie_id;
+        this.movieId = movieId;
     }
 
     @Id
@@ -28,7 +28,7 @@ public class Bookmark implements Serializable {
     @JoinColumn(name = "user_id")
     User user;
 
-    Long movie_id;
+    Long movieId;
 
 
 }

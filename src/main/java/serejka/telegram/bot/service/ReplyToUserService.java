@@ -73,6 +73,9 @@ public class ReplyToUserService {
                 case SEARCH -> sb.append("Если результаты отсутствуют или не удовлетворяют поиски, повтори ввод\uD83D\uDE09" +
                         "\nТакже можешь отменить операцию, нажав клавишу на клавиатуре" +
                         "\n\n<em>Нашлось:</em>");
+                case BOOKMARKS -> sb.append("<em>Ваши закладки</em>\uD83D\uDCBC" +
+                        "\nДля удаления фильма из закладок, воспользуйся соответствующей клавишей" +
+                        "\n\n<em>Нашлось:</em>");
             }
             for (int i = 0; i < movies.size(); i++) {
                 Movie movie = movies.get(i);

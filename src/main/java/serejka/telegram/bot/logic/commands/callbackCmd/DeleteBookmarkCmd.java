@@ -8,31 +8,25 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import serejka.telegram.bot.logic.commands.CallbackCommand;
 import serejka.telegram.bot.logic.enums.CallbackCommands;
-import serejka.telegram.bot.service.KeyboardService;
-import serejka.telegram.bot.service.ReplyToUserService;
+import serejka.telegram.bot.service.BookmarkService;
 import serejka.telegram.bot.service.SendMessageService;
 
 @Component
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class MovieCmd implements CallbackCommand {
-    ReplyToUserService replyToUserService;
+public class DeleteBookmarkCmd implements CallbackCommand {
+
     SendMessageService sendMsg;
-    KeyboardService keyboardService;
+    BookmarkService bookmarkService;
 
     @Override
     public SendMessage generateMessage(CallbackQuery callbackQuery, String data) {
-        String reply = replyToUserService.replyMovie(callbackQuery.getFrom().getId(), data);
-        if (reply.equals("Что-то не получилось найти такой фильм...")) {
-            return sendMsg.sendMsg(callbackQuery.getFrom().getId(), reply);
-        }
-        return sendMsg.sendMsg(callbackQuery.getFrom().getId(), reply,
-                keyboardService.getInlineMessageButtonForFilm(Integer.parseInt(data),
-                        callbackQuery.getFrom().getId()));
+        return sendMsg.sendMsg(callbackQuery.getFrom().getId(),
+                bookmarkService.deleteBookmark(callbackQuery.getFrom().getId(), Long.parseLong(data)));
     }
 
     @Override
     public CallbackCommands getMyCommand() {
-        return CallbackCommands.MOVIE;
+        return CallbackCommands.DELETE_BOOKMARK;
     }
 }
