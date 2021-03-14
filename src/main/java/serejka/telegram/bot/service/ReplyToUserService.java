@@ -77,7 +77,7 @@ public class ReplyToUserService {
                         "\nДля удаления фильма из закладок, воспользуйся соответствующей клавишей" +
                         "\n\n<em>Нашлось:</em>");
             }
-            for (int i = 0; i < movies.size(); i++) {
+            for (int i = 0; i < Math.min(movies.size(), 5); i++) {
                 Movie movie = movies.get(i);
                 sb.append("\n\n<b>").append(i + 1).append(". <em>").append(movie.getTitle()).append(" (")
                         .append(movie.getYear()).append(")</em></b>").append(" | ").append(movie.getVoteAverage()).append("\nЖанр: ");
