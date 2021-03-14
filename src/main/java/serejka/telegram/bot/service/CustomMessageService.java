@@ -6,7 +6,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import serejka.telegram.bot.logic.Bot;
+import serejka.telegram.bot.logic.bot.Bot;
 import serejka.telegram.bot.models.User;
 
 import java.util.List;

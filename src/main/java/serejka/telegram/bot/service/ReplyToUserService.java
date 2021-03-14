@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.ActionType;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaPhoto;
-import serejka.telegram.bot.logic.Bot;
-import serejka.telegram.bot.logic.Commands;
+import serejka.telegram.bot.logic.bot.Bot;
+import serejka.telegram.bot.logic.enums.Commands;
 import serejka.telegram.bot.config.APIConfig;
 import serejka.telegram.bot.models.Movie;
 
@@ -56,7 +56,7 @@ public class ReplyToUserService {
     }
 
     public String replyError() {
-        return "Что-то не так, извини\uD83D\uDE1E";
+        return "Что-то не так, извини\uD83D\uDE1E\nДавай пользоваться кнопками☺️";
     }
 
 
@@ -73,8 +73,11 @@ public class ReplyToUserService {
                 case SEARCH -> sb.append("Если результаты отсутствуют или не удовлетворяют поиски, повтори ввод\uD83D\uDE09" +
                         "\nТакже можешь отменить операцию, нажав клавишу на клавиатуре" +
                         "\n\n<em>Нашлось:</em>");
+                case BOOKMARKS -> sb.append("<em>Ваши закладки</em>\uD83D\uDCBC" +
+                        "\nДля удаления фильма из закладок, воспользуйся соответствующей клавишей" +
+                        "\n\n<em>Нашлось:</em>");
             }
-            for (int i = 0; i < movies.size(); i++) {
+            for (int i = 0; i < Math.min(movies.size(), 5); i++) {
                 Movie movie = movies.get(i);
                 sb.append("\n\n<b>").append(i + 1).append(". <em>").append(movie.getTitle()).append(" (")
                         .append(movie.getYear()).append(")</em></b>").append(" | ").append(movie.getVoteAverage()).append("\nЖанр: ");

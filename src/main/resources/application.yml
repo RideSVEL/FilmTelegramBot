@@ -18,8 +18,14 @@ spring:
       connectionTimeout: 30000
       poolName: Telegram
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
 telegrambot:
   botUsername: '@Botting_bot_bot'
   botToken: 1196132719:AAFavCJ8hdXjLOarub2MsQANwDqP6urzfpQ
-  webHookPath: 'https://8bf60569bfee.ngrok.io'
+  webHookPath: 'https://0c848a36255e.ngrok.io'
 
