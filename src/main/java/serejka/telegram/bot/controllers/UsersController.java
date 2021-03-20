@@ -6,12 +6,10 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.comparator.Comparators;
 import org.springframework.web.bind.annotation.GetMapping;
 import serejka.telegram.bot.models.User;
 import serejka.telegram.bot.service.UserService;
 
-import java.util.Comparator;
 import java.util.List;
 
 @Slf4j
@@ -30,7 +28,7 @@ public class UsersController {
     @GetMapping("/users")
     public String showAllUsers(Model model) {
         List<User> allUsers = userService.findAllUsers();
-        allUsers.sort(((o1, o2) -> (int) (o1.getId() - o2.getId())));
+        allUsers.sort((o1, o2) -> (int) (o1.getId() - o2.getId()));
         model.addAttribute("title", "Users");
         model.addAttribute("users", allUsers);
         log.info(allUsers.toString());

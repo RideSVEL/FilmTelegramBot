@@ -3,43 +3,172 @@
 <div th:insert="blocks/head :: head"></div>
 <head>
     <style>
-        .form-login {
-            position: relative;
-            width: 330px;
-            height: 330px;
-            top: 50%;
-            left: 50%;
-            margin-top: 300px;
-            margin-left: -170px;
-            background: #ffffff;
-            border-radius: 3px;
-            border: 1px solid #ccc;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, .1);
-            -webkit-animation-name: bounceIn;
-            -webkit-animation-fill-mode: both;
-            -webkit-animation-duration: 1s;
-            -webkit-animation-iteration-count: 1;
-            -webkit-animation-timing-function: linear;
-            -moz-animation-name: bounceIn;
-            -moz-animation-fill-mode: both;
-            -moz-animation-duration: 1s;
-            -moz-animation-iteration-count: 1;
-            -moz-animation-timing-function: linear;
-            animation-name: bounceIn;
-            animation-fill-mode: both;
-            animation-duration: 1s;
-            animation-iteration-count: 1;
-            animation-timing-function: linear;
+        html {
+            height: 100%;
+        }
+        body {
+            margin:0;
+            padding:0;
+            font-family: sans-serif;
+            background: linear-gradient(#141e30, #243b55);
         }
 
-        .login-page {
-            color: #06051b;
-            text-align: center;
-            position: relative;
-            width: 250px;
-            padding: 10% 0 0;
-            margin: 0 auto;
+        .login-box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 400px;
+            padding: 40px;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,.5);
+            box-sizing: border-box;
+            box-shadow: 0 15px 25px rgba(0,0,0,.6);
+            border-radius: 10px;
+        }
 
+        .login-box h2 {
+            margin: 0 0 30px;
+            padding: 0;
+            color: #fff;
+            text-align: center;
+        }
+
+        .login-box .user-box {
+            position: relative;
+        }
+
+        .login-box .user-box input {
+            width: 100%;
+            padding: 10px 0;
+            font-size: 16px;
+            color: #fff;
+            margin-bottom: 30px;
+            border: none;
+            border-bottom: 1px solid #fff;
+            outline: none;
+            background: transparent;
+        }
+        .login-box .user-box label {
+            position: absolute;
+            top:0;
+            left: 0;
+            padding: 10px 0;
+            font-size: 16px;
+            color: #fff;
+            pointer-events: none;
+            transition: .5s;
+        }
+
+        .login-box .user-box input:focus ~ label,
+        .login-box .user-box input:valid ~ label {
+            top: -20px;
+            left: 0;
+            color: #03e9f4;
+            font-size: 12px;
+        }
+
+        .login-box form a {
+            position: relative;
+            display: inline-block;
+            padding: 10px 20px;
+            color: #03e9f4;
+            font-size: 16px;
+            text-decoration: none;
+            text-transform: uppercase;
+            overflow: hidden;
+            transition: .5s;
+            margin-top: 40px;
+            letter-spacing: 4px
+        }
+
+        .login-box a:hover {
+            background: #03e9f4;
+            color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 5px #03e9f4,
+            0 0 25px #03e9f4,
+            0 0 50px #03e9f4,
+            0 0 100px #03e9f4;
+        }
+
+        .login-box a span {
+            position: absolute;
+            display: block;
+        }
+
+        .login-box a span:nth-child(1) {
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #03e9f4);
+            animation: btn-anim1 1s linear infinite;
+        }
+
+        @keyframes btn-anim1 {
+            0% {
+                left: -100%;
+            }
+            50%,100% {
+                left: 100%;
+            }
+        }
+
+        .login-box a span:nth-child(2) {
+            top: -100%;
+            right: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(180deg, transparent, #03e9f4);
+            animation: btn-anim2 1s linear infinite;
+            animation-delay: .25s
+        }
+
+        @keyframes btn-anim2 {
+            0% {
+                top: -100%;
+            }
+            50%,100% {
+                top: 100%;
+            }
+        }
+
+        .login-box a span:nth-child(3) {
+            bottom: 0;
+            right: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(270deg, transparent, #03e9f4);
+            animation: btn-anim3 1s linear infinite;
+            animation-delay: .5s
+        }
+
+        @keyframes btn-anim3 {
+            0% {
+                right: -100%;
+            }
+            50%,100% {
+                right: 100%;
+            }
+        }
+
+        .login-box a span:nth-child(4) {
+            bottom: -100%;
+            left: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(360deg, transparent, #03e9f4);
+            animation: btn-anim4 1s linear infinite;
+            animation-delay: .75s
+        }
+
+        @keyframes btn-anim4 {
+            0% {
+                bottom: -100%;
+            }
+            50%,100% {
+                bottom: 100%;
+            }
         }
     </style>
 </head>
@@ -50,38 +179,31 @@
 <div th:if="${param.logout}">
     You have been logged out.
 </div>
-<div class="form-login">
-    <div class="login-page">
-        <form th:action="@{/login}" method="post" target="_parent">
-            <div class="form-group ">
-                <label for="login">Username</label>
-                <div class="input-group shadow-lg">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1">@</span>
-                    </div>
-                    <input type="text" class="form-control" placeholder="Username" aria-label="Username"
-                           aria-describedby="basic-addon1" name="username" id="login" required
-                           pattern="[\w&#1072;-&#1103;&#1040;-&#1071;]{5,20}">
-                </div>
-            </div>
-            <div class="form-group ">
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" class="form-control shadow-lg"
-                       placeholder="Password" required pattern="[\w&#1072;-&#1103;&#1040;-&#1071;]{5,20}"/>
-            </div>
-            <input type="submit" class="btn btn-success btn-block shadow-lg"
-                   value="Sign in">
-        </form>
-    </div>
+<div class="login-box">
+    <h2>Login</h2>
+    <form th:action="@{/login}" method="post" target="_parent" id="login-form">
+        <div class="user-box">
+            <input type="text" name="username" required>
+            <label>Username</label>
+        </div>
+        <div class="user-box">
+            <input type="password" name="password" required>
+            <label>Password</label>
+        </div>
+        <a onclick="sendForm()">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Submit
+        </a>
+    </form>
 </div>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-        crossorigin="anonymous"></script>
+<script>
+    function sendForm() {
+        let elementById = document.getElementById("login-form");
+        elementById.submit();
+    }
+</script>
 </body>
 </html>
