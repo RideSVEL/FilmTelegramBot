@@ -21,12 +21,16 @@ public class Util {
 
     @Async
     public void updateStatisticsByCommand(Message message) {
+        log.info(Thread.currentThread().getName());
         statisticsService.updateStatisticCommand(message);
+        log.info("Done" + Thread.currentThread().getName());
     }
 
     @Async
     public void updateCountOfUse(Integer userId) {
+        log.info(Thread.currentThread().getName());
         userService.updateByUserIdCountOfUse(userId);
+        log.info("Done" + Thread.currentThread().getName());
     }
 
 }

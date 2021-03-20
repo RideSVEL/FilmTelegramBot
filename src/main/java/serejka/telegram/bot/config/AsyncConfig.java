@@ -19,7 +19,7 @@ public class AsyncConfig {
     public Executor taskExecutor() {
         log.info("Create multithreading task");
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(3);
+        executor.setCorePoolSize(4);
         executor.setMaxPoolSize(10);
         executor.setQueueCapacity(50);
         executor.setThreadNamePrefix("MovieThread - ");
