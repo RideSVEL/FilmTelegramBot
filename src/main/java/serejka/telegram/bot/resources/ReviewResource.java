@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -15,7 +14,6 @@ import serejka.telegram.bot.service.ReviewService;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/review")
@@ -28,9 +26,9 @@ public class ReviewResource {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "/new")
     public List<Review> getNewReviews() {
-        return reviewService.getNewReviews().stream()
-                .sorted(Collections.reverseOrder())
-                .collect(Collectors.toList());
+        List<Review> newReviews = reviewService.getNewReviews();
+        Collections.reverse(newReviews);
+        return newReviews;
     }
 
     @ResponseStatus(HttpStatus.OK)
