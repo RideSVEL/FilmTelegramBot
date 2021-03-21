@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import serejka.telegram.bot.service.CustomMessageService;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/message")
 @RequiredArgsConstructor
