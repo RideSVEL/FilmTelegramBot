@@ -26,7 +26,7 @@ public class StatResource {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Stats> statisticsByCommands() {
         return statisticsService.findAllStatsCommand().stream()
-                .sorted((Comparator.comparingInt(Stats::getId)))
+                .sorted((Comparator.comparingInt(Stats::getCount)))
                 .collect(Collectors.toList());
     }
 }
