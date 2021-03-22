@@ -26,11 +26,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        http.authorizeRequests()
-                .antMatchers("/users", "/stat", "/message/*", "reviews/*").authenticated()
-                .anyRequest().permitAll()
+        http.authorizeRequests().anyRequest()
+//                .antMatchers("/users", "/stat", "/message/*", "/reviews/*", "/swagger-ui/*")
+                .authenticated()
+//                .anyRequest().permitAll()
                 .and().formLogin().loginPage("/login").permitAll()
-                .and().logout().permitAll();
+
+                .and().httpBasic()
+                .and().sessionManagement().disable();
+//                .and().logout().permitAll();
     }
 
     @Override
