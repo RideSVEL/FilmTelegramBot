@@ -1,9 +1,11 @@
 package serejka.telegram.bot.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
+@Slf4j
 @Service
 public class SendMessageService {
 
@@ -21,6 +23,7 @@ public class SendMessageService {
         sendMessage.setReplyMarkup(inlineKeyboardMarkup);
         sendMessage.setChatId(chatId);
         sendMessage.setText(text).setParseMode("html");
+        log.info("Send message done");
         return sendMessage;
     }
 }

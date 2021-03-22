@@ -3,6 +3,7 @@ package serejka.telegram.bot.logic.commands.msgCmd;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -17,6 +18,7 @@ import serejka.telegram.bot.service.SendMessageService;
 import java.util.Collections;
 import java.util.List;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -32,6 +34,7 @@ public class ShowBookmarksCmd implements MessageCommand {
         List<Movie> movies = bookmarkService
                 .findAllMoviesByUserBookmarks(message.getFrom().getId());
         Collections.reverse(movies);
+        log.info("Movie send");
         return messageService.sendMsg(message.getFrom().getId(),
                 replyService.replyListMovies(movies, getMyCommand()),
                 movieService.getInlineMessageButtons(movies, true));

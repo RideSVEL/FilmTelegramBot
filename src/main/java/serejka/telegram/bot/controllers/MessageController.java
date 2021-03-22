@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import serejka.telegram.bot.service.CustomMessageService;
+import serejka.telegram.bot.resources.MessageResource;
 
 @RequiredArgsConstructor
 @Controller
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class MessageController {
 
-    CustomMessageService customMessageService;
+    MessageResource messageResource;
 
     @GetMapping("/message/{id}")
     public String customMessageToUser(@PathVariable(value = "id") Long id, Model model) {
@@ -27,7 +27,7 @@ public class MessageController {
 
     @PostMapping("/message/{id}")
     public String customMessageToUser(@PathVariable(value = "id") Long id, @RequestParam String message) {
-        customMessageService.sendCustomMessageToUser(id, message);
+        messageResource.customMessageToUser(id, message);
         return "redirect:/users";
     }
 
@@ -39,7 +39,7 @@ public class MessageController {
 
     @PostMapping("/message")
     public String messageToAllUsers(@RequestParam String message) {
-        customMessageService.messageToAllUsers(message);
+        messageResource.customMessageToAllUsers(message);
         return "redirect:/users";
     }
 
