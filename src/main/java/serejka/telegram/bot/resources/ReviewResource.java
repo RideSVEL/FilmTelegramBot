@@ -12,7 +12,7 @@ import serejka.telegram.bot.service.ReviewService;
 import java.util.Collections;
 import java.util.List;
 
-@CrossOrigin
+
 @RestController
 @RequestMapping("/api/review")
 @RequiredArgsConstructor
