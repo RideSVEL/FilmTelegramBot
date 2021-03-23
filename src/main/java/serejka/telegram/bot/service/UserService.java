@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import serejka.telegram.bot.models.User;
 import serejka.telegram.bot.repository.UserRepository;
+import serejka.telegram.bot.repository.UserRepositoryImpl;
 
 import java.util.List;
 
@@ -16,9 +17,11 @@ import java.util.List;
 public class UserService {
 
     UserRepository userRepository;
+    UserRepositoryImpl userRepositoryImpl;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, UserRepositoryImpl userRepositoryImpl) {
         this.userRepository = userRepository;
+        this.userRepositoryImpl = userRepositoryImpl;
     }
 
     public void save(User user) {
@@ -29,8 +32,12 @@ public class UserService {
         return userRepository.existsUserByUserId(id);
     }
 
+    public List<User> findUsersByGreaterId(Long id, int limit) {
+        return userRepositoryImpl.findOrderedByIdLimitingBy(id, limit);
+    }
+
     public List<User> findAllUsers() {
-        return (List<User>) userRepository.findAll();
+        return userRepository.findAll();
     }
 
     public void checkAndSave(Message message) {
