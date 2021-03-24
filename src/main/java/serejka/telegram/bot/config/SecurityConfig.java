@@ -12,6 +12,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import serejka.telegram.bot.service.AuthService;
 
 @Slf4j
@@ -19,7 +21,7 @@ import serejka.telegram.bot.service.AuthService;
 @RequiredArgsConstructor
 @Configuration
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
 
     AuthService authService;
 
@@ -27,14 +29,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/users", "/stat", "/message/*", "/reviews/*", "/swagger-ui/*", "/api/*")
+                .antMatchers("/users", "/stat", "/message/*", "/reviews/*", "/swagger-ui/*", "/api/**")
                 .authenticated()
-//                .anyRequest().permitAll()
-                .and().formLogin().loginPage("/login").permitAll()
-
+                .anyRequest().permitAll()
                 .and().httpBasic()
+                .and().cors()
                 .and().sessionManagement().disable();
-//                .and().logout().permitAll();
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("*")
+                .allowedMethods("*");
     }
 
     @Override
