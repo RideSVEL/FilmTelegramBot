@@ -3,7 +3,6 @@ package serejka.telegram.bot.resources;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -31,13 +30,19 @@ public class UserResource {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "/{id}")
-    public List<User> getAllUsersWhereIdUsersGreaterThanId(
-            @PathVariable Long id, @RequestParam(value = "limit", required = false) Integer limit) {
-        if (limit == null || limit == 0) {
-            limit = 10;
-        }
-        return userService.findUsersByGreaterId(id, limit);
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "/{page}/{count}/{sort}/{direction}")
+    public List<User> usersPageable(
+            @PathVariable Integer page,
+            @PathVariable Integer count,
+            @PathVariable String sort,
+            @PathVariable Integer direction) {
+        return userService.findAllUsersPageable(page, count, sort, direction);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "/count")
+    public Long countUsers() {
+        return userService.countAllUsers();
     }
 
 }

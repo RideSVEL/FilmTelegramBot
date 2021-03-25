@@ -3,6 +3,9 @@ package serejka.telegram.bot.service;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import serejka.telegram.bot.models.User;
@@ -10,6 +13,7 @@ import serejka.telegram.bot.repository.UserRepository;
 import serejka.telegram.bot.repository.UserRepositoryImpl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -40,6 +44,16 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public List<User> findAllUsersPageable(Integer page, Integer count, String sort, Integer direction) {
+        Sort sorting = Sort.by(sort).ascending();
+        if (direction == 1) {
+            sorting = sorting.descending();
+        }
+        Pageable sortedByIdAsc =
+                PageRequest.of(page, count, sorting);
+        return userRepository.findAll(sortedByIdAsc).get().collect(Collectors.toList());
+    }
+
     public void checkAndSave(Message message) {
         if (exists(message.getFrom().getId())) {
             log.info(" <||> User already exists!");
@@ -63,5 +77,9 @@ public class UserService {
         } catch (NullPointerException e) {
             log.error("GET NPE FOR FIRST USER");
         }
+    }
+
+    public Long countAllUsers() {
+        return userRepository.count();
     }
 }
