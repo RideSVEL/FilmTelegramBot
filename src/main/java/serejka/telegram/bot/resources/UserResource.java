@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import serejka.telegram.bot.models.User;
+import serejka.telegram.bot.repository.UserSearchRepository;
 import serejka.telegram.bot.service.UserService;
 
 import java.util.Comparator;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 public class UserResource {
 
     UserService userService;
+    UserSearchRepository userSearchRepository;
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -43,6 +45,12 @@ public class UserResource {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "/count")
     public Long countUsers() {
         return userService.countAllUsers();
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "/search")
+    public List<User> searchUsers(@RequestParam String searchText) {
+        return userSearchRepository.searchUsers(searchText);
     }
 
 }
