@@ -32,3 +32,4 @@ out/
 .vscode/
 
 serejka.telegram.bot.config.ApiConfig
+/serejka.telegram.bot.models.User/

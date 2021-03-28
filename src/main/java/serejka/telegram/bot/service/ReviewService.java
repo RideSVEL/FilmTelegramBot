@@ -29,12 +29,8 @@ public class ReviewService {
     UserService userService;
     ReplyToUserService replyToUserService;
 
-    public void save(Review review) {
-        reviewRepository.save(review);
-    }
-
-    public List<Review> getNewReviews() {
-        return reviewRepository.findAllByView(0);
+    public Review save(Review review) {
+        return reviewRepository.save(review);
     }
 
     public Review getReview(Long id) {
@@ -42,8 +38,24 @@ public class ReviewService {
         return byId.orElse(null);
     }
 
+    public void deleteReview(Review review) {
+        reviewRepository.delete(review);
+    }
+
+    public List<Review> getNewReviews() {
+        return reviewRepository.findAllByViewOrderByIdDesc(0);
+    }
+
     public List<Review> getArchiveReviews() {
-        return reviewRepository.findAllByView(1);
+        return reviewRepository.findAllByViewOrderByIdDesc(1);
+    }
+
+    public List<Review> findAllReviews() {
+        return reviewRepository.findAll();
+    }
+
+    public Long countReviewsByView(Integer view) {
+        return reviewRepository.countAllByView(view);
     }
 
     public SendMessage reviewLogic(Message message) {
