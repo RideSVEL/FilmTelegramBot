@@ -38,6 +38,10 @@ public class ReviewService {
         return byId.orElse(null);
     }
 
+    public void deleteReview(Review review) {
+        reviewRepository.delete(review);
+    }
+
     public List<Review> getNewReviews() {
         return reviewRepository.findAllByViewOrderByIdDesc(0);
     }

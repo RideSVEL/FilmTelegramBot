@@ -27,4 +27,4 @@ management:
 telegrambot:
   botUsername: '@Botting_bot_bot'
   botToken: 1196132719:AAFavCJ8hdXjLOarub2MsQANwDqP6urzfpQ
-  webHookPath: 'https://396fb2e36548.ngrok.io'
+  webHookPath: 'https://ca442a795e2a.ngrok.io'

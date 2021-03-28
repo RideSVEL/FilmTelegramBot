@@ -45,6 +45,12 @@ public class ReviewResource {
     }
 
     @ResponseStatus(HttpStatus.OK)
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "/delete")
+    public void deleteReview(@RequestBody Review review) {
+        reviewService.deleteReview(review);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "/count")
     public Long countReviews(@RequestParam Integer view) {
         return reviewService.countReviewsByView(view);
