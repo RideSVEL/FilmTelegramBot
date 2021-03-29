@@ -19,7 +19,8 @@ public class UserSearchRepository {
     private EntityManager entityManager;
 
     public List<User> searchUsers(String text) {
-        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
+        FullTextEntityManager fullTextEntityManager =
+                Search.getFullTextEntityManager(entityManager);
         QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory()
                 .buildQueryBuilder().forEntity(User.class).get();
 
@@ -30,7 +31,8 @@ public class UserSearchRepository {
                 .matching("*" + text + "*")
                 .createQuery();
 
-        FullTextQuery fullTextQuery = fullTextEntityManager.createFullTextQuery(query, User.class);
+        FullTextQuery fullTextQuery =
+                fullTextEntityManager.createFullTextQuery(query, User.class);
 
         return (List<User>) fullTextQuery.getResultList();
     }

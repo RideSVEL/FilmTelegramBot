@@ -58,6 +58,10 @@ public class ReviewService {
         return reviewRepository.countAllByView(view);
     }
 
+    public Long countReviews() {
+        return reviewRepository.count();
+    }
+
     public SendMessage reviewLogic(Message message) {
         if (message.getText().equals("/cancel")
                 || message.getText().equals("Вернуться\uD83D\uDE15")) {

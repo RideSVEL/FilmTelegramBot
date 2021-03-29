@@ -3,6 +3,7 @@ package serejka.telegram.bot.resources;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.search.bridge.builtin.IntegerBridge;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -51,6 +52,12 @@ public class UserResource {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "/search")
     public List<User> searchUsers(@RequestParam String searchText) {
         return userSearchRepository.searchUsers(searchText);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "/{id}")
+    public User findUserByUserId(@PathVariable Integer id) {
+        return userService.findUserByUserId(id);
     }
 
 }

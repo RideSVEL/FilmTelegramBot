@@ -52,7 +52,7 @@ public class ReviewResource {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "/count")
-    public Long countReviews(@RequestParam Integer view) {
-        return reviewService.countReviewsByView(view);
+    public Long countReviews(@RequestParam(required = false) Integer view) {
+        return view != null ? reviewService.countReviewsByView(view) : reviewService.countReviews();
     }
 }
