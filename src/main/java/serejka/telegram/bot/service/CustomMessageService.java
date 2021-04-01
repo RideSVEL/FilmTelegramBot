@@ -2,10 +2,13 @@ package serejka.telegram.bot.service;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import serejka.telegram.bot.logic.bot.Bot;
 import serejka.telegram.bot.models.User;
 
@@ -25,20 +28,20 @@ public class CustomMessageService {
         log.info("Send message to user - {}, with text: {}", chatId, reply);
     }
 
+    @SneakyThrows
     @Async
     public void messageToAllUsers(String reply) {
         List<User> allUsers = userService.findAllUsers();
         for (User user : allUsers) {
+            Thread.sleep(50);
             try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                superBot.sendMessageByAdmin(user.getUserId(), reply);
+                log.info("Send message to user - {}, with text: {}", user.getUserId(), reply);
+            } catch (Exception e) {
+                log.error("Chat not found");
             }
-            superBot.sendMessageByAdmin(user.getUserId(), reply);
-            log.info("Send message to user - {}, with text: {}", user.getUserId(), reply);
         }
     }
-
 
 
 }
