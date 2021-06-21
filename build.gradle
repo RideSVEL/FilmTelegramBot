@@ -22,7 +22,7 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
-    compile group: 'org.postgresql', name: 'postgresql', version: '42.2.18'
+    compile group: 'org.postgresql', name: 'postgresql', version: '42.2.22'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
     implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
