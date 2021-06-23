@@ -1,7 +1,9 @@
 package serejka.telegram.bot.config;
 
+import info.movito.themoviedbapi.TmdbApi;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 // https://developers.themoviedb.org/3
@@ -58,4 +60,10 @@ public class APIConfig {
     public static String getTop() {
         return API_MOVIE + "popular" + API_KEY + API_LANGUAGE;
     }
+
+    @Bean
+    public TmdbApi getApiCall() {
+        return new TmdbApi("948e6670159df009cc3be4b3cbab0697");
+    }
+
 }

@@ -65,6 +65,14 @@ public class ParserService {
         return parseListMovies(entity.getBody());
     }
 
+    public Movie getMovieById(Integer id) {
+        try {
+            return parseMovie(restTemplate.getForEntity(APIConfig.getMovieRequest(id), String.class).getBody());
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     private List<Movie> parseListMovies(String responseBody) {
         List<Movie> movies = new ArrayList<>();
         try {
@@ -89,13 +97,7 @@ public class ParserService {
         }
     }
 
-    public Movie parseMovie(Integer id) {
-        String response;
-        try {
-            response = restTemplate.getForEntity(APIConfig.getMovieRequest(id), String.class).getBody();
-        } catch (Exception e) {
-            return null;
-        }
+    private Movie parseMovie(String response) {
         if (response != null) {
             Movie movie = new Movie();
             try {

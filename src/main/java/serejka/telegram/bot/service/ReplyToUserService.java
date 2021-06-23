@@ -108,7 +108,7 @@ public class ReplyToUserService {
         String reply;
         try {
             reply = "Что-то не получилось найти такой фильм...";
-            Movie movie = parserService.parseMovie(Integer.parseInt(filmId));
+            Movie movie = parserService.getMovieById(Integer.parseInt(filmId));
             if (movie != null) {
                 superBot.sendChatActionUpdate(chatId, ActionType.UPLOADPHOTO);
                 log.info("Get movie: {}", movie.toString());

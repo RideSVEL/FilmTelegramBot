@@ -155,7 +155,7 @@ public class MovieService {
             Movie tempMovie;
             log.info("Work in thread - {}", Thread.currentThread().getName());
             while (!interrupted()) {
-                tempMovie = parserService.parseMovie(random.nextInt(INITIAL_CASE) + number);
+                tempMovie = parserService.getMovieById(random.nextInt(INITIAL_CASE) + number);
                 if (tempMovie != null && tempMovie.getVotes() > 100 && Integer.parseInt(tempMovie.getYear()) > 1989) {
                     log.info("Find movie {}", tempMovie);
                     movie = tempMovie;

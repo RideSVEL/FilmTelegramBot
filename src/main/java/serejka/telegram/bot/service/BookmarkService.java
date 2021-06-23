@@ -56,7 +56,7 @@ public class BookmarkService {
     public List<Movie> findAllMoviesByUserBookmarks(Integer userId) {
         List<Movie> movies = new ArrayList<>();
         for (Bookmark bookmark : findAllBookmarksByUserId(userId)) {
-            movies.add(parserService.parseMovie(Integer.parseInt(String.valueOf(bookmark.getMovieId()))));
+            movies.add(parserService.getMovieById(Integer.parseInt(String.valueOf(bookmark.getMovieId()))));
         }
         return movies;
     }
